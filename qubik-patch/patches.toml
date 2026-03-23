@@ -1,0 +1,78 @@
+# Qubik Friends Ver — Mod & Resource Pack Patch Configuration
+# =============================================================
+# This file declares the modifications applied on top of the upstream
+# Create-Delight-Remake `release` branch when building the Qubik Friends version.
+#
+# Supported operations:
+#
+#   [[mods.remove]]
+#     pattern  (required) — glob matched against filenames in mods/
+#     reason   (optional) — human-readable description
+#
+#   [[mods.add]]
+#     url      (required) — direct download URL for the JAR
+#     filename (required) — destination filename inside mods/
+#     reason   (optional) — human-readable description
+#
+#   [[mods.substitute]]
+#     remove_pattern (required) — glob matched against filenames in mods/
+#     url            (required) — direct download URL for the replacement JAR
+#     filename       (required) — destination filename inside mods/
+#     reason         (optional) — human-readable description
+#
+#   [[resourcepacks.remove]]
+#     pattern  (required) — glob matched against filenames in resourcepacks/
+#     reason   (optional) — human-readable description
+#
+#   [[resourcepacks.add]]
+#     url      (required) — direct download URL for the ZIP
+#     filename (required) — destination filename inside resourcepacks/
+#     reason   (optional) — human-readable description
+#
+# Overlay files (configs, KubeJS scripts, etc.) go in the overlay/ directory —
+# they are copied on top of the upstream checkout before mod patches are applied.
+# ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Mod removals
+# ---------------------------------------------------------------------------
+# [[mods.remove]]
+# pattern = "some-problematic-mod-*.jar"
+# reason  = "Causes crash on startup with our KubeJS scripts"
+
+
+# ---------------------------------------------------------------------------
+# Mod additions
+# ---------------------------------------------------------------------------
+# [[mods.add]]
+# url      = "https://example.com/releases/my-mod-1.0.0.jar"
+# filename = "my-mod-1.0.0.jar"
+# reason   = "Adds QoL feature X for our group"
+
+
+# ---------------------------------------------------------------------------
+# Mod substitutions (upgrade / swap)
+# ---------------------------------------------------------------------------
+# [[mods.substitute]]
+# remove_pattern = "old-mod-*.jar"
+# url            = "https://example.com/releases/old-mod-2.0.0.jar"
+# filename       = "old-mod-2.0.0.jar"
+# reason         = "Upgrade to 2.0.0 which fixes issue #123"
+
+
+# ---------------------------------------------------------------------------
+# Resource pack removals
+# ---------------------------------------------------------------------------
+# [[resourcepacks.remove]]
+# pattern = "some-pack-*.zip"
+# reason  = "Replaced by our custom version below"
+
+
+# ---------------------------------------------------------------------------
+# Resource pack additions
+# ---------------------------------------------------------------------------
+# [[resourcepacks.add]]
+# url      = "https://example.com/releases/qubik-custom-pack.zip"
+# filename = "qubik-custom-pack.zip"
+# reason   = "Our group's custom resource pack"

@@ -5,6 +5,7 @@ on:
     branches:
       - release*       # 匹配主发布分支
       - test-*         # 匹配所有 test- 开头的分支（通配符）
+  workflow_dispatch:
 env:
   VERSION_FILE_PATH: config/fancymenu/assets/version.md
   PACKWIZ_DOWNLOAD_URL: https://github.com/Jasons-impart/packwiz/releases/latest/download/packwiz
