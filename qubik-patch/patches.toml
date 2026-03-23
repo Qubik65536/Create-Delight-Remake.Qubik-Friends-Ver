@@ -5,6 +5,14 @@
 #
 # Supported operations:
 #
+#   [[assets]]
+#     src    (required) — source directory path, relative to the assets/ directory
+#     dest   (required) — destination path relative to the modpack directory
+#     mode   (optional) — "merge" (default) or "replace"
+#                           merge:   copy files on top of any existing content
+#                           replace: delete dest entirely first, then copy
+#     reason (optional) — human-readable description
+#
 #   [[mods.remove]]
 #     pattern  (required) — glob matched against filenames in mods/
 #     reason   (optional) — human-readable description
@@ -30,8 +38,20 @@
 #     reason   (optional) — human-readable description
 #
 # Overlay files (configs, KubeJS scripts, etc.) go in the overlay/ directory —
-# they are copied on top of the upstream checkout before mod patches are applied.
+# they are copied on top of the upstream checkout before patches are applied.
+# Asset directories go in the assets/ directory — each [[assets]] entry maps a
+# named subdirectory in assets/ to a destination path in the modpack.
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Asset copies
+# ---------------------------------------------------------------------------
+# [[assets]]
+# src    = "my-textures"                    # maps to assets/my-textures/
+# dest   = "resourcepacks/MyPack/assets"    # relative to the modpack directory
+# mode   = "replace"                        # "merge" (default) or "replace"
+# reason = "Our custom textures for MyPack"
 
 
 # ---------------------------------------------------------------------------

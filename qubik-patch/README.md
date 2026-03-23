@@ -13,20 +13,24 @@ manually), the workflow:
 1. **Checks out** the upstream `release` branch into a fresh workspace.
 2. **Applies overlay files** — everything in `overlay/` is copied on top of the
    upstream, letting us add or replace any file (configs, KubeJS scripts, etc.).
-3. **Applies mod patches** — `patches.toml` drives additions, removals, and
+3. **Applies asset patches** — `[[assets]]` entries in `patches.toml` copy
+   subdirectories from `assets/` to designated locations in the modpack, with a
+   choice of **merge** (add on top) or **replace** (wipe destination first).
+4. **Applies mod patches** — `patches.toml` drives additions, removals, and
    substitutions of JAR files and resource packs.
-4. **Builds** the patched modpack with packwiz and uploads the result as a
+5. **Builds** the patched modpack with packwiz and uploads the result as a
    GitHub Actions artifact.
-5. **Commits** the new upstream SHA back to `qubik-patch/.upstream-sha` so the
+6. **Commits** the new upstream SHA back to `qubik-patch/.upstream-sha` so the
    next weekly run can detect whether a rebuild is needed.
 
 ## Directory Structure
 
 ```
 qubik-patch/
-  apply_patches.rs    # rust-script that applies patches.toml and the overlay
-  patches.toml        # patch configuration (add / remove / substitute)
+  apply_patches.rs    # rust-script that applies patches.toml, the overlay, and assets
+  patches.toml        # patch configuration (add / remove / substitute / assets)
   overlay/            # files to copy verbatim onto the upstream checkout
+  assets/             # named subdirectories copied to designated modpack locations
   .upstream-sha       # last processed upstream commit SHA (managed by CI)
   README.md           # this file
 ```
@@ -34,6 +38,20 @@ qubik-patch/
 ## `patches.toml` Reference
 
 ```toml
+# Copy an asset directory into the modpack (merge — keeps existing files)
+[[assets]]
+src    = "my-textures"                    # subdirectory inside assets/
+dest   = "resourcepacks/MyPack/assets"    # path relative to the modpack root
+mode   = "merge"                          # optional, "merge" is the default
+reason = "Our custom textures for MyPack" # optional
+
+# Copy an asset directory, wiping the destination first (replace)
+[[assets]]
+src    = "generated-configs"
+dest   = "config/some-mod"
+mode   = "replace"
+reason = "Fully managed config — no upstream leftovers wanted"
+
 # Remove a mod by filename glob
 [[mods.remove]]
 pattern = "some-mod-*.jar"
@@ -76,8 +94,32 @@ overlay/
       qubik_tweaks.js        # adds a new KubeJS startup script
 ```
 
-Files are copied **before** mod patches are applied, so you can safely
+Files are copied **before** asset and mod patches are applied, so you can safely
 reference newly added mods in your KubeJS scripts.
+
+## Asset Files
+
+Place resource directories in `assets/`, one subdirectory per logical group.
+Each group is referenced by an `[[assets]]` entry in `patches.toml` and copied
+to the designated destination inside the modpack.
+
+```
+assets/
+  my-textures/            # src = "my-textures" in patches.toml
+    block/
+      custom_stone.png
+    item/
+      custom_sword.png
+```
+
+Two copy modes are available:
+
+| Mode      | Behaviour |
+|-----------|-----------|
+| `merge`   | Copy files into `dest`, leaving any existing files that are not overwritten untouched. |
+| `replace` | Delete `dest` entirely first, then copy — the result contains **only** the files from `src`. |
+
+Asset patches are applied **after** the overlay but **before** mod patches.
 
 ## Running Locally
 
@@ -94,7 +136,8 @@ Apply patches to an already-checked-out upstream copy:
 rust-script qubik-patch/apply_patches.rs \
     /path/to/upstream-modpack \
     qubik-patch/patches.toml \
-    qubik-patch/overlay
+    qubik-patch/overlay \
+    qubik-patch/assets
 ```
 
 ## CI / CD

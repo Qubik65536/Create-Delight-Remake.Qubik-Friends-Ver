@@ -11,12 +11,13 @@
 //! Apply Qubik-Friends patches to a modpack directory.
 //!
 //! Usage:
-//!   apply_patches.rs <modpack-dir> [patches.toml] [overlay-dir]
+//!   apply_patches.rs <modpack-dir> [patches.toml] [overlay-dir] [assets-dir]
 //!
 //! Arguments:
 //!   modpack-dir   Path to the modpack directory to patch (required)
 //!   patches.toml  Path to the patch config file (default: patches.toml in CWD)
 //!   overlay-dir   Path to the overlay directory (default: overlay/ in CWD)
+//!   assets-dir    Path to the assets directory (default: assets/ in CWD)
 
 use anyhow::{bail, Context, Result};
 use serde::Deserialize;
@@ -34,6 +35,30 @@ use std::{
 struct Patches {
     mods: ModPatches,
     resourcepacks: ResourcePackPatches,
+    assets: Vec<AssetEntry>,
+}
+
+#[derive(Deserialize)]
+struct AssetEntry {
+    /// Path of the source directory, relative to the assets-dir argument.
+    src: String,
+    /// Destination path relative to the modpack directory.
+    dest: String,
+    #[serde(default)]
+    mode: AssetMode,
+    #[serde(default)]
+    reason: String,
+}
+
+#[derive(Deserialize, Default, PartialEq)]
+#[serde(rename_all = "lowercase")]
+enum AssetMode {
+    /// Copy files into dest, leaving any existing files that are not overwritten.
+    #[default]
+    Merge,
+    /// Delete dest entirely before copying, so the result contains only the
+    /// files from src.
+    Replace,
 }
 
 #[derive(Deserialize, Default)]
@@ -158,6 +183,24 @@ fn copy_overlay(src: &Path, dst: &Path) -> Result<usize> {
     Ok(count)
 }
 
+/// Copy an asset source directory into `dest` inside the modpack.
+///
+/// * `Merge`   — copy files on top of any existing content.
+/// * `Replace` — delete `dest` first, then copy, so only files from `src` remain.
+fn apply_assets(src: &Path, dest: &Path, mode: &AssetMode) -> Result<usize> {
+    if !src.is_dir() {
+        bail!("Assets source directory not found: {}", src.display());
+    }
+    if *mode == AssetMode::Replace && dest.exists() {
+        println!("  Replacing (removing existing) {}", dest.display());
+        fs::remove_dir_all(dest)
+            .with_context(|| format!("Failed to remove {}", dest.display()))?;
+    }
+    fs::create_dir_all(dest)
+        .with_context(|| format!("Failed to create {}", dest.display()))?;
+    copy_overlay(src, dest)
+}
+
 fn reason_suffix(reason: &str) -> String {
     if reason.is_empty() {
         String::new()
@@ -174,7 +217,7 @@ fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("Usage: {} <modpack-dir> [patches.toml] [overlay-dir]", args[0]);
+        eprintln!("Usage: {} <modpack-dir> [patches.toml] [overlay-dir] [assets-dir]", args[0]);
         std::process::exit(1);
     }
 
@@ -184,6 +227,7 @@ fn main() -> Result<()> {
         .map(PathBuf::from)
         .unwrap_or_else(|| PathBuf::from("patches.toml"));
     let overlay_dir = args.get(3).map(PathBuf::from);
+    let assets_dir = args.get(4).map(PathBuf::from);
 
     if !modpack_dir.is_dir() {
         bail!("Modpack directory not found: {}", modpack_dir.display());
@@ -216,7 +260,7 @@ fn main() -> Result<()> {
     // --- Load patches.toml -------------------------------------------------------
     if !patches_file.exists() {
         println!(
-            "No patches file found at {} — skipping mod/resourcepack patches.",
+            "No patches file found at {} — skipping asset/mod/resourcepack patches.",
             patches_file.display()
         );
         println!("Done.");
@@ -230,6 +274,38 @@ fn main() -> Result<()> {
 
     let mods_dir = modpack_dir.join("mods");
     let resourcepacks_dir = modpack_dir.join("resourcepacks");
+
+    // --- Asset patches -----------------------------------------------------------
+    if !patches.assets.is_empty() {
+        match assets_dir {
+            None => {
+                eprintln!("Warning: [[assets]] entries defined but no assets-dir argument provided — skipping assets");
+            }
+            Some(ref adir) if !adir.is_dir() => {
+                eprintln!(
+                    "Warning: assets directory '{}' not found — skipping assets",
+                    adir.display()
+                );
+            }
+            Some(ref adir) => {
+                println!("\n=== Applying asset patches ===");
+                for entry in &patches.assets {
+                    let src = adir.join(&entry.src);
+                    let dest = modpack_dir.join(&entry.dest);
+                    let mode_label = if entry.mode == AssetMode::Replace { "replace" } else { "merge" };
+                    println!(
+                        "[{}] {} -> {}{}",
+                        mode_label,
+                        entry.src,
+                        entry.dest,
+                        reason_suffix(&entry.reason)
+                    );
+                    let count = apply_assets(&src, &dest, &entry.mode)?;
+                    println!("  Copied {count} file(s).");
+                }
+            }
+        }
+    }
 
     // --- Mod patches -------------------------------------------------------------
     let has_mod_patches = !patches.mods.remove.is_empty()
@@ -310,7 +386,8 @@ fn main() -> Result<()> {
         }
     }
 
-    if !has_mod_patches && !has_rp_patches {
+    let has_patches = !patches.assets.is_empty() || has_mod_patches || has_rp_patches;
+    if !has_patches {
         println!("\nNo patches defined in patches.toml — nothing to do.");
     } else {
         println!("\nAll patches applied successfully.");
