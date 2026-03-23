@@ -80,6 +80,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 1
+          token: ${{ secrets.PAT }}
       - name: Checkout Upstream Release Branch
         uses: actions/checkout@v4
         with:
@@ -87,6 +88,7 @@ jobs:
           ref: ${{ env.UPSTREAM_BRANCH }}
           fetch-depth: 1
           path: _upstream
+          token: ${{ secrets.PAT }}
       # -- Apply patches -------------------------------------------------------
       - name: Install rust-script
         run: cargo install rust-script
@@ -125,6 +127,16 @@ jobs:
       # -- Bring in our .github/ so release.yml is present on the release branch
       - name: Copy .github/ into Patched Upstream
         run: cp -r .github _upstream/
+      # -- Apply Quilt-style patches to Workflow files (e.g. release.yml additions).
+      # Must run after .github/ is copied so patches target our workflow files,
+      # not the upstream's originals.
+      - name: Apply Workflow Patches
+        run: |
+          for patch_file in qubik-patch/patches/*.patch; do
+            [ -f "$patch_file" ] || continue
+            echo "Applying: $patch_file"
+            patch -p1 --fuzz 3 -d _upstream < "$patch_file"
+          done
       # -- Push to release branch ----------------------------------------------
       - name: Commit and Force-Push to Release Branch
         id: push-release
@@ -143,8 +155,7 @@ jobs:
               -m "chore: apply Qubik patches [upstream $UPSTREAM_SHA]" \
               -m "Upstream: ${{ env.UPSTREAM_REPO }}@${{ env.UPSTREAM_BRANCH }}" \
               -m "SHA: $UPSTREAM_SHA"
-            git remote set-url origin \
-              "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            git remote set-url origin "https://github.com/${{ github.repository }}.git"
             git push --force origin HEAD:release
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
@@ -172,7 +183,5 @@ jobs:
             git commit \
               -m "chore: update upstream SHA [skip ci]" \
               -m "New SHA: $UPSTREAM_SHA"
-            git remote set-url origin \
-              "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
             git push origin main
           fi
