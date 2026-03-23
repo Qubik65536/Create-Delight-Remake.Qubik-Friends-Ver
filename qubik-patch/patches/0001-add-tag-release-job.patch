@@ -1,0 +1,43 @@
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -507,4 +507,38 @@
+             deleted_files.txt
+             deploy-patch.sh
+             deploy-patch.bat
+-            patch/
+\ No newline at end of file
++            patch/
++  # Re-tag HEAD of the release branch with the current pack version.
++  # Runs only on the `release` branch, after all build jobs complete.
++  tag-release:
++    name: Tag Release
++    needs: [common-steps, client-tasks, server-tasks, patch-tasks]
++    runs-on: ubuntu-latest
++    if: github.ref_name == 'release'
++    permissions:
++      contents: write
++    env:
++      TAG: ${{ needs.common-steps.outputs.modpack_ver }}
++    steps:
++      - name: Checkout Release Branch
++        uses: actions/checkout@v4
++        with:
++          ref: release
++          fetch-depth: 1
++          token: ${{ secrets.GITHUB_TOKEN }}
++
++      - name: Remove Existing Tag if Present
++        run: |
++          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q .; then
++            echo "Tag '$TAG' already exists — deleting."
++            git push origin --delete "refs/tags/$TAG"
++          else
++            echo "Tag '$TAG' does not exist yet."
++          fi
++
++      - name: Tag HEAD with ${{ needs.common-steps.outputs.modpack_ver }}
++        run: |
++          git config user.name  "github-actions[bot]"
++          git config user.email "github-actions[bot]@users.noreply.github.com"
++          git tag "$TAG"
++          git push origin "$TAG"
