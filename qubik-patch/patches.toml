@@ -18,23 +18,32 @@
 #     reason   (optional) — human-readable description
 #
 #   [[mods.add]]
-#     url      (required) — direct download URL for the JAR
-#     filename (required) — destination filename inside mods/
-#     reason   (optional) — human-readable description
+#   [[mods.substitute]]   (substitute also requires remove_pattern)
+#   [[resourcepacks.add]]
 #
-#   [[mods.substitute]]
+#   Each download entry supports three mutually exclusive source types:
+#
+#   Source 1 — Direct URL:
+#     url      (required) — direct download URL for the file
+#     filename (required) — destination filename
+#
+#   Source 2 — Modrinth (uses ferinth; no API key needed):
+#     modrinth (required) — Modrinth project ID or slug (e.g. "sodium" or "AANobbMI")
+#     version  (optional) — exact version_number to download (e.g. "mc1.20.1-0.5.8")
+#                           omit or set to "latest" to use the newest version
+#     filename (optional) — override the filename from the API
+#
+#   Source 3 — CurseForge (uses furse; requires CURSEFORGE_API_KEY env var):
+#     curseforge (required) — CurseForge project ID (integer, e.g. 238222)
+#     version    (optional) — substring matched against the file's display name
+#                             omit or set to "latest" to use the newest file
+#     filename   (optional) — override the filename from the API
+#
+#   [[mods.substitute]] additional field:
 #     remove_pattern (required) — glob matched against filenames in mods/
-#     url            (required) — direct download URL for the replacement JAR
-#     filename       (required) — destination filename inside mods/
-#     reason         (optional) — human-readable description
 #
 #   [[resourcepacks.remove]]
 #     pattern  (required) — glob matched against filenames in resourcepacks/
-#     reason   (optional) — human-readable description
-#
-#   [[resourcepacks.add]]
-#     url      (required) — direct download URL for the ZIP
-#     filename (required) — destination filename inside resourcepacks/
 #     reason   (optional) — human-readable description
 #
 # Overlay files (configs, KubeJS scripts, etc.) go in the overlay/ directory —
@@ -65,20 +74,59 @@
 # ---------------------------------------------------------------------------
 # Mod additions
 # ---------------------------------------------------------------------------
+
+# Direct URL:
 # [[mods.add]]
 # url      = "https://example.com/releases/my-mod-1.0.0.jar"
 # filename = "my-mod-1.0.0.jar"
 # reason   = "Adds QoL feature X for our group"
 
+# Modrinth (latest version):
+# [[mods.add]]
+# modrinth = "sodium"
+# reason   = "Adds sodium"
+
+# Modrinth (pinned version):
+# [[mods.add]]
+# modrinth = "sodium"
+# version  = "mc1.20.1-0.5.8"
+# reason   = "Pinned sodium for compatibility"
+
+# CurseForge (latest version, requires CURSEFORGE_API_KEY):
+# [[mods.add]]
+# curseforge = 238222
+# reason     = "Adds JEI"
+
+# CurseForge (pinned version):
+# [[mods.add]]
+# curseforge = 238222
+# version    = "19.7.0.5"
+# reason     = "Pinned JEI version"
+
 
 # ---------------------------------------------------------------------------
 # Mod substitutions (upgrade / swap)
 # ---------------------------------------------------------------------------
+
+# Direct URL:
 # [[mods.substitute]]
 # remove_pattern = "old-mod-*.jar"
 # url            = "https://example.com/releases/old-mod-2.0.0.jar"
 # filename       = "old-mod-2.0.0.jar"
 # reason         = "Upgrade to 2.0.0 which fixes issue #123"
+
+# Modrinth (latest):
+# [[mods.substitute]]
+# remove_pattern = "sodium-*.jar"
+# modrinth       = "sodium"
+# reason         = "Upgrade sodium to latest"
+
+# CurseForge (pinned):
+# [[mods.substitute]]
+# remove_pattern = "jei-*.jar"
+# curseforge     = 238222
+# version        = "19.7.0.5"
+# reason         = "Pin JEI to 19.7.0.5"
 
 
 # ---------------------------------------------------------------------------

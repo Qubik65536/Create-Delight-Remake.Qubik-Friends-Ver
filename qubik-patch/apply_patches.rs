@@ -6,6 +6,9 @@
 //! reqwest = { version = "0.12", features = ["blocking"] }
 //! glob = "0.3"
 //! anyhow = "1"
+//! ferinth = "2"
+//! furse = "1"
+//! tokio = { version = "1", features = ["rt-multi-thread"] }
 //! ```
 
 //! Apply Qubik-Friends patches to a modpack directory.
@@ -18,6 +21,9 @@
 //!   patches.toml  Path to the patch config file (default: patches.toml in CWD)
 //!   overlay-dir   Path to the overlay directory (default: overlay/ in CWD)
 //!   assets-dir    Path to the assets directory (default: assets/ in CWD)
+//!
+//! Environment variables:
+//!   CURSEFORGE_API_KEY  CurseForge API key (required when any entry uses `curseforge`)
 
 use anyhow::{bail, Context, Result};
 use serde::Deserialize;
@@ -76,10 +82,28 @@ struct ResourcePackPatches {
     remove: Vec<RemoveEntry>,
 }
 
+/// A file to download. Exactly one of `url`, `modrinth`, or `curseforge` must be set.
 #[derive(Deserialize)]
 struct AddEntry {
-    url: String,
-    filename: String,
+    /// Direct download URL. Required if neither `modrinth` nor `curseforge` is set.
+    url: Option<String>,
+
+    /// Modrinth project ID or slug.
+    modrinth: Option<String>,
+
+    /// CurseForge project ID (integer).
+    curseforge: Option<i32>,
+
+    /// Version to download.
+    /// - For `modrinth`: matched against the `version_number` field exactly.
+    /// - For `curseforge`: matched as a substring of the file's `display_name`.
+    /// - Omit (or set to `"latest"`) to use the newest available version.
+    version: Option<String>,
+
+    /// Destination filename inside the target directory.
+    /// Required when using `url`. Optional for `modrinth`/`curseforge` (auto-derived from API).
+    filename: Option<String>,
+
     #[serde(default)]
     reason: String,
 }
@@ -91,13 +115,185 @@ struct RemoveEntry {
     reason: String,
 }
 
+/// Remove a file matching `remove_pattern` and replace it with a new download.
+/// Exactly one of `url`, `modrinth`, or `curseforge` must be set.
 #[derive(Deserialize)]
 struct SubstituteEntry {
     remove_pattern: String,
-    url: String,
-    filename: String,
+
+    /// Direct download URL. Required if neither `modrinth` nor `curseforge` is set.
+    url: Option<String>,
+
+    /// Modrinth project ID or slug.
+    modrinth: Option<String>,
+
+    /// CurseForge project ID (integer).
+    curseforge: Option<i32>,
+
+    /// Version to download (see `AddEntry::version` for semantics).
+    version: Option<String>,
+
+    /// Destination filename. Required when using `url`. Optional for `modrinth`/`curseforge`.
+    filename: Option<String>,
+
     #[serde(default)]
     reason: String,
+}
+
+// ---------------------------------------------------------------------------
+// Source resolution
+// ---------------------------------------------------------------------------
+
+/// Given the source fields from an entry, resolve to `(download_url, filename)`.
+fn resolve_source(
+    rt: &tokio::runtime::Runtime,
+    url: Option<&str>,
+    modrinth: Option<&str>,
+    curseforge: Option<i32>,
+    version: Option<&str>,
+    filename: Option<&str>,
+    cf_api_key: &Option<String>,
+) -> Result<(String, String)> {
+    let use_latest = version.map(|v| v.eq_ignore_ascii_case("latest")).unwrap_or(true);
+    let version_req = if use_latest { None } else { version };
+
+    match (url, modrinth, curseforge) {
+        (Some(u), None, None) => {
+            let fname = filename.ok_or_else(|| {
+                anyhow::anyhow!("`filename` is required when using `url`")
+            })?;
+            Ok((u.to_owned(), fname.to_owned()))
+        }
+        (None, Some(project), None) => {
+            let (dl_url, api_filename) =
+                resolve_modrinth(rt, project, version_req)
+                    .with_context(|| format!("Failed to resolve Modrinth project '{project}'"))?;
+            // User-supplied filename overrides the API-derived one.
+            let fname = filename.map(str::to_owned).unwrap_or(api_filename);
+            Ok((dl_url, fname))
+        }
+        (None, None, Some(project_id)) => {
+            let key = cf_api_key.as_deref().ok_or_else(|| {
+                anyhow::anyhow!(
+                    "CurseForge entry found but CURSEFORGE_API_KEY is not set. \
+                     Export the variable before running this script."
+                )
+            })?;
+            let (dl_url, api_filename) =
+                resolve_curseforge(rt, project_id, key, version_req)
+                    .with_context(|| {
+                        format!("Failed to resolve CurseForge project id {project_id}")
+                    })?;
+            let fname = filename.map(str::to_owned).unwrap_or(api_filename);
+            Ok((dl_url, fname))
+        }
+        _ => bail!(
+            "Specify exactly one of `url`, `modrinth`, or `curseforge` per entry"
+        ),
+    }
+}
+
+/// Resolve a Modrinth project to `(download_url, filename)` using ferinth.
+fn resolve_modrinth(
+    rt: &tokio::runtime::Runtime,
+    project_id: &str,
+    version: Option<&str>,
+) -> Result<(String, String)> {
+    rt.block_on(async {
+        let ferinth = ferinth::Ferinth::new(
+            "apply_patches",
+            Some(env!("CARGO_PKG_VERSION")),
+            None,
+            None,
+        )
+        .context("Failed to create Ferinth client")?;
+
+        let versions = ferinth
+            .list_versions(project_id, None, None, None)
+            .await
+            .context("Failed to list Modrinth versions")?;
+
+        if versions.is_empty() {
+            bail!("No versions found for Modrinth project '{project_id}'");
+        }
+
+        let chosen = match version {
+            None => versions.into_iter().next().unwrap(),
+            Some(v) => versions
+                .into_iter()
+                .find(|ver| ver.version_number == v)
+                .ok_or_else(|| {
+                    anyhow::anyhow!(
+                        "Version '{v}' not found for Modrinth project '{project_id}'"
+                    )
+                })?,
+        };
+
+        println!(
+            "  Modrinth: {} version {}",
+            project_id, chosen.version_number
+        );
+
+        let file = chosen
+            .files
+            .iter()
+            .find(|f| f.primary)
+            .or_else(|| chosen.files.first())
+            .ok_or_else(|| anyhow::anyhow!("Version has no files"))?;
+
+        Ok((file.url.to_string(), file.filename.clone()))
+    })
+}
+
+/// Resolve a CurseForge project to `(download_url, filename)` using furse.
+fn resolve_curseforge(
+    rt: &tokio::runtime::Runtime,
+    project_id: i32,
+    api_key: &str,
+    version: Option<&str>,
+) -> Result<(String, String)> {
+    rt.block_on(async {
+        let furse = furse::Furse::new(api_key);
+
+        let mut files = furse
+            .get_mod_files(project_id)
+            .await
+            .context("Failed to list CurseForge files")?;
+
+        if files.is_empty() {
+            bail!("No files found for CurseForge project id {project_id}");
+        }
+
+        // Sort by id descending so the newest file is first.
+        files.sort_by(|a, b| b.id.cmp(&a.id));
+
+        let chosen = match version {
+            None => files.into_iter().next().unwrap(),
+            Some(v) => files
+                .into_iter()
+                .find(|f| f.display_name.contains(v) || f.file_name.contains(v))
+                .ok_or_else(|| {
+                    anyhow::anyhow!(
+                        "Version '{v}' not found for CurseForge project id {project_id}"
+                    )
+                })?,
+        };
+
+        println!(
+            "  CurseForge: project {} file '{}' (id {})",
+            project_id, chosen.display_name, chosen.id
+        );
+
+        let dl_url = chosen.download_url.ok_or_else(|| {
+            anyhow::anyhow!(
+                "CurseForge file '{}' has no download URL \
+                 (the mod author may have disabled third-party distribution)",
+                chosen.display_name
+            )
+        })?;
+
+        Ok((dl_url, chosen.file_name))
+    })
 }
 
 // ---------------------------------------------------------------------------
@@ -233,6 +429,17 @@ fn main() -> Result<()> {
         bail!("Modpack directory not found: {}", modpack_dir.display());
     }
 
+    // Read CurseForge API key once; validated lazily when a CF entry is encountered.
+    let cf_api_key: Option<String> = std::env::var("CURSEFORGE_API_KEY").ok();
+
+    // Tokio runtime for async API calls (Modrinth / CurseForge). Created lazily
+    // only when the patches file exists and contains modrinth/curseforge entries,
+    // but it's cheap to create upfront.
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .context("Failed to build Tokio runtime")?;
+
     // --- Apply overlay -----------------------------------------------------------
     if let Some(ref overlay) = overlay_dir {
         if overlay.is_dir() {
@@ -337,21 +544,39 @@ fn main() -> Result<()> {
             println!(
                 "Substituting '{}' -> '{}'{}",
                 entry.remove_pattern,
-                entry.filename,
+                entry.filename.as_deref().unwrap_or("<auto>"),
                 reason_suffix(&entry.reason)
             );
             remove_by_pattern(&mods_dir, &entry.remove_pattern)?;
-            download_file(&entry.url, &mods_dir.join(&entry.filename))?;
+            let (url, filename) = resolve_source(
+                &rt,
+                entry.url.as_deref(),
+                entry.modrinth.as_deref(),
+                entry.curseforge,
+                entry.version.as_deref(),
+                entry.filename.as_deref(),
+                &cf_api_key,
+            )?;
+            download_file(&url, &mods_dir.join(&filename))?;
         }
 
         // Additions
         for entry in &patches.mods.add {
+            let (url, filename) = resolve_source(
+                &rt,
+                entry.url.as_deref(),
+                entry.modrinth.as_deref(),
+                entry.curseforge,
+                entry.version.as_deref(),
+                entry.filename.as_deref(),
+                &cf_api_key,
+            )?;
             println!(
                 "Adding mod '{}'{}",
-                entry.filename,
+                filename,
                 reason_suffix(&entry.reason)
             );
-            download_file(&entry.url, &mods_dir.join(&entry.filename))?;
+            download_file(&url, &mods_dir.join(&filename))?;
         }
     }
 
@@ -374,15 +599,24 @@ fn main() -> Result<()> {
 
         // Additions
         for entry in &patches.resourcepacks.add {
+            let (url, filename) = resolve_source(
+                &rt,
+                entry.url.as_deref(),
+                entry.modrinth.as_deref(),
+                entry.curseforge,
+                entry.version.as_deref(),
+                entry.filename.as_deref(),
+                &cf_api_key,
+            )?;
             println!(
                 "Adding resource pack '{}'{}",
-                entry.filename,
+                filename,
                 reason_suffix(&entry.reason)
             );
             if !resourcepacks_dir.exists() {
                 fs::create_dir_all(&resourcepacks_dir)?;
             }
-            download_file(&entry.url, &resourcepacks_dir.join(&entry.filename))?;
+            download_file(&url, &resourcepacks_dir.join(&filename))?;
         }
     }
 

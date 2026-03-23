@@ -93,6 +93,8 @@ jobs:
       - name: Install rust-script
         run: cargo install rust-script
       - name: Apply Overlay Files and Mod Patches
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
         run: |
           rust-script qubik-patch/apply_patches.rs \
             _upstream \
