@@ -160,14 +160,12 @@ jobs:
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
       # Explicitly dispatch release.yml on the release branch.
-      # A GITHUB_TOKEN push does not fire push events, so we trigger it directly.
-      # release.yml must have `workflow_dispatch:` in its triggers (already added).
-      - name: Dispatch Release Workflow
-        if: steps.push-release.outputs.pushed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.PAT }}
-        run: |
-          gh workflow run release.yml --ref release
+      # - name: Dispatch Release Workflow
+      #   if: steps.push-release.outputs.pushed == 'true'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.PAT }}
+      #   run: |
+      #     gh workflow run release.yml --ref release
       # -- Record processed SHA back on main -----------------------------------
       - name: Update .upstream-sha on Main
         env:
