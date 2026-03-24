@@ -104,6 +104,12 @@ struct AddEntry {
     /// Required when using `url`. Optional for `modrinth`/`curseforge` (auto-derived from API).
     filename: Option<String>,
 
+    /// If true, the mod is client-only and its identifier will be added to .clientonlymodlist.
+    /// For modrinth entries the modrinth slug is used; for curseforge/url the resolved filename
+    /// without the .jar extension is used.
+    #[serde(default)]
+    clientonly: bool,
+
     #[serde(default)]
     reason: String,
 }
@@ -135,6 +141,12 @@ struct SubstituteEntry {
 
     /// Destination filename. Required when using `url`. Optional for `modrinth`/`curseforge`.
     filename: Option<String>,
+
+    /// If true, the mod is client-only and its identifier will be added to .clientonlymodlist.
+    /// For modrinth entries the modrinth slug is used; for curseforge/url the resolved filename
+    /// without the .jar extension is used.
+    #[serde(default)]
+    clientonly: bool,
 
     #[serde(default)]
     reason: String,
@@ -200,16 +212,14 @@ fn resolve_modrinth(
     version: Option<&str>,
 ) -> Result<(String, String)> {
     rt.block_on(async {
-        let ferinth = ferinth::Ferinth::new(
+        let ferinth = ferinth::Ferinth::<()>::new(
             "apply_patches",
             Some(env!("CARGO_PKG_VERSION")),
             None,
-            None,
-        )
-        .context("Failed to create Ferinth client")?;
+        );
 
         let versions = ferinth
-            .list_versions(project_id, None, None, None)
+            .version_list(project_id)
             .await
             .context("Failed to list Modrinth versions")?;
 
@@ -292,7 +302,7 @@ fn resolve_curseforge(
             )
         })?;
 
-        Ok((dl_url, chosen.file_name))
+        Ok((dl_url.to_string(), chosen.file_name))
     })
 }
 
@@ -406,6 +416,62 @@ fn reason_suffix(reason: &str) -> String {
 }
 
 // ---------------------------------------------------------------------------
+// Client-only list helpers
+// ---------------------------------------------------------------------------
+
+/// Derive the identifier used in `.clientonlymodlist` for an entry.
+/// Modrinth entries use their project slug; everything else strips the `.jar`
+/// extension from the resolved filename.
+fn clientonly_id(modrinth: Option<&str>, filename: &str) -> String {
+    if let Some(slug) = modrinth {
+        slug.to_owned()
+    } else {
+        filename.strip_suffix(".jar").unwrap_or(filename).to_owned()
+    }
+}
+
+/// Append any `new_ids` that are not already present in `list_path`.
+/// The file is created if it does not exist. New entries are appended in
+/// sorted order after the existing content.
+fn update_clientonly_list(list_path: &Path, new_ids: &[String]) -> Result<()> {
+    if new_ids.is_empty() {
+        return Ok(());
+    }
+    let existing = if list_path.exists() {
+        fs::read_to_string(list_path)
+            .with_context(|| format!("Failed to read {}", list_path.display()))?
+    } else {
+        String::new()
+    };
+    let existing_set: std::collections::HashSet<&str> = existing.lines().collect();
+    let mut to_add: Vec<&str> = new_ids
+        .iter()
+        .map(String::as_str)
+        .filter(|id| !existing_set.contains(id))
+        .collect();
+    if to_add.is_empty() {
+        return Ok(());
+    }
+    to_add.sort_unstable();
+    let mut content = existing;
+    if !content.is_empty() && !content.ends_with('\n') {
+        content.push('\n');
+    }
+    for id in &to_add {
+        content.push_str(id);
+        content.push('\n');
+    }
+    fs::write(list_path, &content)
+        .with_context(|| format!("Failed to write {}", list_path.display()))?;
+    println!(
+        "  Updated {}: added {}",
+        list_path.display(),
+        to_add.join(", ")
+    );
+    Ok(())
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -482,6 +548,12 @@ fn main() -> Result<()> {
     let mods_dir = modpack_dir.join("mods");
     let resourcepacks_dir = modpack_dir.join("resourcepacks");
 
+    // Path to the client-only mod list, resolved relative to the patches file.
+    let clientonly_list_path = {
+        let parent = patches_file.parent().filter(|p| !p.as_os_str().is_empty());
+        parent.unwrap_or_else(|| Path::new(".")).join(".clientonlymodlist")
+    };
+
     // --- Asset patches -----------------------------------------------------------
     if !patches.assets.is_empty() {
         match assets_dir {
@@ -529,6 +601,8 @@ fn main() -> Result<()> {
 
         println!("\n=== Applying mod patches ===");
 
+        let mut clientonly_ids: Vec<String> = Vec::new();
+
         // Removals
         for entry in &patches.mods.remove {
             println!(
@@ -558,6 +632,9 @@ fn main() -> Result<()> {
                 &cf_api_key,
             )?;
             download_file(&url, &mods_dir.join(&filename))?;
+            if entry.clientonly {
+                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename));
+            }
         }
 
         // Additions
@@ -577,6 +654,14 @@ fn main() -> Result<()> {
                 reason_suffix(&entry.reason)
             );
             download_file(&url, &mods_dir.join(&filename))?;
+            if entry.clientonly {
+                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename));
+            }
+        }
+
+        if !clientonly_ids.is_empty() {
+            println!("\n=== Updating client-only mod list ===");
+            update_clientonly_list(&clientonly_list_path, &clientonly_ids)?;
         }
     }
 
