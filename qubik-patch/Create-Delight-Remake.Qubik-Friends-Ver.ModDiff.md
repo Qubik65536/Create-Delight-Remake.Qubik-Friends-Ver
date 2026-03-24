@@ -70,7 +70,7 @@
 * `+[SC]` [Explorer's Compass](https://modrinth.com/project/RV1qfVQ8)：建筑结构查找指南针
 * `+[SC]` [Tom's Simple Storage Mod](https://modrinth.com/project/XZNI4Cpy)：Tom 的简易储存
 * `+[SC]` [Create Contraption Terminals](https://modrinth.com/project/gOPAFzp0)：Tom 的简易储存可在机械动力移动物体上使用
-* `+[SC]` [EveryXHotpot](https://modrinth.com/project/346Wf89R)：火锅！
+<!--* `+[SC]` [EveryXHotpot](https://modrinth.com/project/346Wf89R)：火锅！-->
 * `+[SC]` [Caupona](https://modrinth.com/project/EFoYZIZL)：分茶工艺
 * `+[SC]` [Kaleidoscope Cookery](https://modrinth.com/project/v17FatAc)：森罗物语：烹燃心动
 * `+[SC]` [KaleidoscopeChineseFood](https://modrinth.com/project/cuIIkdlx)
@@ -103,6 +103,8 @@
 * `+[SC]` [Exposure](https://modrinth.com/project/hB899VmG)：照相
 * `+[SC]` [Automobility](https://modrinth.com/project/rqIsPf9F)：汽车
 * `+[SC]` [Small Ships](https://modrinth.com/project/rGWEHQrP)：船
+* `*[SC]` [DragonLib](https://modrinth.com/project/sbIsGaOV)
+  * 为了修复与 ReForgedPlay 的兼容性问题而更新到最新版
 * `+[SC]` [Underground Village, Stoneholm](https://modrinth.com/project/KmyhssPl)：主要作为 Create: Better Villagers 依赖使用
 * `*[SC]` [[TaCZ] Timeless and Classics Zero](https://modrinth.com/project/SzzJttH8)：永恒枪械工坊：零
   * 更新至最新版且移除了 Hotai 魔改
