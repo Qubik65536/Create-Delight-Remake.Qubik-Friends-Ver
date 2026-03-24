@@ -21,6 +21,15 @@
 #   [[mods.substitute]]   (substitute also requires remove_pattern)
 #   [[resourcepacks.add]]
 #
+#   All [[mods.add]] and [[mods.substitute]] entries support an optional field:
+#     clientonly (optional) — true/false (default: false)
+#                             When true, the mod's identifier is automatically
+#                             appended to .clientonlymodlist (in the same directory
+#                             as patches.toml) if not already present.
+#                             Identifier used: the modrinth slug for modrinth entries,
+#                             or the resolved filename without the .jar extension for
+#                             curseforge/url entries.
+#
 #   Each download entry supports three mutually exclusive source types:
 #
 #   Source 1 — Direct URL:
@@ -77,20 +86,23 @@
 
 # Direct URL:
 # [[mods.add]]
-# url      = "https://example.com/releases/my-mod-1.0.0.jar"
-# filename = "my-mod-1.0.0.jar"
-# reason   = "Adds QoL feature X for our group"
+# url        = "https://example.com/releases/my-mod-1.0.0.jar"
+# filename   = "my-mod-1.0.0.jar"
+# clientonly = true
+# reason     = "Adds QoL feature X for our group (client-only)"
 
 # Modrinth (latest version):
 # [[mods.add]]
-# modrinth = "sodium"
-# reason   = "Adds sodium"
+# modrinth   = "sodium"
+# clientonly = true
+# reason     = "Adds sodium (client-only)"
 
 # Modrinth (pinned version):
 # [[mods.add]]
-# modrinth = "sodium"
-# version  = "mc1.20.1-0.5.8"
-# reason   = "Pinned sodium for compatibility"
+# modrinth   = "sodium"
+# version    = "mc1.20.1-0.5.8"
+# clientonly = true
+# reason     = "Pinned sodium for compatibility (client-only)"
 
 # CurseForge (latest version, requires CURSEFORGE_API_KEY):
 # [[mods.add]]
