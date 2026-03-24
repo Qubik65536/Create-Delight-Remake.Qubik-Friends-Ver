@@ -39,6 +39,11 @@ use std::{
 #[derive(Deserialize, Default)]
 #[serde(default)]
 struct Patches {
+    /// The Minecraft game version this patch targets (e.g. `"1.20.1"`).
+    /// When set and a mod/resource-pack entry has no explicit `version`,
+    /// the resolver fetches the latest file that supports this game version
+    /// instead of the globally latest file.
+    game_version: Option<String>,
     mods: ModPatches,
     resourcepacks: ResourcePackPatches,
     assets: Vec<AssetEntry>,
@@ -95,7 +100,9 @@ struct AddEntry {
     curseforge: Option<i32>,
 
     /// Version to download.
-    /// - For `modrinth`: matched against the `version_number` field exactly.
+    /// - For `modrinth`: first tries an exact `version_number` match (e.g. `"mc1.20.1-0.5.8"`);
+    ///   if nothing matches, treats the value as a Minecraft game version and picks the newest
+    ///   mod version that lists it in its `game_versions` (e.g. `"1.20.1"`).
     /// - For `curseforge`: matched as a substring of the file's `display_name`.
     /// - Omit (or set to `"latest"`) to use the newest available version.
     version: Option<String>,
@@ -137,6 +144,7 @@ struct SubstituteEntry {
     curseforge: Option<i32>,
 
     /// Version to download (see `AddEntry::version` for semantics).
+    /// For modrinth: exact version_number OR Minecraft game version (e.g. "1.20.1").
     version: Option<String>,
 
     /// Destination filename. Required when using `url`. Optional for `modrinth`/`curseforge`.
@@ -165,6 +173,7 @@ fn resolve_source(
     version: Option<&str>,
     filename: Option<&str>,
     cf_api_key: &Option<String>,
+    game_version: Option<&str>,
 ) -> Result<(String, String)> {
     let use_latest = version.map(|v| v.eq_ignore_ascii_case("latest")).unwrap_or(true);
     let version_req = if use_latest { None } else { version };
@@ -178,7 +187,7 @@ fn resolve_source(
         }
         (None, Some(project), None) => {
             let (dl_url, api_filename) =
-                resolve_modrinth(rt, project, version_req)
+                resolve_modrinth(rt, project, version_req, game_version)
                     .with_context(|| format!("Failed to resolve Modrinth project '{project}'"))?;
             // User-supplied filename overrides the API-derived one.
             let fname = filename.map(str::to_owned).unwrap_or(api_filename);
@@ -192,7 +201,7 @@ fn resolve_source(
                 )
             })?;
             let (dl_url, api_filename) =
-                resolve_curseforge(rt, project_id, key, version_req)
+                resolve_curseforge(rt, project_id, key, version_req, game_version)
                     .with_context(|| {
                         format!("Failed to resolve CurseForge project id {project_id}")
                     })?;
@@ -205,11 +214,38 @@ fn resolve_source(
     }
 }
 
+/// Resolve a Modrinth project slug from either a project ID or a slug.
+/// Uses the Modrinth REST API directly so that both forms (e.g. `"Es5v4eyq"`
+/// and `"sodium"`) always produce the canonical slug stored in the project record.
+fn resolve_modrinth_slug(project_id_or_slug: &str) -> Result<String> {
+    #[derive(serde::Deserialize)]
+    struct ProjectInfo {
+        slug: String,
+    }
+    let url = format!(
+        "https://api.modrinth.com/v2/project/{}",
+        project_id_or_slug
+    );
+    let response = reqwest::blocking::get(&url)
+        .with_context(|| format!("HTTP request failed for {url}"))?;
+    if !response.status().is_success() {
+        bail!(
+            "HTTP {} while fetching Modrinth project '{project_id_or_slug}'",
+            response.status()
+        );
+    }
+    let info: ProjectInfo = response
+        .json()
+        .with_context(|| format!("Failed to parse project info for '{project_id_or_slug}'"))?;
+    Ok(info.slug)
+}
+
 /// Resolve a Modrinth project to `(download_url, filename)` using ferinth.
 fn resolve_modrinth(
     rt: &tokio::runtime::Runtime,
     project_id: &str,
     version: Option<&str>,
+    game_version: Option<&str>,
 ) -> Result<(String, String)> {
     rt.block_on(async {
         let ferinth = ferinth::Ferinth::<()>::new(
@@ -228,13 +264,38 @@ fn resolve_modrinth(
         }
 
         let chosen = match version {
-            None => versions.into_iter().next().unwrap(),
+            None => {
+                // No explicit version requested — use the newest release that
+                // supports `game_version` (when set) or globally newest.
+                if let Some(gv) = game_version {
+                    versions
+                        .into_iter()
+                        .find(|ver| {
+                            ver.game_versions.iter().any(|v| v.eq_ignore_ascii_case(gv))
+                        })
+                        .ok_or_else(|| {
+                            anyhow::anyhow!(
+                                "No version for game version '{gv}' found for \
+                                 Modrinth project '{project_id}'"
+                            )
+                        })?
+                } else {
+                    versions.into_iter().next().unwrap()
+                }
+            }
             Some(v) => versions
                 .into_iter()
-                .find(|ver| ver.version_number == v)
+                // Match against version_number (e.g. "mc1.20.1-0.5.8") first;
+                // if nothing matches, treat v as a Minecraft game version and
+                // pick the newest version that supports it (e.g. "1.20.1").
+                .find(|ver| {
+                    ver.version_number == v
+                        || ver.game_versions.iter().any(|gv| gv.eq_ignore_ascii_case(v))
+                })
                 .ok_or_else(|| {
                     anyhow::anyhow!(
-                        "Version '{v}' not found for Modrinth project '{project_id}'"
+                        "No version matching '{v}' (as version_number or game version) \
+                         found for Modrinth project '{project_id}'"
                     )
                 })?,
         };
@@ -261,6 +322,7 @@ fn resolve_curseforge(
     project_id: i32,
     api_key: &str,
     version: Option<&str>,
+    game_version: Option<&str>,
 ) -> Result<(String, String)> {
     rt.block_on(async {
         let furse = furse::Furse::new(api_key);
@@ -278,7 +340,27 @@ fn resolve_curseforge(
         files.sort_by(|a, b| b.id.cmp(&a.id));
 
         let chosen = match version {
-            None => files.into_iter().next().unwrap(),
+            None => {
+                // No explicit version requested — use the newest file that
+                // supports `game_version` (when set) or globally newest.
+                if let Some(gv) = game_version {
+                    files
+                        .into_iter()
+                        .find(|f| {
+                            f.game_versions
+                                .iter()
+                                .any(|v| v.eq_ignore_ascii_case(gv))
+                        })
+                        .ok_or_else(|| {
+                            anyhow::anyhow!(
+                                "No file for game version '{gv}' found for \
+                                 CurseForge project id {project_id}"
+                            )
+                        })?
+                } else {
+                    files.into_iter().next().unwrap()
+                }
+            }
             Some(v) => files
                 .into_iter()
                 .find(|f| f.display_name.contains(v) || f.file_name.contains(v))
@@ -420,13 +502,23 @@ fn reason_suffix(reason: &str) -> String {
 // ---------------------------------------------------------------------------
 
 /// Derive the identifier used in `.clientonlymodlist` for an entry.
-/// Modrinth entries use their project slug; everything else strips the `.jar`
-/// extension from the resolved filename.
-fn clientonly_id(modrinth: Option<&str>, filename: &str) -> String {
-    if let Some(slug) = modrinth {
-        slug.to_owned()
+/// For modrinth entries the canonical project slug is resolved from the API so
+/// that both IDs (e.g. `"Es5v4eyq"`) and slugs (e.g. `"sodium"`) produce the
+/// same human-readable name.  For curseforge/url entries the resolved filename
+/// without the `.jar` extension is used.
+fn clientonly_id(modrinth: Option<&str>, filename: &str) -> Result<String> {
+    if let Some(id_or_slug) = modrinth {
+        let slug = resolve_modrinth_slug(id_or_slug).unwrap_or_else(|err| {
+            eprintln!(
+                "  Warning: could not resolve Modrinth slug for '{}': {err:#}; \
+                 using raw value as identifier",
+                id_or_slug
+            );
+            id_or_slug.to_owned()
+        });
+        Ok(slug)
     } else {
-        filename.strip_suffix(".jar").unwrap_or(filename).to_owned()
+        Ok(filename.strip_suffix(".jar").unwrap_or(filename).to_owned())
     }
 }
 
@@ -630,10 +722,11 @@ fn main() -> Result<()> {
                 entry.version.as_deref(),
                 entry.filename.as_deref(),
                 &cf_api_key,
+                patches.game_version.as_deref(),
             )?;
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
-                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename));
+                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename)?);
             }
         }
 
@@ -647,6 +740,7 @@ fn main() -> Result<()> {
                 entry.version.as_deref(),
                 entry.filename.as_deref(),
                 &cf_api_key,
+                patches.game_version.as_deref(),
             )?;
             println!(
                 "Adding mod '{}'{}",
@@ -655,13 +749,22 @@ fn main() -> Result<()> {
             );
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
-                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename));
+                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename)?);
             }
         }
 
         if !clientonly_ids.is_empty() {
             println!("\n=== Updating client-only mod list ===");
             update_clientonly_list(&clientonly_list_path, &clientonly_ids)?;
+            // Copy the updated list into the modpack directory.
+            let modpack_list_path = modpack_dir.join(".clientonlymodlist");
+            fs::copy(&clientonly_list_path, &modpack_list_path).with_context(|| {
+                format!(
+                    "Failed to copy .clientonlymodlist to {}",
+                    modpack_list_path.display()
+                )
+            })?;
+            println!("  Copied to {}", modpack_list_path.display());
         }
     }
 
@@ -692,6 +795,7 @@ fn main() -> Result<()> {
                 entry.version.as_deref(),
                 entry.filename.as_deref(),
                 &cf_api_key,
+                patches.game_version.as_deref(),
             )?;
             println!(
                 "Adding resource pack '{}'{}",
