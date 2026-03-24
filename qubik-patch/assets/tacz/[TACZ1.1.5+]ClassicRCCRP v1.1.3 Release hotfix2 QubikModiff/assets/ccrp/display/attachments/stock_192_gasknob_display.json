@@ -1,0 +1,8 @@
+{
+  "slot": "ccrp:attachment/slot/192_gasknob",
+  "adapter": "gas_knob",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

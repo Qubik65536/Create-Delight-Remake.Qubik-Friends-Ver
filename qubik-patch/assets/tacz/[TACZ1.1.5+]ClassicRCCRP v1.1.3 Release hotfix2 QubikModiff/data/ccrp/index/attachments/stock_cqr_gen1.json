@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.stock_cqr_gen1.name",
+    "tooltip": "ccrp.attachment.stock_cqr_gen1.desc",
+    "display": "ccrp:stock_cqr_gen1_display",
+    "data": "ccrp:stock_cqr_gen1_data",
+    "type": "stock"
+  }

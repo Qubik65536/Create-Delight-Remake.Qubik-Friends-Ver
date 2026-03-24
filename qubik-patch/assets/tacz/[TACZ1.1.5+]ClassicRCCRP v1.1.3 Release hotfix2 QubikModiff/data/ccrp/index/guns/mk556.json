@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mk556.name",
+  "display": "ccrp:mk556_display",
+  "data": "ccrp:mk556_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.mk556.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

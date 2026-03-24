@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.stock_haenel.name",
+    "tooltip": "ccrp.attachment.stock_haenel.desc",
+    "display": "ccrp:stock_haenel_display",
+    "data": "ccrp:stock_haenel_data",
+    "type": "stock"
+  }

@@ -1,0 +1,195 @@
+{
+  "ammo": "tacz:556x45",
+  "ammo_amount": 10,
+  "extended_mag_ammo_amount": [
+    20,
+    30,
+    42
+  ],
+  "bolt": "closed_bolt",
+  "rpm": 700,
+  "script": "tacz:xmag_reload_logic",
+  "script_param": {
+    "reload_feed": 1.23,
+    "reload_cooldown": 1.87,
+    "empty_feed": 1.63,
+    "empty_cooldown": 2.27,
+    "reload_xmag_1_feed": 1.29,
+    "reload_xmag_1_cooldown": 2.17,
+    "empty_xmag_1_feed": 2.54,
+    "empty_xmag_1_cooldown": 3.21,
+    "reload_xmag_2_feed": 1.29,
+    "reload_xmag_2_cooldown": 2.17,
+    "empty_xmag_2_feed": 2.54,
+    "empty_xmag_2_cooldown": 3.21,
+    "reload_xmag_3_feed": 1.29,
+    "reload_xmag_3_cooldown": 2.17,
+    "empty_xmag_3_feed": 2.54,
+    "empty_xmag_3_cooldown": 3.21
+  },
+  "bullet": {
+    "life": 0.75,
+    "bullet_amount": 1,
+    "damage": 7.5,
+    "tracer_count_interval": 0,
+    "speed": 350,
+    "gravity": 0.15,
+    "knockback": 0,
+    "friction": 0.0175,
+    "ignite_entity_time": 2,
+    "pierce": 1,
+    "extra_damage": {
+      "armor_ignore": 0.25,
+      "head_shot_multiplier": 1.5,
+      "damage_adjust": [
+        {
+          "distance": 35,
+          "damage": 7.5
+        },
+        {
+          "distance": 60,
+          "damage": 7
+        },
+        {
+          "distance": "infinite",
+          "damage": 6
+        }
+      ]
+    }
+  },
+  "reload": {
+    "type": "magazine",
+    "infinite": false,
+    "feed": {
+      "empty": 2.73,
+      "tactical": 1.5
+    },
+    "cooldown": {
+      "empty": 3.4,
+      "tactical": 2.25
+    }
+  },
+  "draw_time": 0.43,
+  "put_away_time": 0.33,
+  "aim_time": 0.2,
+  "sprint_time": 0.2,
+  "weight": 3.1,
+  "movement_speed": {
+    "base": 0,
+    "aim": 0,
+    "reload": -0.1
+  },
+  "fire_mode": [
+    "semi",
+    "burst"
+  ],
+  "fire_mode_adjust": {
+    // 半自动状态的数值调整，如无调整可不写
+    "semi": {
+      // 加算，半自动模式的开火数值调整，如无调整可不写
+      "damage": 5,
+      "rpm": -300,
+      "speed": 50,
+      "knockback": 0.1,
+      "armor_ignore": 0.1,
+      "head_shot_multiplier": 0.1,
+      "aim_inaccuracy": -0.1,
+      "other_inaccuracy": -0.5
+    }
+  },
+    "burst_data": {
+    "continuous_shoot": false,
+    "count": 3,
+    "bpm": 800,
+    "min_interval": 0.3
+  },
+  "crawl_recoil_multiplier": 0.5,
+  "recoil": {
+    "pitch": [
+      {
+        "time": 0,
+        "value": [
+          0.875,
+          0.875
+        ]
+      },
+      {
+        "time": 0.1875,
+        "value": [
+          0.875,
+          0.875
+        ]
+      },
+      {
+        "time": 0.55,
+        "value": [
+          -0.425,
+          -0.425
+        ]
+      },
+      {
+        "time": 0.7,
+        "value": [
+          0,
+          0
+        ]
+      }
+    ],
+    "yaw": [
+      {
+        "time": 0,
+        "value": [
+          -0.325,
+          0.325
+        ]
+      },
+      {
+        "time": 0.1,
+        "value": [
+          -0.3,
+          0.325
+        ]
+      },
+      {
+        "time": 0.5,
+        "value": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "inaccuracy": {
+    "stand": 3.75,
+    "move": 4.5,
+    "sneak": 3.25,
+    "lie": 2.75,
+    "aim": 0.1375
+  },
+  "melee": {
+    "distance": 1,
+    "cooldown": 0.6,
+    "default": {
+      "animation_type": "melee_push",
+      "distance": 1,
+      "range_angle": 30,
+      "damage": 2,
+      "knockback": 0.5,
+      "prep": 0.1
+    }
+  },
+  "allow_attachment_types": [
+    "extended_mag",
+    "grip",
+    "laser",
+    "muzzle",
+    "scope"
+  ],
+  "exclusive_attachments": {},
+  "can_crawl": true,
+  "can_slide": true,
+  "fire_sound": {
+    "fire_multiplier": 1,
+    "silence_multiplier": 1
+  }
+}

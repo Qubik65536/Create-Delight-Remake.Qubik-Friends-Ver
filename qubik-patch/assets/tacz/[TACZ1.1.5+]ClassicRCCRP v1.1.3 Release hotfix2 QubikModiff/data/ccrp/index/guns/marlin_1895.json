@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.marlin_1895.name",
+  "display": "ccrp:marlin_1895_display",
+  "data": "ccrp:marlin_1895_data",
+  "tooltip": "ccrp.gun.marlin_1895.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}
