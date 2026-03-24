@@ -130,6 +130,21 @@ game_version = "1.20.1"
 # version    = "19.7.0.5"
 # reason     = "Pinned JEI version"
 
+# ReForgedPlay [replay mod on (neo)forge]
+# Replay Forge 移植
+[[mods.add]]
+curseforge = 1018692
+
+# AllTheLeaks (Memory Leak Fix)
+# 内存泄露优化
+[[mods.add]]
+curseforge = 1091339
+
+# Sodium Options API
+# 更好的 Sodium 配置扩展 API
+[[mods.add]]
+modrinth   = "Es5v4eyq"
+clientonly = true
 
 # ---------------------------------------------------------------------------
 # Mod substitutions (upgrade / swap)
