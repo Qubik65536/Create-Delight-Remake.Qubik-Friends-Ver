@@ -168,7 +168,7 @@
 * `+[SC]` [Barbeque's Delight [Forge/NeoForge]](https://modrinth.com/project/rtu7uERF)：烧烤乐事
 * `+[SC]` [Ube's Delight](https://modrinth.com/project/PYjpoAys)：香芋乐事
 * `+[SC]` [Pineapple Delight](https://modrinth.com/project/8wXnuOvg)：菠萝乐事
-* `+[SC]` [Christmas Delight (Farmers Delight Addon)](https://www.curseforge.com/minecraft/mc-mods/christmas-delight)：圣诞乐事
+<!--* `+[SC]` [Christmas Delight (Farmers Delight Addon)](https://www.curseforge.com/minecraft/mc-mods/christmas-delight)：圣诞乐事-->
 * `+[SC]` [Croptopia Delight](https://modrinth.com/project/z2Ihxkgp)：Croptopia 农夫乐事扩展
 * `+[SC]` [Aquaculture Delight](https://modrinth.com/project/U9GJqWrI)：水产2农夫乐事扩展
 * `+[SC]` [Ender's Delight](https://modrinth.com/project/2uEhdGKt)：末影乐事
