@@ -160,11 +160,11 @@
 ## 农夫乐事及其附属
 
 * `+[SC]` [Farmers Structures](https://www.curseforge.com/minecraft/mc-mods/farmers-structures)：农夫乐事小屋
-* `+[SC]` [ExtraDelight](https://modrinth.com/project/yRrY3XII)：农夫乐事拓展：更多工具、制作台等
-* `+[SC]` [Expanded Delight](https://modrinth.com/project/e9V6wFcR)：另一个农夫乐事拓展
+<!--* `+[SC]` [ExtraDelight](https://modrinth.com/project/yRrY3XII)：农夫乐事拓展：更多工具、制作台等-->
+<!--* `+[SC]` [Expanded Delight](https://modrinth.com/project/e9V6wFcR)：另一个农夫乐事拓展-->
 * `+[SC]` [More Delight (for Farmer's Delight)](https://modrinth.com/project/znHQQtuU)：又一个农夫乐事拓展
 * `+[SC]` [Rustic Delight](https://modrinth.com/project/foa4fGIH)：煎饼、棉花、咖啡、甜椒、油炸食品等
-* `+[SC]` [Dumplings Delight Rewrapped](https://modrinth.com/project/DqKMBArS)：饺子乐事
+* `+[SC]` [Dumplings Delight Reload](https://modrinth.com/project/cF1BYe6H)：饺子乐事
 * `+[SC]` [Barbeque's Delight [Forge/NeoForge]](https://modrinth.com/project/rtu7uERF)：烧烤乐事
 * `+[SC]` [Ube's Delight](https://modrinth.com/project/PYjpoAys)：香芋乐事
 * `+[SC]` [Pineapple Delight](https://modrinth.com/project/8wXnuOvg)：菠萝乐事
