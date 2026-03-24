@@ -44,6 +44,11 @@ struct Patches {
     /// the resolver fetches the latest file that supports this game version
     /// instead of the globally latest file.
     game_version: Option<String>,
+    /// The mod loader this patch targets (e.g. `"forge"`, `"neoforge"`, `"fabric"`).
+    /// **Required.** When a mod/resource-pack entry has no explicit `version`,
+    /// the resolver additionally filters by this loader so only compatible
+    /// files are considered.
+    modloader: Option<String>,
     mods: ModPatches,
     resourcepacks: ResourcePackPatches,
     assets: Vec<AssetEntry>,
@@ -112,10 +117,14 @@ struct AddEntry {
     filename: Option<String>,
 
     /// If true, the mod is client-only and its identifier will be added to .clientonlymodlist.
-    /// For modrinth entries the modrinth slug is used; for curseforge/url the resolved filename
-    /// without the .jar extension is used.
+    /// The identifier is derived from the resolved jar filename by stripping the extension and
+    /// trailing version/loader segments (e.g. `sodium-options-api-forge-1.0.10-1.20.1.jar`
+    /// → `sodium-options-api`). Use `clientonly_name` to override this.
     #[serde(default)]
     clientonly: bool,
+
+    /// Explicit identifier to use in .clientonlymodlist instead of the auto-derived name.
+    clientonly_name: Option<String>,
 
     #[serde(default)]
     reason: String,
@@ -151,10 +160,13 @@ struct SubstituteEntry {
     filename: Option<String>,
 
     /// If true, the mod is client-only and its identifier will be added to .clientonlymodlist.
-    /// For modrinth entries the modrinth slug is used; for curseforge/url the resolved filename
-    /// without the .jar extension is used.
+    /// The identifier is derived from the resolved jar filename (see `AddEntry::clientonly`).
+    /// Use `clientonly_name` to override.
     #[serde(default)]
     clientonly: bool,
+
+    /// Explicit identifier to use in .clientonlymodlist instead of the auto-derived name.
+    clientonly_name: Option<String>,
 
     #[serde(default)]
     reason: String,
@@ -174,6 +186,7 @@ fn resolve_source(
     filename: Option<&str>,
     cf_api_key: &Option<String>,
     game_version: Option<&str>,
+    modloader: &str,
 ) -> Result<(String, String)> {
     let use_latest = version.map(|v| v.eq_ignore_ascii_case("latest")).unwrap_or(true);
     let version_req = if use_latest { None } else { version };
@@ -187,7 +200,7 @@ fn resolve_source(
         }
         (None, Some(project), None) => {
             let (dl_url, api_filename) =
-                resolve_modrinth(rt, project, version_req, game_version)
+                resolve_modrinth(rt, project, version_req, game_version, modloader)
                     .with_context(|| format!("Failed to resolve Modrinth project '{project}'"))?;
             // User-supplied filename overrides the API-derived one.
             let fname = filename.map(str::to_owned).unwrap_or(api_filename);
@@ -201,7 +214,7 @@ fn resolve_source(
                 )
             })?;
             let (dl_url, api_filename) =
-                resolve_curseforge(rt, project_id, key, version_req, game_version)
+                resolve_curseforge(rt, project_id, key, version_req, game_version, modloader)
                     .with_context(|| {
                         format!("Failed to resolve CurseForge project id {project_id}")
                     })?;
@@ -214,31 +227,6 @@ fn resolve_source(
     }
 }
 
-/// Resolve a Modrinth project slug from either a project ID or a slug.
-/// Uses the Modrinth REST API directly so that both forms (e.g. `"Es5v4eyq"`
-/// and `"sodium"`) always produce the canonical slug stored in the project record.
-fn resolve_modrinth_slug(project_id_or_slug: &str) -> Result<String> {
-    #[derive(serde::Deserialize)]
-    struct ProjectInfo {
-        slug: String,
-    }
-    let url = format!(
-        "https://api.modrinth.com/v2/project/{}",
-        project_id_or_slug
-    );
-    let response = reqwest::blocking::get(&url)
-        .with_context(|| format!("HTTP request failed for {url}"))?;
-    if !response.status().is_success() {
-        bail!(
-            "HTTP {} while fetching Modrinth project '{project_id_or_slug}'",
-            response.status()
-        );
-    }
-    let info: ProjectInfo = response
-        .json()
-        .with_context(|| format!("Failed to parse project info for '{project_id_or_slug}'"))?;
-    Ok(info.slug)
-}
 
 /// Resolve a Modrinth project to `(download_url, filename)` using ferinth.
 fn resolve_modrinth(
@@ -246,6 +234,7 @@ fn resolve_modrinth(
     project_id: &str,
     version: Option<&str>,
     game_version: Option<&str>,
+    modloader: &str,
 ) -> Result<(String, String)> {
     rt.block_on(async {
         let ferinth = ferinth::Ferinth::<()>::new(
@@ -266,22 +255,28 @@ fn resolve_modrinth(
         let chosen = match version {
             None => {
                 // No explicit version requested — use the newest release that
-                // supports `game_version` (when set) or globally newest.
-                if let Some(gv) = game_version {
-                    versions
-                        .into_iter()
-                        .find(|ver| {
-                            ver.game_versions.iter().any(|v| v.eq_ignore_ascii_case(gv))
-                        })
-                        .ok_or_else(|| {
-                            anyhow::anyhow!(
-                                "No version for game version '{gv}' found for \
-                                 Modrinth project '{project_id}'"
-                            )
-                        })?
-                } else {
-                    versions.into_iter().next().unwrap()
-                }
+                // supports `modloader` and `game_version` (when set).
+                versions
+                    .into_iter()
+                    .find(|ver| {
+                        ver.loaders.iter().any(|l| l.eq_ignore_ascii_case(modloader))
+                            && game_version
+                                .map(|gv| {
+                                    ver.game_versions
+                                        .iter()
+                                        .any(|v| v.eq_ignore_ascii_case(gv))
+                                })
+                                .unwrap_or(true)
+                    })
+                    .ok_or_else(|| {
+                        anyhow::anyhow!(
+                            "No version for loader '{modloader}'{} found for \
+                             Modrinth project '{project_id}'",
+                            game_version
+                                .map(|gv| format!(" / game version '{gv}'"))
+                                .unwrap_or_default()
+                        )
+                    })?
             }
             Some(v) => versions
                 .into_iter()
@@ -323,6 +318,7 @@ fn resolve_curseforge(
     api_key: &str,
     version: Option<&str>,
     game_version: Option<&str>,
+    modloader: &str,
 ) -> Result<(String, String)> {
     rt.block_on(async {
         let furse = furse::Furse::new(api_key);
@@ -342,24 +338,32 @@ fn resolve_curseforge(
         let chosen = match version {
             None => {
                 // No explicit version requested — use the newest file that
-                // supports `game_version` (when set) or globally newest.
-                if let Some(gv) = game_version {
-                    files
-                        .into_iter()
-                        .find(|f| {
-                            f.game_versions
-                                .iter()
-                                .any(|v| v.eq_ignore_ascii_case(gv))
-                        })
-                        .ok_or_else(|| {
-                            anyhow::anyhow!(
-                                "No file for game version '{gv}' found for \
-                                 CurseForge project id {project_id}"
-                            )
-                        })?
-                } else {
-                    files.into_iter().next().unwrap()
-                }
+                // supports `modloader` and `game_version` (when set).
+                // CurseForge encodes both the MC version and the loader name
+                // inside the same `game_versions` list.
+                files
+                    .into_iter()
+                    .find(|f| {
+                        f.game_versions
+                            .iter()
+                            .any(|v| v.eq_ignore_ascii_case(modloader))
+                            && game_version
+                                .map(|gv| {
+                                    f.game_versions
+                                        .iter()
+                                        .any(|v| v.eq_ignore_ascii_case(gv))
+                                })
+                                .unwrap_or(true)
+                    })
+                    .ok_or_else(|| {
+                        anyhow::anyhow!(
+                            "No file for loader '{modloader}'{} found for \
+                             CurseForge project id {project_id}",
+                            game_version
+                                .map(|gv| format!(" / game version '{gv}'"))
+                                .unwrap_or_default()
+                        )
+                    })?
             }
             Some(v) => files
                 .into_iter()
@@ -501,24 +505,39 @@ fn reason_suffix(reason: &str) -> String {
 // Client-only list helpers
 // ---------------------------------------------------------------------------
 
-/// Derive the identifier used in `.clientonlymodlist` for an entry.
-/// For modrinth entries the canonical project slug is resolved from the API so
-/// that both IDs (e.g. `"Es5v4eyq"`) and slugs (e.g. `"sodium"`) produce the
-/// same human-readable name.  For curseforge/url entries the resolved filename
-/// without the `.jar` extension is used.
-fn clientonly_id(modrinth: Option<&str>, filename: &str) -> Result<String> {
-    if let Some(id_or_slug) = modrinth {
-        let slug = resolve_modrinth_slug(id_or_slug).unwrap_or_else(|err| {
-            eprintln!(
-                "  Warning: could not resolve Modrinth slug for '{}': {err:#}; \
-                 using raw value as identifier",
-                id_or_slug
-            );
-            id_or_slug.to_owned()
-        });
-        Ok(slug)
+/// Derive the identifier used in `.clientonlymodlist` from the resolved jar filename.
+///
+/// Strips the `.jar` extension, then drops trailing segments (split on `-`) that look
+/// like a version number (starts with a digit or with `mc` + digit) or a known loader
+/// name (`forge`, `neoforge`, `fabric`, `quilt`).
+///
+/// Examples:
+/// - `sodium-options-api-forge-1.0.10-1.20.1.jar` → `sodium-options-api`
+/// - `reforgedplaymod-1.20.1-0.3.1.jar`           → `reforgedplaymod`
+/// - `alltheleaks-1.1.1+1.20.1-forge.jar`         → `alltheleaks`
+/// - `oculus-mc1.20.1-1.7.0.jar`                  → `oculus`
+///
+/// Pass `name_override` to bypass the derivation entirely.
+fn clientonly_id(filename: &str, name_override: Option<&str>) -> String {
+    if let Some(name) = name_override {
+        return name.to_owned();
+    }
+    let stem = filename.strip_suffix(".jar").unwrap_or(filename);
+    const LOADERS: &[&str] = &["forge", "neoforge", "fabric", "quilt", "bukkit", "spigot"];
+    let parts: Vec<&str> = stem
+        .split('-')
+        .take_while(|seg| {
+            let lo = seg.to_ascii_lowercase();
+            let is_version = lo.starts_with(|c: char| c.is_ascii_digit())
+                || lo.starts_with("mc") && lo.chars().nth(2).map_or(false, |c| c.is_ascii_digit());
+            let is_loader = LOADERS.contains(&lo.as_str());
+            !is_version && !is_loader
+        })
+        .collect();
+    if parts.is_empty() {
+        stem.to_owned()
     } else {
-        Ok(filename.strip_suffix(".jar").unwrap_or(filename).to_owned())
+        parts.join("-")
     }
 }
 
@@ -637,6 +656,18 @@ fn main() -> Result<()> {
     let patches: Patches =
         toml::from_str(&content).context("Failed to parse patches.toml")?;
 
+    // `modloader` is required.
+    let modloader = patches
+        .modloader
+        .as_deref()
+        .filter(|s| !s.is_empty())
+        .ok_or_else(|| {
+            anyhow::anyhow!(
+                "`modloader` is required in patches.toml \
+                 (e.g. modloader = \"neoforge\")"
+            )
+        })?;
+
     let mods_dir = modpack_dir.join("mods");
     let resourcepacks_dir = modpack_dir.join("resourcepacks");
 
@@ -723,10 +754,11 @@ fn main() -> Result<()> {
                 entry.filename.as_deref(),
                 &cf_api_key,
                 patches.game_version.as_deref(),
+                modloader,
             )?;
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
-                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename)?);
+                clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
             }
         }
 
@@ -741,6 +773,7 @@ fn main() -> Result<()> {
                 entry.filename.as_deref(),
                 &cf_api_key,
                 patches.game_version.as_deref(),
+                modloader,
             )?;
             println!(
                 "Adding mod '{}'{}",
@@ -749,7 +782,7 @@ fn main() -> Result<()> {
             );
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
-                clientonly_ids.push(clientonly_id(entry.modrinth.as_deref(), &filename)?);
+                clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
             }
         }
 
@@ -791,6 +824,7 @@ fn main() -> Result<()> {
                 entry.filename.as_deref(),
                 &cf_api_key,
                 patches.game_version.as_deref(),
+                modloader,
             )?;
             println!(
                 "Adding resource pack '{}'{}",
