@@ -722,13 +722,13 @@ curseforge = 1088877
 
 # ExtraDelight
 # 农夫乐事拓展：更多工具、制作台等
-[[mods.add]]
-modrinth = "yRrY3XII"
+# [[mods.add]]
+# modrinth = "yRrY3XII"
 
 # Expanded Delight
 # 另一个农夫乐事拓展
-[[mods.add]]
-modrinth = "e9V6wFcR"
+# [[mods.add]]
+# modrinth = "e9V6wFcR"
 
 # More Delight (for Farmer's Delight)
 # 又一个农夫乐事拓展
@@ -740,10 +740,10 @@ modrinth = "znHQQtuU"
 [[mods.add]]
 modrinth = "foa4fGIH"
 
-# Dumplings Delight Rewrapped
+# Dumplings Delight Reload
 # 饺子乐事
 [[mods.add]]
-modrinth = "DqKMBArS"
+modrinth = "cF1BYe6H"
 
 # Barbeque's Delight
 # 烧烤乐事
