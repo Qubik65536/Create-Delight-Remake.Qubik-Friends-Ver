@@ -756,15 +756,10 @@ fn main() -> Result<()> {
         if !clientonly_ids.is_empty() {
             println!("\n=== Updating client-only mod list ===");
             update_clientonly_list(&clientonly_list_path, &clientonly_ids)?;
-            // Copy the updated list into the modpack directory.
+            // Merge the same IDs into the modpack's copy, preserving any
+            // entries that were already there.
             let modpack_list_path = modpack_dir.join(".clientonlymodlist");
-            fs::copy(&clientonly_list_path, &modpack_list_path).with_context(|| {
-                format!(
-                    "Failed to copy .clientonlymodlist to {}",
-                    modpack_list_path.display()
-                )
-            })?;
-            println!("  Copied to {}", modpack_list_path.display());
+            update_clientonly_list(&modpack_list_path, &clientonly_ids)?;
         }
     }
 
