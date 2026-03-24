@@ -6,7 +6,7 @@
 //! reqwest = { version = "0.12", features = ["blocking"] }
 //! glob = "0.3"
 //! anyhow = "1"
-//! ferinth = "2"
+//! ferinth = { git = "https://github.com/gorilla-devs/ferinth.git", branch = "master" }
 //! furse = "1"
 //! tokio = { version = "1", features = ["rt-multi-thread"] }
 //! ```
