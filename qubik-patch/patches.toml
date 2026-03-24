@@ -473,10 +473,10 @@ modrinth = "XZNI4Cpy"
 [[mods.add]]
 modrinth = "gOPAFzp0"
 
-# EveryXHotpot
-# 火锅！
-[[mods.add]]
-modrinth = "346Wf89R"
+# # EveryXHotpot
+# # 火锅！
+# [[mods.add]]
+# modrinth = "346Wf89R"
 
 # Caupona
 # 分茶工艺
@@ -897,6 +897,10 @@ modrinth = "uJXTNuf0"
 # curseforge     = 238222
 # version        = "19.7.0.5"
 # reason         = "Pin JEI to 19.7.0.5"
+
+[[mods.substitute]]
+remove_pattern  = "dragonlib-forge-*.jar"
+modrinth = "sbIsGaOV"
 
 # (TaCZ entries managed manually)
 
