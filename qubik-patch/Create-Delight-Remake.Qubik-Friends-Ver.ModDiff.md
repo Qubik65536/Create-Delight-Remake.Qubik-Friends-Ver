@@ -103,6 +103,7 @@
 * `+[SC]` [Exposure](https://modrinth.com/project/hB899VmG)：照相
 * `+[SC]` [Automobility](https://modrinth.com/project/rqIsPf9F)：汽车
 * `+[SC]` [Small Ships](https://modrinth.com/project/rGWEHQrP)：船
+* `+[SC]` [Underground Village, Stoneholm](https://modrinth.com/project/KmyhssPl)：主要作为 Create: Better Villagers 依赖使用
 * `*[SC]` [[TaCZ] Timeless and Classics Zero](https://modrinth.com/project/SzzJttH8)：永恒枪械工坊：零
   * 更新至最新版且移除了 Hotai 魔改
 * `*[SC]` [TaCZ addon](https://modrinth.com/project/3Ihyt5WL)：永恒枪械工坊：零的扩展

@@ -108,6 +108,40 @@ reason = "More Gun Packs w/ Modded Elements"
 # pattern = "some-problematic-mod-*.jar"
 # reason  = "Causes crash on startup with our KubeJS scripts"
 
+# ---------------------------------------------------------------------------
+# Mod additions
+# ---------------------------------------------------------------------------
+
+# Direct URL:
+# [[mods.add]]
+# url        = "https://example.com/releases/my-mod-1.0.0.jar"
+# filename   = "my-mod-1.0.0.jar"
+# clientonly = true
+# reason     = "Adds QoL feature X for our group (client-only)"
+
+# Modrinth (latest version):
+# [[mods.add]]
+# modrinth   = "sodium"
+# clientonly = true
+# reason     = "Adds sodium (client-only)"
+
+# Modrinth (pinned version):
+# [[mods.add]]
+# modrinth   = "sodium"
+# version    = "mc1.20.1-0.5.8"
+# clientonly = true
+# reason     = "Pinned sodium for compatibility (client-only)"
+
+# CurseForge (latest version, requires CURSEFORGE_API_KEY):
+# [[mods.add]]
+# curseforge = 238222
+# reason     = "Adds JEI"
+
+# CurseForge (pinned version):
+# [[mods.add]]
+# curseforge = 238222
+# version    = "19.7.0.5"
+# reason     = "Pinned JEI version"
 
 # ---------------------------------------------------------------------------
 # Mod additions — Client-only
@@ -577,6 +611,10 @@ modrinth = "rqIsPf9F"
 [[mods.add]]
 modrinth = "rGWEHQrP"
 
+# Underground Village, Stoneholm
+# 主要作为 Create: Better Villagers 依赖使用
+[[mods.add]]
+modrinth = "KmyhssPl"
 
 # ---------------------------------------------------------------------------
 # Mod additions — Create and addons
@@ -839,8 +877,36 @@ modrinth = "uJXTNuf0"
 # ---------------------------------------------------------------------------
 # Mod substitutions (upgrade / swap)
 # ---------------------------------------------------------------------------
+
+# Direct URL:
+# [[mods.substitute]]
+# remove_pattern = "old-mod-*.jar"
+# url            = "https://example.com/releases/old-mod-2.0.0.jar"
+# filename       = "old-mod-2.0.0.jar"
+# reason         = "Upgrade to 2.0.0 which fixes issue #123"
+
+# Modrinth (latest):
+# [[mods.substitute]]
+# remove_pattern = "sodium-*.jar"
+# modrinth       = "sodium"
+# reason         = "Upgrade sodium to latest"
+
+# CurseForge (pinned):
+# [[mods.substitute]]
+# remove_pattern = "jei-*.jar"
+# curseforge     = 238222
+# version        = "19.7.0.5"
+# reason         = "Pin JEI to 19.7.0.5"
+
 # (TaCZ entries managed manually)
 
+[[mods.substitute]]
+remove_pattern  = "tacz-1.20.1-*.jar"
+modrinth = "SzzJttH8"
+
+[[mods.substitute]]
+remove_pattern  = "taczaddon-1.20.1-*.jar"
+modrinth = "3Ihyt5WL"
 
 # ---------------------------------------------------------------------------
 # Resource pack removals
