@@ -1,0 +1,9 @@
+{
+  "slot": "ccrp:attachment/slot/apc_9k_silencer",
+  "model": "ccrp:attachment/apc_9k_silencer_geo",
+  "texture": "ccrp:attachment/uv/apc_9k_silencer",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.cr300.name",
+  "display": "ccrp:cr300_display",
+  "data": "ccrp:cr300_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.cr300.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

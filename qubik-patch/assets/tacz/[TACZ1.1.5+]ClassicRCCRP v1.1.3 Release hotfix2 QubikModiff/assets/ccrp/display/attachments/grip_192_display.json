@@ -1,0 +1,9 @@
+{
+  "slot": "ccrp:attachment/slot/grip_192",
+  "model": "ccrp:attachment/grip_192_geo",
+  "texture": "ccrp:attachment/uv/grip_192",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

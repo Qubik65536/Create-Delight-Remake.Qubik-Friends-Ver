@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.springfield1873_tube_mag.name",
+  "display": "ccrp:springfield1873_tube_mag_display",
+  "data": "ccrp:springfield1873_tube_mag_data",
+  "tooltip": "ccrp.gun.springfield1873_tube_mag.desc",
+  "type": "sniper",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

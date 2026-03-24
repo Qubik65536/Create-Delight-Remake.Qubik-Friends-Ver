@@ -1,0 +1,10 @@
+{
+  "slot": "ccrp:attachment/slot/stock_hk_e1",
+  "model": "ccrp:attachment/stock_hk_e1_geo",
+  "texture": "ccrp:attachment/uv/stock_hk_e1",
+  "adapter": "ar_stock_adapter",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

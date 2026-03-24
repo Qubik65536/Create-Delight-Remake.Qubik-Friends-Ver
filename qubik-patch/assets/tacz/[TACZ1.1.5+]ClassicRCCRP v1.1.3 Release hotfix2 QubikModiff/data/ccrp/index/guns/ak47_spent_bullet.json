@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.ak47_spent_bullet.name",
+  "display": "ccrp:ak47_spent_bullet_display",
+  "data": "ccrp:ak47_spent_bullet_data",
+  "tooltip": "ccrp.gun.ak47_spent_bullet.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

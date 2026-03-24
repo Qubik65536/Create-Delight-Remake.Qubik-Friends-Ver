@@ -1,0 +1,7 @@
+{
+  "name": "classicr.gun.ak12.name",
+  "display": "classicr:ak12_display",
+  "data": "classicr:ak12_data",
+  "tooltip": "classicr.gun.ak12.desc",
+  "type": "rifle"
+}

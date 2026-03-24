@@ -95,6 +95,11 @@ modloader    = "forge"
 # mode   = "replace"                        # "merge" (default) or "replace"
 # reason = "Our custom textures for MyPack"
 
+[[assets]]
+src    = "tacz"
+dest   = "tacz"
+mode   = "replace"
+reason = "More Gun Packs w/ Modded Elements"
 
 # ---------------------------------------------------------------------------
 # Mod removals
@@ -105,39 +110,8 @@ modloader    = "forge"
 
 
 # ---------------------------------------------------------------------------
-# Mod additions
+# Mod additions — Client-only
 # ---------------------------------------------------------------------------
-
-# Direct URL:
-# [[mods.add]]
-# url        = "https://example.com/releases/my-mod-1.0.0.jar"
-# filename   = "my-mod-1.0.0.jar"
-# clientonly = true
-# reason     = "Adds QoL feature X for our group (client-only)"
-
-# Modrinth (latest version):
-# [[mods.add]]
-# modrinth   = "sodium"
-# clientonly = true
-# reason     = "Adds sodium (client-only)"
-
-# Modrinth (pinned version):
-# [[mods.add]]
-# modrinth   = "sodium"
-# version    = "mc1.20.1-0.5.8"
-# clientonly = true
-# reason     = "Pinned sodium for compatibility (client-only)"
-
-# CurseForge (latest version, requires CURSEFORGE_API_KEY):
-# [[mods.add]]
-# curseforge = 238222
-# reason     = "Adds JEI"
-
-# CurseForge (pinned version):
-# [[mods.add]]
-# curseforge = 238222
-# version    = "19.7.0.5"
-# reason     = "Pinned JEI version"
 
 # ReForgedPlay [replay mod on (neo)forge]
 # Replay Forge 移植
@@ -145,40 +119,727 @@ modloader    = "forge"
 curseforge = 1018692
 clientonly = true
 
-# AllTheLeaks (Memory Leak Fix)
-# 内存泄露优化
-[[mods.add]]
-curseforge = 1091339
-
 # Sodium Options API
 # 更好的 Sodium 配置扩展 API
 [[mods.add]]
 modrinth   = "Es5v4eyq"
 clientonly = true
 
+# Sodium Options Mod Compat
+# Sodium 配置扩展 API 模组适配
+[[mods.add]]
+modrinth   = "Yg1VT27P"
+clientonly = true
+
+# Sodium Dynamic Lights
+# 动态光源
+[[mods.add]]
+modrinth   = "PxQSWIcD"
+clientonly = true
+
+# MaFgLib
+# MaLiLib Forge/NeoForge 移植, BoccHUD 依赖
+[[mods.add]]
+modrinth   = "SKI34J7B"
+clientonly = true
+
+# BoccHUD
+# MiniHUD Forge/NeoForge 移植
+[[mods.add]]
+modrinth   = "zfPoD7Tm"
+clientonly = true
+
+# BetterF3
+# 更好的F3菜单
+[[mods.add]]
+modrinth   = "8shC1gFX"
+clientonly = true
+
+# Forgematica
+# 投影 mod
+[[mods.add]]
+modrinth   = "dCKRaeBC"
+clientonly = true
+
+# Full Brightness Toggle
+# 伽马重写（强制夜视）
+[[mods.add]]
+modrinth   = "aEK1KhsC"
+clientonly = true
+
+# SuperMartijn642's Config Lib
+# 耐久度显示依赖
+[[mods.add]]
+modrinth   = "LN9BxssP"
+clientonly = true
+
+# Durability Tooltip
+# 耐久度显示
+[[mods.add]]
+modrinth   = "smUP7V3r"
+clientonly = true
+
+# Food Effect Tooltips (Forge)
+# 食物状态显示
+[[mods.add]]
+modrinth   = "aetFpEaA"
+clientonly = true
+
+# Falling Leaves (NeoForge/Forge)
+# 落叶效果
+[[mods.add]]
+modrinth   = "2JAUNCL4"
+clientonly = true
+
+
+# ---------------------------------------------------------------------------
+# Mod additions — Server-only
+# ---------------------------------------------------------------------------
+
+# ServuxForged
+# MiniHUD 服务端数据同步
+[[mods.add]]
+modrinth = "H9LzoDgA"
+
+# Villager Names
+# 村民姓名
+[[mods.add]]
+modrinth = "gqRXDo8B"
+
+# Double Doors
+# 双开门
+[[mods.add]]
+modrinth = "JrvR9OHr"
+
+# Dismount Entity
+# 赶生物（实体）下车/船
+[[mods.add]]
+modrinth = "H7N61Wcl"
+
+# Infinite Trading
+# 无限村民交易
+[[mods.add]]
+modrinth = "U3eoZT3o"
+
+# Inventory Totem
+# 不死图腾背包有效
+[[mods.add]]
+modrinth = "yQj7xqEM"
+
+# Healing Campfire
+# 营火回血
+[[mods.add]]
+modrinth = "kOuPUitF"
+
+# Grass Seeds
+# 使用种子将土变草
+[[mods.add]]
+modrinth = "Y6d4uRJn"
+
+# Extended Bone Meal
+# 更多骨粉功能
+[[mods.add]]
+modrinth = "bHkCoxMs"
+
+# Too Fast
+# 移除移动过快
+[[mods.add]]
+modrinth = "w6JSkKSH"
+
+# Repurposed Structures - Neoforge/Forge
+# 更丰富的建筑
+[[mods.add]]
+modrinth = "QDNS5oAT"
+
+# Smarter Farmers (farmers replant)
+# 更聪明的农夫村民
+[[mods.add]]
+modrinth = "Bh6ZOMvp"
+
+
+# ---------------------------------------------------------------------------
+# Mod additions — Client + Server
+# ---------------------------------------------------------------------------
+
+# AllTheLeaks (Memory Leak Fix)
+# 内存泄露优化
+[[mods.add]]
+curseforge = 1091339
+
+# Just Enough Professions (JEP)
+# 查看工作方块
+[[mods.add]]
+modrinth = "kB56GtWA"
+
+# Bad Packets
+# ServuxForged 依赖, MaFgLib 依赖
+[[mods.add]]
+modrinth = "ftdbN0KK"
+
+# Collective
+# Serilum Mod 依赖
+[[mods.add]]
+modrinth = "e0M1UDsY"
+
+# Starter Kit
+# 初始装备
+[[mods.add]]
+modrinth = "6L3ydNi8"
+
+# Stack Refill
+# 自动补货
+[[mods.add]]
+modrinth = "mQWkB9ON"
+
+# Sophisticated Storage
+# 精妙存储
+[[mods.add]]
+modrinth = "hMlaZH8f"
+
+# Sophisticated Storage in Motion
+# 载具上的精妙存储
+[[mods.add]]
+modrinth = "6vtFbyaJ"
+
+# Sophisticated Storage Create Integration
+# 精妙存储机械动力集成
+[[mods.add]]
+modrinth = "MJ0hdevs"
+
+# Global Packs
+# 强制默认数据包
+[[mods.add]]
+modrinth = "NRLPy2mk"
+
+# ChoiceTheorem's Overhauled Village
+# CTOV增强村庄
+[[mods.add]]
+modrinth = "fgmhI8kH"
+
+# Library Ferret
+# 更好的村庄依赖
+[[mods.add]]
+modrinth = "DOB2l4oJ"
+
+# Better Villages
+# 更好的村庄
+[[mods.add]]
+modrinth = "dGVX5JbJ"
+
+# NetherPortalFix
+# 地狱门串门修复
+[[mods.add]]
+curseforge = 241160
+
+# KleeSlabs
+# 破坏注视的半砖
+[[mods.add]]
+modrinth = "7uh75ruZ"
+
+# GlitchCore
+# 更多生物群系&季节系统依赖
+[[mods.add]]
+modrinth = "s3dmwKy5"
+
+# TerraBlender
+# 更多生物群系依赖
+[[mods.add]]
+modrinth = "kkmrDlKT"
+
+# Biomes O' Plenty
+# 更多生物群系
+[[mods.add]]
+modrinth = "HXF82T3G"
+
+# Farmer's Cutting: Biomes O' Plenty
+# 更多生物群系农夫乐事拓展
+[[mods.add]]
+modrinth = "QWfaJXEc"
+
+# Geophilic
+# 主世界生物群系重制
+[[mods.add]]
+modrinth = "hl5OLM95"
+
+# Regions Unexplored
+# 更多生物群系
+[[mods.add]]
+modrinth = "Tkikq67H"
+
+# Tidal Towns
+# 海上城镇
+[[mods.add]]
+modrinth = "EEIwvQVo"
+
+# YUNG's Better Nether Fortresses
+[[mods.add]]
+modrinth = "Z2mXHnxP"
+
+# YUNG's Better Dungeons
+[[mods.add]]
+modrinth = "o1C1Dkj5"
+
+# YUNG's Better Ocean Monuments
+[[mods.add]]
+modrinth = "3dT9sgt4"
+
+# YUNG's Better Jungle Temples
+[[mods.add]]
+modrinth = "z9Ve58Ih"
+
+# YUNG's Better Strongholds
+[[mods.add]]
+modrinth = "kidLKymU"
+
+# YUNG's Bridges
+[[mods.add]]
+modrinth = "Ht4BfYp6"
+
+# YUNG's Better Desert Temples
+[[mods.add]]
+modrinth = "XNlO7sBv"
+
+# Hopo Better Mineshaft
+# Hopo 更好的废弃矿井
+[[mods.add]]
+modrinth = "9IxCUYAP"
+
+# Hopo Better Ruined Portals
+# Hopo 更好的废弃传送门
+[[mods.add]]
+modrinth = "hIpLSyga"
+
+# Hopo Better Underwater Ruins
+# Hopo 更好的海底废墟
+[[mods.add]]
+modrinth = "BuWCQzqf"
+
+# Corpse
+# 保留所有物品的尸体
+[[mods.add]]
+curseforge = 316582
+
+# Nature's Compass
+# 生物群系查找指南针
+[[mods.add]]
+modrinth = "fPetb5Kh"
+
+# Explorer's Compass
+# 建筑结构查找指南针
+[[mods.add]]
+modrinth = "RV1qfVQ8"
+
+# Tom's Simple Storage Mod
+# Tom 的简易储存
+[[mods.add]]
+modrinth = "XZNI4Cpy"
+
+# Create Contraption Terminals
+# Tom 的简易储存可在机械动力移动物体上使用
+[[mods.add]]
+modrinth = "gOPAFzp0"
+
+# EveryXHotpot
+# 火锅！
+[[mods.add]]
+modrinth = "346Wf89R"
+
+# Caupona
+# 分茶工艺
+[[mods.add]]
+modrinth = "EFoYZIZL"
+
+# Kaleidoscope Cookery
+# 森罗物语：烹燃心动
+[[mods.add]]
+modrinth = "v17FatAc"
+
+# KaleidoscopeChineseFood
+[[mods.add]]
+modrinth = "cuIIkdlx"
+
+# Kaleidoscope Tavern
+# 森罗物语：酒馆
+[[mods.add]]
+modrinth = "r9RZvhiJ"
+
+# Kaleidoscope World Liquor
+[[mods.add]]
+modrinth = "ePVLCraM"
+
+# EpheroLib
+# Croptopia 依赖
+[[mods.add]]
+modrinth = "DIIgdJzf"
+
+# Croptopia
+# Croptopia（额外食物与食材）
+[[mods.add]]
+curseforge = 415438
+
+# Aquaculture 2
+# 水产2
+[[mods.add]]
+curseforge = 60028
+
+# Cooking for Blockheads
+# 懒人厨房
+[[mods.add]]
+modrinth = "vJnhuDde"
+
+# Farming for Blockheads
+# 懒人种田
+[[mods.add]]
+modrinth = "4WJZr8JU"
+
+# Moonlight Lib
+# 更聪明的农夫村民依赖
+[[mods.add]]
+modrinth = "twkfQtEc"
+
+# Friends&Foes (Forge/NeoForge)
+# 将投票中淘汰的生物加入
+[[mods.add]]
+modrinth = "BOCJKD49"
+
+# JamLib
+# 右键收割依赖
+[[mods.add]]
+modrinth = "IYY9Siz8"
+
+# RightClickHarvest
+# 右键收割
+[[mods.add]]
+modrinth = "Cnejf5xM"
+
+# Storage Drawers
+# 存储抽屉
+[[mods.add]]
+modrinth = "guitPqEi"
+
+# Sit
+# 坐在半砖/阶梯上
+[[mods.add]]
+modrinth = "VKXzIykF"
+
+# MonoLib
+# 黄金食物依赖
+[[mods.add]]
+modrinth = "9leXt4A5"
+
+# Golden Foods!
+# 黄金食物
+[[mods.add]]
+modrinth = "zUg53pQP"
+
+# Nether's Exoticism
+# 地狱更多食物
+[[mods.add]]
+curseforge = 486029
+
+# Yuushya Townscape
+# 城市景观装饰
+[[mods.add]]
+modrinth = "lfVtagkm"
+
+# Handcrafted
+# 建筑装饰
+[[mods.add]]
+modrinth = "pJmCFF0p"
+
+# Another Furniture
+# 另一个家具mod
+[[mods.add]]
+modrinth = "ulloLmqG"
+
+# Modern Decorations Mod
+# 现代家具mod
+[[mods.add]]
+modrinth = "TmUXSYKk"
+
+# Fast Leaf Decay
+# 更快的树叶掉落
+[[mods.add]]
+curseforge = 230976
+
+# Exposure
+# 照相
+[[mods.add]]
+modrinth = "hB899VmG"
+
+# Automobility
+# 汽车
+[[mods.add]]
+modrinth = "rqIsPf9F"
+
+# Small Ships
+# 船
+[[mods.add]]
+modrinth = "rGWEHQrP"
+
+
+# ---------------------------------------------------------------------------
+# Mod additions — Create and addons
+# ---------------------------------------------------------------------------
+
+# Create: Dreams & Desires
+[[mods.add]]
+modrinth = "JmybsfWs"
+
+# Create: Design n' Decor
+[[mods.add]]
+modrinth = "x49wilh8"
+
+# Create: Misc and Things
+[[mods.add]]
+modrinth = "uWrs8XlB"
+
+# Create Encased
+[[mods.add]]
+modrinth = "hSSqdyU1"
+
+# Create: Power Loader
+[[mods.add]]
+modrinth = "wPQ6GgFE"
+
+# Create: Framed
+[[mods.add]]
+modrinth = "15fFZ3f4"
+
+# Create: The Factory Must Grow
+[[mods.add]]
+modrinth = "USgVjXsk"
+
+# Create: Food
+[[mods.add]]
+modrinth = "4HnO3el1"
+
+# Create: Let The Adventure Begin
+[[mods.add]]
+modrinth = "fUa6OtBG"
+
+# Create: Trimmed
+[[mods.add]]
+modrinth = "zvaHXgQz"
+
+# Create: Ultimate Factory
+[[mods.add]]
+modrinth = "N9QToVpw"
+
+# Create: Vibrant Vaults
+[[mods.add]]
+modrinth = "hddN8ksR"
+
+# Create: Ironworks
+[[mods.add]]
+modrinth = "FZb6dmQf"
+
+# Create: Renewable Netherite
+[[mods.add]]
+modrinth = "nGq1sdd2"
+
+# Create Compressed
+[[mods.add]]
+modrinth = "Sy4Box1J"
+
+# Create: Renewable Brass
+[[mods.add]]
+modrinth = "AqQzrKJo"
+
+# Create: Better Villagers
+[[mods.add]]
+modrinth = "kS90mr4y"
+
+# Create: Simple Ore Doubling
+[[mods.add]]
+modrinth = "7jXyH8Xk"
+
+# Create: Renewable Diamonds
+[[mods.add]]
+modrinth = "IxTis4hc"
+
+# Create: Renewable Notch Apples
+[[mods.add]]
+modrinth = "qpDVQtGR"
+
+# Create Factory Logistics
+[[mods.add]]
+modrinth = "QMGO17gm"
+
+# Create: More Features
+[[mods.add]]
+modrinth = "bx3EyygU"
+
+# Create: Easy Stone Generators
+[[mods.add]]
+modrinth = "aeW9oim1"
+
+# Create: New Beginnings
+[[mods.add]]
+modrinth = "XDDw6edF"
+
+# Create: Lazy Engines
+[[mods.add]]
+modrinth = "nxngzmTl"
+
+# Create: Ender Link
+[[mods.add]]
+modrinth = "DjbTLY77"
+
+# Create Stuff & Netherite Additions
+[[mods.add]]
+modrinth = "777GhN41"
+
+# Create: Few More Recipes
+[[mods.add]]
+modrinth = "LL90W5sb"
+
+# Create: Ranged
+[[mods.add]]
+modrinth = "ES4twYgt"
+
+# Create: More Sandpapers
+[[mods.add]]
+modrinth = "PM1NaPZg"
+
+# Create: Delivery Director
+[[mods.add]]
+modrinth = "qRL8MwMB"
+
+# Create: Storage
+[[mods.add]]
+modrinth = "h6BAXuvn"
+
+
+# ---------------------------------------------------------------------------
+# Mod additions — Farmer's Delight and addons
+# ---------------------------------------------------------------------------
+
+# Farmers Structures
+# 农夫乐事小屋
+[[mods.add]]
+curseforge = 1088877
+
+# ExtraDelight
+# 农夫乐事拓展：更多工具、制作台等
+[[mods.add]]
+modrinth = "yRrY3XII"
+
+# Expanded Delight
+# 另一个农夫乐事拓展
+[[mods.add]]
+modrinth = "e9V6wFcR"
+
+# More Delight (for Farmer's Delight)
+# 又一个农夫乐事拓展
+[[mods.add]]
+modrinth = "znHQQtuU"
+
+# Rustic Delight
+# 煎饼、棉花、咖啡、甜椒、油炸食品等
+[[mods.add]]
+modrinth = "foa4fGIH"
+
+# Dumplings Delight Rewrapped
+# 饺子乐事
+[[mods.add]]
+modrinth = "DqKMBArS"
+
+# Barbeque's Delight
+# 烧烤乐事
+[[mods.add]]
+modrinth = "rtu7uERF"
+
+# Ube's Delight
+# 香芋乐事
+[[mods.add]]
+modrinth = "PYjpoAys"
+
+# Pineapple Delight
+# 菠萝乐事
+[[mods.add]]
+modrinth = "8wXnuOvg"
+
+# Christmas Delight
+# 圣诞乐事
+[[mods.add]]
+curseforge = 1134366
+
+# Croptopia Delight
+# Croptopia 农夫乐事扩展
+[[mods.add]]
+modrinth = "z2Ihxkgp"
+
+# Aquaculture Delight
+# 水产2农夫乐事扩展
+[[mods.add]]
+modrinth = "U9GJqWrI"
+
+# Ender's Delight
+# 末影乐事
+[[mods.add]]
+modrinth = "2uEhdGKt"
+
+# Storage Delight
+# 存储乐事
+[[mods.add]]
+modrinth = "LTTvOp5L"
+
+# Repurposed Structures - Chef's Delight Compat
+# 厨师村民村庄生成数据包
+# [[mods.add]]
+# modrinth = "5TWoVsKB"
+
+# Repurposed Structures - Farmer's Delight Compat
+# 更丰富的建筑农夫乐事扩展数据包
+# [[mods.add]]
+# modrinth = "P5wB88AS"
+
+# CTOV - Chef's delight Compat
+# 厨师村民CTOV村庄适配数据包
+# [[mods.add]]
+# modrinth = "6PJbKvJH"
+
+
+# ---------------------------------------------------------------------------
+# Mod additions — Let's Do
+# ---------------------------------------------------------------------------
+
+# [Let's Do] HerbalBrews
+# 咖啡与茶
+[[mods.add]]
+modrinth = "Eh11TaTm"
+
+# [Let's Do] Beachparty
+# 沙滩
+[[mods.add]]
+modrinth = "GyKzAh3l"
+
+# [Let's Do] Candlelight - Farm&Charm compat
+[[mods.add]]
+modrinth = "qwbArkQk"
+
+# [Let's Do] Bakery - Farm&Charm Compat
+[[mods.add]]
+modrinth = "oNB5jhlA"
+
+# [Let's Do] Farm & Charm
+[[mods.add]]
+modrinth = "HJetCzWo"
+
+# [Let's Do] Brewery - Farm&Charm Compat
+[[mods.add]]
+modrinth = "b7NV2plI"
+
+# [Let's Do] Camping
+[[mods.add]]
+modrinth = "uJXTNuf0"
+
+
 # ---------------------------------------------------------------------------
 # Mod substitutions (upgrade / swap)
 # ---------------------------------------------------------------------------
-
-# Direct URL:
-# [[mods.substitute]]
-# remove_pattern = "old-mod-*.jar"
-# url            = "https://example.com/releases/old-mod-2.0.0.jar"
-# filename       = "old-mod-2.0.0.jar"
-# reason         = "Upgrade to 2.0.0 which fixes issue #123"
-
-# Modrinth (latest):
-# [[mods.substitute]]
-# remove_pattern = "sodium-*.jar"
-# modrinth       = "sodium"
-# reason         = "Upgrade sodium to latest"
-
-# CurseForge (pinned):
-# [[mods.substitute]]
-# remove_pattern = "jei-*.jar"
-# curseforge     = 238222
-# version        = "19.7.0.5"
-# reason         = "Pin JEI to 19.7.0.5"
+# (TaCZ entries managed manually)
 
 
 # ---------------------------------------------------------------------------
