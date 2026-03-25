@@ -127,7 +127,6 @@
 
 ## 机械动力及其附属
 
-* `+[SC]` [Create: Misc and Things](https://modrinth.com/project/uWrs8XlB)
 * `+[SC]` [Create Encased](https://modrinth.com/project/hSSqdyU1)
 * `+[SC]` [Create: Power Loader](https://modrinth.com/project/wPQ6GgFE)
 * `+[SC]` [Create: Framed](https://modrinth.com/project/15fFZ3f4)
@@ -147,8 +146,6 @@
 * `+[SC]` [Create: Renewable Notch Apples](https://modrinth.com/project/qpDVQtGR)
 * `+[SC]` [Create: More Features](https://modrinth.com/project/bx3EyygU)
 * `+[SC]` [Create: Easy Stone Generators [Forge/Fabric/NeoForge]](https://modrinth.com/project/aeW9oim1)
-* `+[SC]` [Create: New Beginnings](https://modrinth.com/project/XDDw6edF)
-* `+[SC]` [Create: Lazy Engines](https://modrinth.com/project/nxngzmTl)
 * `+[SC]` [Create: Ender Link](https://modrinth.com/project/DjbTLY77)
 * `+[SC]` [Create Stuff & Netherite Additions](https://modrinth.com/project/777GhN41)
 * `+[SC]` [Create: Few More Recipes](https://modrinth.com/project/LL90W5sb)
