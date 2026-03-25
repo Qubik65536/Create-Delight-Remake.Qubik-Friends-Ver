@@ -631,10 +631,6 @@ modrinth = "KmyhssPl"
 # Mod additions — Create and addons
 # ---------------------------------------------------------------------------
 
-# Create: Misc and Things
-[[mods.add]]
-modrinth = "uWrs8XlB"
-
 # Create Encased
 [[mods.add]]
 modrinth = "hSSqdyU1"
@@ -710,14 +706,6 @@ modrinth = "bx3EyygU"
 # Create: Easy Stone Generators
 [[mods.add]]
 modrinth = "aeW9oim1"
-
-# Create: New Beginnings
-[[mods.add]]
-modrinth = "XDDw6edF"
-
-# Create: Lazy Engines
-[[mods.add]]
-modrinth = "nxngzmTl"
 
 # Create: Ender Link
 [[mods.add]]
