@@ -631,14 +631,6 @@ modrinth = "KmyhssPl"
 # Mod additions — Create and addons
 # ---------------------------------------------------------------------------
 
-# Create: Dreams & Desires
-[[mods.add]]
-modrinth = "JmybsfWs"
-
-# Create: Design n' Decor
-[[mods.add]]
-modrinth = "x49wilh8"
-
 # Create: Misc and Things
 [[mods.add]]
 modrinth = "uWrs8XlB"
@@ -710,10 +702,6 @@ modrinth = "IxTis4hc"
 # Create: Renewable Notch Apples
 [[mods.add]]
 modrinth = "qpDVQtGR"
-
-# Create Factory Logistics
-[[mods.add]]
-modrinth = "QMGO17gm"
 
 # Create: More Features
 [[mods.add]]

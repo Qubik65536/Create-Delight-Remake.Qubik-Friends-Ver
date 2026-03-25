@@ -127,8 +127,6 @@
 
 ## 机械动力及其附属
 
-* `+[SC]` [Create: Dreams & Desires](https://modrinth.com/project/JmybsfWs)
-* `+[SC]` [Create: Design n' Decor](https://modrinth.com/project/x49wilh8)
 * `+[SC]` [Create: Misc and Things](https://modrinth.com/project/uWrs8XlB)
 * `+[SC]` [Create Encased](https://modrinth.com/project/hSSqdyU1)
 * `+[SC]` [Create: Power Loader](https://modrinth.com/project/wPQ6GgFE)
@@ -147,7 +145,6 @@
 * `+[SC]` [Create: Simple Ore Doubling [Forge/Fabric/NeoForge]](https://modrinth.com/project/7jXyH8Xk)
 * `+[SC]` [Create: Renewable Diamonds](https://modrinth.com/project/IxTis4hc)
 * `+[SC]` [Create: Renewable Notch Apples](https://modrinth.com/project/qpDVQtGR)
-* `+[SC]` [Create Factory Logistics](https://modrinth.com/project/QMGO17gm)
 * `+[SC]` [Create: More Features](https://modrinth.com/project/bx3EyygU)
 * `+[SC]` [Create: Easy Stone Generators [Forge/Fabric/NeoForge]](https://modrinth.com/project/aeW9oim1)
 * `+[SC]` [Create: New Beginnings](https://modrinth.com/project/XDDw6edF)
