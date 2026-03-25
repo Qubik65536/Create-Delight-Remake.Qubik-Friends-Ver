@@ -75,6 +75,9 @@ enum AssetMode {
     /// Delete dest entirely before copying, so the result contains only the
     /// files from src.
     Replace,
+    /// Delete the entire dest directory, but do not copy anything from src.
+    /// Useful for wiping out default assets that are not overridden by the patch.
+    Delete,
 }
 
 #[derive(Deserialize, Default)]
@@ -126,6 +129,11 @@ struct AddEntry {
     /// Explicit identifier to use in .clientonlymodlist instead of the auto-derived name.
     clientonly_name: Option<String>,
 
+    /// If true, the mod is server-only and its resolved download URL will be appended to
+    /// .serveronlymodlist (one URL per line).
+    #[serde(default)]
+    serveronly: bool,
+
     #[serde(default)]
     reason: String,
 }
@@ -167,6 +175,11 @@ struct SubstituteEntry {
 
     /// Explicit identifier to use in .clientonlymodlist instead of the auto-derived name.
     clientonly_name: Option<String>,
+
+    /// If true, the mod is server-only and its resolved download URL will be appended to
+    /// .serveronlymodlist (one URL per line).
+    #[serde(default)]
+    serveronly: bool,
 
     #[serde(default)]
     reason: String,
@@ -479,7 +492,18 @@ fn copy_overlay(src: &Path, dst: &Path) -> Result<usize> {
 ///
 /// * `Merge`   — copy files on top of any existing content.
 /// * `Replace` — delete `dest` first, then copy, so only files from `src` remain.
+/// * `Delete`  — delete `dest` entirely but do not copy anything from `src`.
 fn apply_assets(src: &Path, dest: &Path, mode: &AssetMode) -> Result<usize> {
+    if *mode == AssetMode::Delete {
+        if dest.exists() {
+            println!("  Deleting {}", dest.display());
+            fs::remove_dir_all(dest)
+                .with_context(|| format!("Failed to remove {}", dest.display()))?;
+        } else {
+            println!("  Nothing to delete at {}", dest.display());
+        }
+        return Ok(0);
+    }
     if !src.is_dir() {
         bail!("Assets source directory not found: {}", src.display());
     }
@@ -502,10 +526,11 @@ fn reason_suffix(reason: &str) -> String {
 }
 
 // ---------------------------------------------------------------------------
-// Client-only list helpers
+// Client-only/Server-only list helpers
 // ---------------------------------------------------------------------------
 
-/// Derive the identifier used in `.clientonlymodlist` from the resolved jar filename.
+/// Derive the identifier used in `.clientonlymodlist` or `.serveronlymodlist`
+/// from the resolved jar filename.
 ///
 /// Strips the `.jar` extension, then drops trailing segments (split on `-`) that look
 /// like a version number (starts with a digit or with `mc` + digit) or a known loader
@@ -676,6 +701,11 @@ fn main() -> Result<()> {
         let parent = patches_file.parent().filter(|p| !p.as_os_str().is_empty());
         parent.unwrap_or_else(|| Path::new(".")).join(".clientonlymodlist")
     };
+    // Similarly, path to the server-only mod list.
+    let serveronly_list_path = {
+        let parent = patches_file.parent().filter(|p| !p.as_os_str().is_empty());
+        parent.unwrap_or_else(|| Path::new(".")).join(".serveronlymodlist")
+    };
 
     // --- Asset patches -----------------------------------------------------------
     if !patches.assets.is_empty() {
@@ -694,7 +724,11 @@ fn main() -> Result<()> {
                 for entry in &patches.assets {
                     let src = adir.join(&entry.src);
                     let dest = modpack_dir.join(&entry.dest);
-                    let mode_label = if entry.mode == AssetMode::Replace { "replace" } else { "merge" };
+                    let mode_label = match entry.mode {
+                        AssetMode::Merge => "Merge",
+                        AssetMode::Replace => "Replace",
+                        AssetMode::Delete => "Delete",
+                    };
                     println!(
                         "[{}] {} -> {}{}",
                         mode_label,
@@ -725,6 +759,7 @@ fn main() -> Result<()> {
         println!("\n=== Applying mod patches ===");
 
         let mut clientonly_ids: Vec<String> = Vec::new();
+        let mut serveronly_ids: Vec<String> = Vec::new();
 
         // Removals
         for entry in &patches.mods.remove {
@@ -760,6 +795,9 @@ fn main() -> Result<()> {
             if entry.clientonly {
                 clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
             }
+            if entry.serveronly {
+                serveronly_ids.push(url);
+            }
         }
 
         // Additions
@@ -784,6 +822,9 @@ fn main() -> Result<()> {
             if entry.clientonly {
                 clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
             }
+            if entry.serveronly {
+                serveronly_ids.push(url);
+            }
         }
 
         if !clientonly_ids.is_empty() {
@@ -793,6 +834,12 @@ fn main() -> Result<()> {
             // entries that were already there.
             let modpack_list_path = modpack_dir.join(".clientonlymodlist");
             update_clientonly_list(&modpack_list_path, &clientonly_ids)?;
+        }
+        if !serveronly_ids.is_empty() {
+            println!("\n=== Updating server-only mod list ===");
+            update_clientonly_list(&serveronly_list_path, &serveronly_ids)?;
+            let modpack_list_path = modpack_dir.join(".serveronlymodlist");
+            update_clientonly_list(&modpack_list_path, &serveronly_ids)?;
         }
     }
 

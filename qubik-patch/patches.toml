@@ -40,7 +40,7 @@
 #   [[mods.substitute]]   (substitute also requires remove_pattern)
 #   [[resourcepacks.add]]
 #
-#   All [[mods.add]] and [[mods.substitute]] entries support an optional field:
+#   All [[mods.add]] and [[mods.substitute]] entries support optional fields:
 #     clientonly (optional) — true/false (default: false)
 #                             When true, the mod's identifier is automatically
 #                             appended to .clientonlymodlist (in the same directory
@@ -49,6 +49,11 @@
 #                             (resolved from the API, so both IDs and slugs work) for
 #                             modrinth entries, or the resolved filename without the
 #                             .jar extension for curseforge/url entries.
+#     serveronly (optional) — true/false (default: false)
+#                             When true, the mod's resolved download URL is
+#                             automatically appended to .serveronlymodlist (in the
+#                             same directory as patches.toml) if not already present
+#                             (one URL per line).
 #
 #   Each download entry supports three mutually exclusive source types:
 #
@@ -92,7 +97,7 @@ modloader    = "forge"
 # [[assets]]
 # src    = "my-textures"                    # maps to assets/my-textures/
 # dest   = "resourcepacks/MyPack/assets"    # relative to the modpack directory
-# mode   = "replace"                        # "merge" (default) or "replace"
+# mode   = "replace"                        # "merge" (default), "replace", or "delete"
 # reason = "Our custom textures for MyPack"
 
 [[assets]]
@@ -100,6 +105,12 @@ src    = "tacz"
 dest   = "tacz"
 mode   = "replace"
 reason = "More Gun Packs w/ Modded Elements"
+
+[[assets]]
+src    = "."
+dest   = "hotai/com/tacz"
+mode   = "delete"
+reason = "This official hotai patch to tacz can no longer be applied."
 
 # ---------------------------------------------------------------------------
 # Mod removals
@@ -233,17 +244,18 @@ clientonly = true
 # ServuxForged
 # MiniHUD 服务端数据同步
 [[mods.add]]
-modrinth = "H9LzoDgA"
+modrinth   = "H9LzoDgA"
+serveronly = true
 
 # Villager Names
 # 村民姓名
 [[mods.add]]
-modrinth = "gqRXDo8B"
+modrinth   = "gqRXDo8B"
 
 # Double Doors
 # 双开门
 [[mods.add]]
-modrinth = "JrvR9OHr"
+modrinth   = "JrvR9OHr"
 
 # Dismount Entity
 # 赶生物（实体）下车/船
@@ -263,33 +275,32 @@ modrinth = "yQj7xqEM"
 # Healing Campfire
 # 营火回血
 [[mods.add]]
-modrinth = "kOuPUitF"
+modrinth   = "kOuPUitF"
 
 # Grass Seeds
 # 使用种子将土变草
 [[mods.add]]
-modrinth = "Y6d4uRJn"
+modrinth   = "Y6d4uRJn"
 
 # Extended Bone Meal
 # 更多骨粉功能
 [[mods.add]]
-modrinth = "bHkCoxMs"
+modrinth   = "bHkCoxMs"
 
 # Too Fast
 # 移除移动过快
 [[mods.add]]
-modrinth = "w6JSkKSH"
+modrinth   = "w6JSkKSH"
 
 # Repurposed Structures - Neoforge/Forge
 # 更丰富的建筑
 [[mods.add]]
-modrinth = "QDNS5oAT"
+modrinth   = "QDNS5oAT"
 
 # Smarter Farmers (farmers replant)
 # 更聪明的农夫村民
 [[mods.add]]
-modrinth = "Bh6ZOMvp"
-
+modrinth   = "Bh6ZOMvp"
 
 # ---------------------------------------------------------------------------
 # Mod additions — Client + Server

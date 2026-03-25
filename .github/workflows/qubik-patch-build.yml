@@ -99,7 +99,8 @@ jobs:
           rust-script qubik-patch/apply_patches.rs \
             _upstream \
             qubik-patch/patches.toml \
-            qubik-patch/overlay
+            qubik-patch/overlay \
+            qubik-patch/assets
       # -- Update pack identity ------------------------------------------------
       - name: Update pack.toml Name and Version
         run: |
