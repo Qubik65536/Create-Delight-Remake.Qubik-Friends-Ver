@@ -773,13 +773,6 @@ fn main() -> Result<()> {
 
         // Substitutions (remove old version, download new)
         for entry in &patches.mods.substitute {
-            println!(
-                "Substituting '{}' -> '{}'{}",
-                entry.remove_pattern,
-                entry.filename.as_deref().unwrap_or("<auto>"),
-                reason_suffix(&entry.reason)
-            );
-            remove_by_pattern(&mods_dir, &entry.remove_pattern)?;
             let (url, filename) = resolve_source(
                 &rt,
                 entry.url.as_deref(),
@@ -791,12 +784,20 @@ fn main() -> Result<()> {
                 patches.game_version.as_deref(),
                 modloader,
             )?;
+            if entry.serveronly {
+                serveronly_ids.push(url);
+                continue;
+            }
+            println!(
+                "Substituting '{}' -> '{}'{}",
+                entry.remove_pattern,
+                filename,
+                reason_suffix(&entry.reason)
+            );
+            remove_by_pattern(&mods_dir, &entry.remove_pattern)?;
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
                 clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
-            }
-            if entry.serveronly {
-                serveronly_ids.push(url);
             }
         }
 
@@ -813,6 +814,10 @@ fn main() -> Result<()> {
                 patches.game_version.as_deref(),
                 modloader,
             )?;
+            if entry.serveronly {
+                serveronly_ids.push(url);
+                continue;
+            }
             println!(
                 "Adding mod '{}'{}",
                 filename,
@@ -821,9 +826,6 @@ fn main() -> Result<()> {
             download_file(&url, &mods_dir.join(&filename))?;
             if entry.clientonly {
                 clientonly_ids.push(clientonly_id(&filename, entry.clientonly_name.as_deref()));
-            }
-            if entry.serveronly {
-                serveronly_ids.push(url);
             }
         }
 

@@ -112,18 +112,31 @@ jobs:
 
           pack_name = os.environ['PACK_NAME']
 
+          # Version
           m = re.search(r'^version\s*=\s*"([^"]+)"', content, re.M)
           upstream_version = m.group(1) if m else 'unknown'
           patched_version  = upstream_version + '-qubik'
+
+          # Author
+          m = re.search(r'^author\s*=\s*"([^"]+)"', content, re.M)
+          patched_author = ""
+          if m:
+            original_author = m.group(1)
+            patched_author = original_author + ", Qubik65536"
+          else:
+            patched_author = "Qubik65536"
 
           content = re.sub(
               r'^name\s*=\s*"[^"]*"',    f'name = "{pack_name}"',        content, flags=re.M)
           content = re.sub(
               r'^version\s*=\s*"[^"]*"', f'version = "{patched_version}"', content, flags=re.M)
+          content = re.sub(
+              r'^author\s*=\s*"[^"]*"',  f'author = "{patched_author}"',   content, flags=re.M)
 
           open(path, 'w').write(content)
           print(f"  name    = {pack_name}")
           print(f"  version = {patched_version}")
+          print(f"  author  = {patched_author}")
           EOF
         env:
           PACK_NAME: ${{ env.PACK_NAME }}
