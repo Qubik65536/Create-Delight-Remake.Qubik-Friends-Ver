@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.hk416_sopmod.name",
+  "display": "ccrp:hk416_sopmod_display",
+  "data": "ccrp:hk416_sopmod_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.hk416_sopmod.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

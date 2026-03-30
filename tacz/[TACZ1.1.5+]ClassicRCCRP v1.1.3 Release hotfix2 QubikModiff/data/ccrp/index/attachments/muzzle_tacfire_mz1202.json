@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.muzzle_tacfire_mz1202.name",
+    "tooltip": "ccrp.attachment.muzzle_tacfire_mz1202.desc",
+    "display": "ccrp:muzzle_tacfire_mz1202_display",
+    "data": "ccrp:muzzle_tacfire_mz1202_data",
+    "type": "muzzle"
+  }

@@ -5,6 +5,7 @@ on:
     branches:
       - release*       # 匹配主发布分支
       - test-*         # 匹配所有 test- 开头的分支（通配符）
+  workflow_dispatch:
 env:
   VERSION_FILE_PATH: config/fancymenu/assets/version.md
   PACKWIZ_DOWNLOAD_URL: https://github.com/Jasons-impart/packwiz/releases/download/init/packwiz
@@ -27,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          fetch-tags: true
           sparse-checkout: 'pack.toml'
       - name: 读取整合包名
         uses: SebRollen/toml-action@v1.2.0
@@ -70,6 +72,16 @@ jobs:
           echo "Modpack Full Version: ${{ steps.generate_modpack_version.outputs.VERSION }}"
           echo "Minecraft Version: ${{ steps.read-minecraft.outputs.value }}"
           echo "Forge Version: ${{ steps.read-forge.outputs.value }}"
+      - name: "[Qubik Friends Ver Patch] Remove Existing Patch Tag"
+        if: github.ref_name == 'release'
+        run: |
+          TAG="${{ steps.generate_modpack_version.outputs.VERSION }}"
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q .; then
+            echo "Tag '$TAG' already exists — deleting."
+            git push origin --delete "refs/tags/$TAG"
+          else
+            echo "Tag '$TAG' does not exist yet."
+          fi
 
   # 客户端相关任务（并行执行）
   client-tasks:
@@ -507,3 +519,28 @@ jobs:
             deploy-patch.sh
             deploy-patch.bat
             patch/
+  # Re-tag HEAD of the release branch with the current pack version.
+  # Runs only on the `release` branch, after all build jobs complete.
+  tag-release:
+    name: "[Qubik Friends Ver Patch] Tag Patch Release"
+    needs: [common-steps, client-tasks, server-tasks, patch-tasks]
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'release'
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.common-steps.outputs.modpack_ver }}
+    steps:
+      - name: Checkout Release Branch
+        uses: actions/checkout@v4
+        with:
+          ref: release
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag HEAD with ${{ needs.common-steps.outputs.modpack_ver }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "$TAG"
+          git push origin "$TAG"

@@ -1,0 +1,19 @@
+{
+  "weight": 0.2,
+  "head_shot":{
+    "multiplier": 4
+  },
+  "damage": {
+    "multiplier": 1.3
+  },
+  "pierce": {
+    "function": "if (x > 2) then y = x + 2 else y = x end"
+  },
+  "armor_ignore": {
+    "function": "if (x > 0.5) then y = x*3.5 else y = x*4.75 end"
+  },
+  "rpm": {
+    "multiplier":0.8
+  },
+  "extended_mag_level": 2
+}

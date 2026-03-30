@@ -1,0 +1,33 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "minecraft:logs"
+      },
+      "count": 30
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 60
+    },
+    {
+      "item": {
+        "tag": "forge:gems/diamond"
+      },
+      "count": 4
+    },
+    {
+      "item": {
+        "tag": "forge:rods/blaze"
+      },
+      "count": 2
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:m14_hbar"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}
