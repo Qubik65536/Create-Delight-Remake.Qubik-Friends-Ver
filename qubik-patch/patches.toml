@@ -755,6 +755,11 @@ curseforge = 1088877
 # [[mods.add]]
 # modrinth = "e9V6wFcR"
 
+# Delightful
+# 又一个农夫乐事拓展
+[[mods.add]]
+modrinth = "JtSnhtNJ"
+
 # More Delight (for Farmer's Delight)
 # 又一个农夫乐事拓展
 [[mods.add]]

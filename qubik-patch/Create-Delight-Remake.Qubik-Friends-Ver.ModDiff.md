@@ -159,6 +159,7 @@
 * `+[SC]` [Farmers Structures](https://www.curseforge.com/minecraft/mc-mods/farmers-structures)：农夫乐事小屋
 <!--* `+[SC]` [ExtraDelight](https://modrinth.com/project/yRrY3XII)：农夫乐事拓展：更多工具、制作台等-->
 <!--* `+[SC]` [Expanded Delight](https://modrinth.com/project/e9V6wFcR)：另一个农夫乐事拓展-->
+* `+[SC]` [Delightful](https://modrinth.com/project/JtSnhtNJ)：又一个农夫乐事拓展
 * `+[SC]` [More Delight (for Farmer's Delight)](https://modrinth.com/project/znHQQtuU)：又一个农夫乐事拓展
 * `+[SC]` [Rustic Delight](https://modrinth.com/project/foa4fGIH)：煎饼、棉花、咖啡、甜椒、油炸食品等
 * `+[SC]` [Dumplings Delight Reload](https://modrinth.com/project/cF1BYe6H)：饺子乐事
