@@ -1,0 +1,8 @@
+{
+  "hidden": true,
+  "name": "ccrp.attachment.sight_mgl_scope.name",
+  "display": "ccrp:sight_mgl_scope_display",
+  "data": "ccrp:sight_mgl_scope_data",
+  "type": "scope",
+  "sort": 10
+}

@@ -1,0 +1,6 @@
+{
+  "name": "ccrp.attachment.stock_m14_bipod",
+  "display": "ccrp:stock_m14_bipod_display",
+  "data": "ccrp:stock_m14_bipod_data",
+  "type": "stock"
+}

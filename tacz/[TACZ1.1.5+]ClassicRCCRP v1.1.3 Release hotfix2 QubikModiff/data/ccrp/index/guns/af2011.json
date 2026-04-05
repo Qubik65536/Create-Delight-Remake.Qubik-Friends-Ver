@@ -1,0 +1,8 @@
+{
+  "name": "ccrp.gun.af2011.name",
+  "display": "ccrp:af2011_display",
+  "data": "ccrp:af2011_data",
+  "tooltip": "ccrp.gun.af2011.desc",
+  "type": "pistol",
+  "sort": 919
+}

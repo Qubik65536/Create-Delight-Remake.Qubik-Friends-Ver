@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.muzzle_rotex5c.name",
+    "tooltip": "ccrp.attachment.muzzle_rotex5c.desc",
+    "display": "ccrp:muzzle_rotex5c_display",
+    "data": "ccrp:muzzle_rotex5c_data",
+    "type": "muzzle"
+  }

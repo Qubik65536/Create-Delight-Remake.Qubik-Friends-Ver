@@ -1,0 +1,18 @@
+{
+  "slot": "ccrp:attachment/slot/mgl_scope",
+  "model": "ccrp:attachment/mgl_scope_geo",
+  "texture": "ccrp:attachment/uv/mgl_scope",
+  "lod": {
+    "model": "ccrp:attachment/lod/mgl_scope",
+    "texture": "ccrp:attachment/lod/mgl_scope"
+  },
+  "zoom": [
+    4.25
+  ],
+  "sight": true,
+  "fov": 45.0,
+  "sounds": {
+    "install": "tacz:attachments/scope_general_c",
+    "uninstall": "tacz:attachments/scope_general_c"
+  }
+}

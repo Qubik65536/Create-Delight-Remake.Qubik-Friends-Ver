@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.cslr_42a.name",
+  "display": "ccrp:cslr_42a_display",
+  "data": "ccrp:cslr_42a_data",
+  "tooltip": "ccrp.gun.cslr_42a.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

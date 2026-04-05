@@ -1,0 +1,9 @@
+{
+  "slot": "ccrp:attachment/slot/muzzle_tacfire_mz1202",
+  "model": "ccrp:attachment/muzzle_tacfire_mz1202_geo",
+  "texture": "ccrp:attachment/uv/muzzle_tacfire_mz1202",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_a",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

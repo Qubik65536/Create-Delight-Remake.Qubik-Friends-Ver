@@ -1,0 +1,33 @@
+{
+  "materials": [
+    {
+	"item": {
+      "item": "minecraft:sculk_catalyst"
+      },
+      "count": 2
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 102
+    },
+    {
+      "item": {
+        "tag": "forge:gems/diamond"
+      },
+      "count": 6
+    },
+    {
+      "item": {
+        "tag": "forge:rods/blaze"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "classicr:minigun"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}
