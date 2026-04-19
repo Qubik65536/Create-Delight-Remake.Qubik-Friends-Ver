@@ -1,0 +1,9 @@
+{
+  "slot": "ccrp:attachment/slot/muzzle_sr_3m_silencer",
+  "model": "ccrp:attachment/muzzle_sr_3m_silencer_geo",
+  "texture": "ccrp:attachment/uv/muzzle_sr_3m_silencer",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

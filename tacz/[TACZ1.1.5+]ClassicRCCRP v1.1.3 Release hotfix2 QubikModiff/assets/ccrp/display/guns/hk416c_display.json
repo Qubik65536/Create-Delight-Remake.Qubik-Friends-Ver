@@ -1,0 +1,113 @@
+{
+  "model": "ccrp:gun/hk416c_geo",
+  "texture": "ccrp:gun/uv/hk416c",
+  "lod": {
+    "model": "ccrp:gun/lod/hk416c",
+    "texture": "ccrp:gun/lod/hk416c"
+  },
+  "hud": "ccrp:gun/hud/hk416c_hud",
+  "slot": "ccrp:gun/slot/hk416c_slot",
+  "animation": "ccrp:hk416c",
+  "default_animation": "ccrp:rifle_tac_rush_default",
+  "third_person_animation": "default",
+  "state_machine": "ccrp:cr300_state_machine",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "ground": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "fixed": [
+        1.2,
+        1.2,
+        1.2
+      ]
+    }
+  },
+  "muzzle_flash": {
+    "texture": "tacz:flash/common_muzzle_flash",
+    "scale": 0.75
+  },
+  "shell": {
+    "initial_velocity": [
+      5,
+      2,
+      1
+    ],
+    "random_velocity": [
+      1,
+      1,
+      0.25
+    ],
+    "acceleration": [
+      0,
+      -10,
+      0
+    ],
+    "angular_velocity": [
+      360,
+      -1200,
+      90
+    ],
+    "living_time": 1
+  },
+  "sounds": {
+    "shoot": "tacz:hk416d/hk416d_shoot",
+    "shoot_3p": "tacz:hk416d/hk416d_shoot_3p",
+    "draw": "tacz:hk416d/hk416d_draw",
+    "put_away": "tacz:hk416d/hk416d_put_away",
+    "silence": "tacz:hk416d/hk416d_silence",
+    "silence_3p": "tacz:hk416d/hk416d_silence_3p",
+    "dry_fire": "ccrp:dryfire/ar_dryfire",
+    "fire_select": "tacz:fire_select",
+    "head_hit": "ccrp:head_hit",
+    "flesh_hit": "ccrp:flesh_hit",
+    "kill": "ccrp:kill",
+    "melee_push": "tacz:melee_stock/melee_stock_01",
+    "melee_stock": "tacz:melee_stock/melee_stock_02"
+  },
+  "offhand_show": {
+    "pos": [
+      1,
+      19,
+      4
+    ],
+    "rotate": [
+      0,
+      0,
+      50
+    ],
+    "scale": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "hotbar_show": {
+    "0": {
+      "pos": [
+        -1,
+        19,
+        3
+      ],
+      "rotate": [
+        -180,
+        0,
+        130
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "ammo_count_style": "normal",
+  "damage_style": "per_projectile"
+}

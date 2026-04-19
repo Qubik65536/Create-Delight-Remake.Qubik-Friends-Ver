@@ -1,0 +1,21 @@
+{
+  "materials": [
+    {
+      "item": {
+        "item": "minecraft:crying_obsidian"
+      },
+      "count": 3
+    },
+    {
+      "item": {
+        "item": "minecraft:end_crystal"
+      },
+     "count":1
+    }
+  ],
+  "result": {
+    "type": "attachment",
+    "id": "ccrp:ammo_mod_hap"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

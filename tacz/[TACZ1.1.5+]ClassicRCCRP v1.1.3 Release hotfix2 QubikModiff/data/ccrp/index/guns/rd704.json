@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.rd704.name",
+  "display": "ccrp:rd704_display",
+  "data": "ccrp:rd704_data",
+  "tooltip": "ccrp.gun.rd704.desc",
+  "type": "rifle",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

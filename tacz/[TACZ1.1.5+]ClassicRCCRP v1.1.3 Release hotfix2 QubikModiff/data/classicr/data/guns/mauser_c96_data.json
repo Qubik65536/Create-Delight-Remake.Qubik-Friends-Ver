@@ -1,0 +1,120 @@
+{
+  "ammo": "tacz:763mauser",
+  "rpm": 400,
+  "script": "tacz:xmag_reload_logic",
+  "script_param": {
+    "reload_feed": 1.16,
+    "reload_cooldown": 1.98,
+    "empty_feed": 1.96,
+    "empty_cooldown": 2.48,
+    "reload_xmag_1_feed": 1.7,
+    "reload_xmag_1_cooldown": 2.93,
+    "empty_xmag_1_feed": 2.4,
+    "empty_xmag_1_cooldown": 3.57,
+    "reload_xmag_2_feed": 1.7,
+    "reload_xmag_2_cooldown": 2.93,
+    "empty_xmag_2_feed": 2.4,
+    "empty_xmag_2_cooldown": 3.57,
+    "reload_xmag_3_feed": 1.7,
+    "reload_xmag_3_cooldown": 2.93,
+    "empty_xmag_3_feed": 2.4,
+    "empty_xmag_3_cooldown": 3.57
+  },
+  "bullet": {
+    "life": 0.8,
+    "bullet_amount": 1,
+    "damage": 8,
+    "tracer_count_interval": 0,
+    "extra_damage": {
+      "armor_ignore": 0,
+      "head_shot_multiplier": 1.5,
+      "damage_adjust": [
+        {"distance": 20, "damage": 8},
+        {"distance": 45, "damage": 6},
+        {"distance": "infinite", "damage": 5}
+      ]
+    },
+    "speed": 200,
+    "gravity": 0.15,
+    "knockback": 0,
+    "friction": 0.025,
+    "ignite": false,
+    "pierce": 1,
+    "explosion": {
+      "explode": false,
+      "damage": 50,
+      "radius": 0.25,
+      "knockback": true,
+      "delay": 10
+    }
+  },
+  "ammo_amount": 10,
+  "extended_mag_ammo_amount": [
+    20,
+    30,
+    50
+  ],
+  "bolt": "closed_bolt",
+  "reload": {
+    "type": "magazine",
+    "feed": {
+      "empty": 1.96,
+      "tactical": 1.16
+    },
+    "cooldown": {
+      "empty": 2.48,
+      "tactical": 1.98
+    }
+  },
+  "draw_time": 0.49,
+  "put_away_time": 0.28,
+  "aim_time": 0.08,
+  "sprint_time": 0.05,
+  "weight": 1.2,
+  "movement_speed": {
+    "base": 0,
+    "aim": 0,
+    "reload": 0.1
+  },
+  "fire_mode": [
+    "semi",
+    "auto"
+  ],
+  "fire_mode_adjust": {
+    "auto": {
+      // 加算，全自动模式的开火数值调整，如无调整可不写
+      "damage": -2,
+      "rpm": 300,
+      "speed": 0,
+      "knockback": 0,
+      "armor_ignore": 0,
+      "head_shot_multiplier": 0,
+      "aim_inaccuracy": 0,
+      "other_inaccuracy": 0
+    }
+  },
+  "allow_attachment_types": [
+    "muzzle",
+    "extended_mag"
+  ],
+  "recoil": {
+    "pitch": [
+      {"time": 0, "value": [0.55, 0.55]},
+      {"time": 0.35, "value": [0.55, 0.55]},
+      {"time": 0.6, "value": [-0.175, -0.175]},
+      {"time": 0.8, "value": [0.05, 0.05]},
+      {"time": 1.0, "value": [0, 0]}
+    ],
+    "yaw": [
+      {"time": 0, "value": [-0.2, 0.2]},
+      {"time": 0.45, "value": [0, 0]}
+    ]
+  },
+  "inaccuracy": {
+    "stand": 2,
+    "move": 2.5,
+    "sneak": 1.5,
+    "lie": 0.7,
+    "aim": 0.2
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.hk416c.name",
+  "display": "ccrp:hk416c_display",
+  "data": "ccrp:hk416c_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.hk416c.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

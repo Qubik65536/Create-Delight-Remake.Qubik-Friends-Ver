@@ -1,0 +1,206 @@
+name: Apply Qubik Patches
+
+# Checks the upstream release branch once a week. When new commits are found,
+# applies the Qubik-Friends patches and pushes the result to this repo's
+# `release` branch — which then triggers the official release.yml build.
+
+on:
+  schedule:
+    # Every Sunday at 02:00 UTC
+    - cron: "0 2 * * 0"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force patch even if the upstream has not changed."
+        type: boolean
+        default: false
+
+env:
+  UPSTREAM_REPO: Jasons-impart/Create-Delight-Remake
+  # UPSTREAM_BRANCH: release
+  UPSTREAM_BRANCH: release-v0.4.8.5
+  PACK_NAME: Create-Delight-Remake.Qubik-Friends-Ver
+
+jobs:
+  # --------------------------------------------------------------------------
+  # 1. Decide whether a new patch run is needed.
+  # --------------------------------------------------------------------------
+  check-upstream:
+    name: Check Upstream for Updates
+    runs-on: ubuntu-latest
+    outputs:
+      needs_patch: ${{ steps.compare.outputs.needs_patch }}
+      upstream_sha: ${{ steps.fetch.outputs.sha }}
+    steps:
+      - name: Checkout This Repo (main) — Read Stored SHA Only
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+          sparse-checkout: qubik-patch/.upstream-sha
+      - name: Fetch Upstream HEAD SHA
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SHA=$(gh api "repos/$UPSTREAM_REPO/commits/$UPSTREAM_BRANCH" --jq '.sha')
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Upstream $UPSTREAM_BRANCH HEAD: $SHA"
+      - name: Compare with Stored SHA
+        id: compare
+        run: |
+          UPSTREAM_SHA="${{ steps.fetch.outputs.sha }}"
+          STORED_SHA=""
+          [ -f qubik-patch/.upstream-sha ] && \
+            STORED_SHA=$(tr -d '[:space:]' < qubik-patch/.upstream-sha)
+          echo "Stored   : ${STORED_SHA:-<none>}"
+          echo "Upstream : $UPSTREAM_SHA"
+          if [ "$UPSTREAM_SHA" != "$STORED_SHA" ] || [ "${{ inputs.force }}" = "true" ]; then
+            echo "needs_patch=true" >> "$GITHUB_OUTPUT"
+            echo "Patch required."
+          else
+            echo "needs_patch=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream changes — skipping. Use 'Force' to override."
+          fi
+
+  # --------------------------------------------------------------------------
+  # 2. Apply patches, then push patched content to the `release` branch
+  #    so that the official release.yml takes over from there.
+  # --------------------------------------------------------------------------
+  apply-and-push:
+    name: Apply Patches and Push to Release Branch
+    needs: check-upstream
+    if: needs.check-upstream.outputs.needs_patch == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # -- Checkouts -----------------------------------------------------------
+      - name: Checkout This Repo (main) — Patch Scripts, Overlay, .github/
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+          token: ${{ secrets.PAT }}
+      - name: Checkout Upstream Release Branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.UPSTREAM_REPO }}
+          ref: ${{ env.UPSTREAM_BRANCH }}
+          fetch-depth: 1
+          path: _upstream
+          token: ${{ secrets.PAT }}
+      # -- Apply patches -------------------------------------------------------
+      - name: Install rust-script
+        run: cargo install rust-script
+      - name: Apply Overlay Files and Mod Patches
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+        run: |
+          rust-script qubik-patch/apply_patches.rs \
+            _upstream \
+            qubik-patch/patches.toml \
+            qubik-patch/overlay \
+            qubik-patch/assets
+      # -- Update pack identity ------------------------------------------------
+      - name: Update pack.toml Name and Version
+        run: |
+          python3 - <<'EOF'
+          import re, os
+
+          path = '_upstream/pack.toml'
+          content = open(path).read()
+
+          pack_name = os.environ['PACK_NAME']
+
+          # Version
+          m = re.search(r'^version\s*=\s*"([^"]+)"', content, re.M)
+          upstream_version = m.group(1) if m else 'unknown'
+          patched_version  = upstream_version + '-qubik'
+
+          # Author
+          m = re.search(r'^author\s*=\s*"([^"]+)"', content, re.M)
+          patched_author = ""
+          if m:
+            original_author = m.group(1)
+            patched_author = original_author + ", Qubik65536"
+          else:
+            patched_author = "Qubik65536"
+
+          content = re.sub(
+              r'^name\s*=\s*"[^"]*"',    f'name = "{pack_name}"',        content, flags=re.M)
+          content = re.sub(
+              r'^version\s*=\s*"[^"]*"', f'version = "{patched_version}"', content, flags=re.M)
+          content = re.sub(
+              r'^author\s*=\s*"[^"]*"',  f'author = "{patched_author}"',   content, flags=re.M)
+
+          open(path, 'w').write(content)
+          print(f"  name    = {pack_name}")
+          print(f"  version = {patched_version}")
+          print(f"  author  = {patched_author}")
+          EOF
+        env:
+          PACK_NAME: ${{ env.PACK_NAME }}
+      # -- Bring in our .github/ so our Qubik-specific workflows are present on the
+      # release branch, but preserve the upstream's release.yml as the base for patches.
+      - name: Copy .github/ into Patched Upstream
+        run: |
+          cp -r .github _upstream/
+          git -C _upstream checkout -- .github/workflows/release.yml
+      # -- Apply Quilt-style patches to Workflow files (e.g. release.yml additions).
+      # Must run after .github/ is copied so patches target our workflow files,
+      # not the upstream's originals.
+      - name: Apply Workflow Patches
+        working-directory: _upstream
+        run: |
+          for patch_file in ../qubik-patch/patches/*.patch; do
+            [ -f "$patch_file" ] || continue
+            echo "Applying: $patch_file"
+            patch -p1 --fuzz 3 < "$patch_file"
+          done
+      # -- Push to release branch ----------------------------------------------
+      - name: Commit and Force-Push to Release Branch
+        id: push-release
+        env:
+          UPSTREAM_SHA: ${{ needs.check-upstream.outputs.upstream_sha }}
+        run: |
+          cd _upstream
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes after patching — release branch already up to date."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit \
+              -m "chore: apply Qubik patches [upstream $UPSTREAM_SHA]" \
+              -m "Upstream: ${{ env.UPSTREAM_REPO }}@${{ env.UPSTREAM_BRANCH }}" \
+              -m "SHA: $UPSTREAM_SHA"
+            git remote set-url origin "https://github.com/${{ github.repository }}.git"
+            git push --force origin HEAD:release
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+      # Explicitly dispatch release.yml on the release branch.
+      # - name: Dispatch Release Workflow
+      #   if: steps.push-release.outputs.pushed == 'true'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.PAT }}
+      #   run: |
+      #     gh workflow run release.yml --ref release
+      # -- Record processed SHA back on main -----------------------------------
+      - name: Update .upstream-sha on Main
+        env:
+          UPSTREAM_SHA: ${{ needs.check-upstream.outputs.upstream_sha }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "$UPSTREAM_SHA" > qubik-patch/.upstream-sha
+          git add qubik-patch/.upstream-sha
+          if git diff --staged --quiet; then
+            echo "SHA unchanged — nothing to commit."
+          else
+            git commit \
+              -m "chore: update upstream SHA [skip ci]" \
+              -m "New SHA: $UPSTREAM_SHA"
+            git push origin main
+          fi
