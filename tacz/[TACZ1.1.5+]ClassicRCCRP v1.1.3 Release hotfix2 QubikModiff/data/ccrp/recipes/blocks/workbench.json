@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "tacz:workbench_b",
+    "nbt": {
+      "BlockId": "ccrp:workbench"
+    }
+  },
+  "pattern": [
+    "LAL",
+    "IBI",
+    "I I"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_block"
+    },
+    "L": {
+      "tag": "forge:ingots/iron"
+    },
+    "I": {
+      "tag": "forge:ingots/gold"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    }
+  }
+}

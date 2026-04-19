@@ -1,0 +1,24 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 28
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:msh41",
+    "attachments": {
+      "stock": "tacz:stock_m4ss"
+    }
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

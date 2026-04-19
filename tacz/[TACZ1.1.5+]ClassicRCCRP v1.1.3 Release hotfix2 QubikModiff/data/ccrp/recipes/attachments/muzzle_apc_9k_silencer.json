@@ -1,0 +1,15 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 22
+    }
+  ],
+  "result": {
+    "type": "attachment",
+    "id": "ccrp:muzzle_apc_9k_silencer"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

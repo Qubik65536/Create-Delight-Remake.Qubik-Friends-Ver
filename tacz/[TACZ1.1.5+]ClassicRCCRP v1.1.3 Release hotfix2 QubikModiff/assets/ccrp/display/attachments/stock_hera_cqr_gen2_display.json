@@ -1,0 +1,9 @@
+{
+  "slot": "ccrp:attachment/slot/stock_hera_cqr_gen2",
+  "model": "ccrp:attachment/stock_hera_cqr_gen2_geo",
+  "texture": "ccrp:attachment/uv/stock_hera_cqr_gen2",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

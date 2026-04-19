@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.stock_hk_e1.name",
+    "tooltip": "ccrp.attachment.stock_hk_e1.desc",
+    "display": "ccrp:stock_hk_e1_display",
+    "data": "ccrp:stock_hk_e1_data",
+    "type": "stock"
+  }
