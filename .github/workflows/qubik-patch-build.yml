@@ -140,18 +140,22 @@ jobs:
           EOF
         env:
           PACK_NAME: ${{ env.PACK_NAME }}
-      # -- Bring in our .github/ so release.yml is present on the release branch
+      # -- Bring in our .github/ so our Qubik-specific workflows are present on the
+      # release branch, but preserve the upstream's release.yml as the base for patches.
       - name: Copy .github/ into Patched Upstream
-        run: cp -r .github _upstream/
+        run: |
+          cp -r .github _upstream/
+          git -C _upstream checkout -- .github/workflows/release.yml
       # -- Apply Quilt-style patches to Workflow files (e.g. release.yml additions).
       # Must run after .github/ is copied so patches target our workflow files,
       # not the upstream's originals.
       - name: Apply Workflow Patches
+        working-directory: _upstream
         run: |
-          for patch_file in qubik-patch/patches/*.patch; do
+          for patch_file in ../qubik-patch/patches/*.patch; do
             [ -f "$patch_file" ] || continue
             echo "Applying: $patch_file"
-            patch -p1 --fuzz 3 -d _upstream < "$patch_file"
+            patch -p1 --fuzz 3 < "$patch_file"
           done
       # -- Push to release branch ----------------------------------------------
       - name: Commit and Force-Push to Release Branch
