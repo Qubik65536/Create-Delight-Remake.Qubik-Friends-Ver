@@ -18,7 +18,7 @@ on:
 env:
   UPSTREAM_REPO: Jasons-impart/Create-Delight-Remake
   # UPSTREAM_BRANCH: release
-  UPSTREAM_BRANCH: release-v0.4.8.5
+  UPSTREAM_BRANCH: release-v048x
   PACK_NAME: Create-Delight-Remake.Qubik-Friends-Ver
 
 jobs:
