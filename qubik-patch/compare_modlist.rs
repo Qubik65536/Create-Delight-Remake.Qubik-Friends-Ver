@@ -687,37 +687,45 @@ mod tests {
     use super::*;
     use std::time::{SystemTime, UNIX_EPOCH};
 
+    struct TestDirectory(std::path::PathBuf);
+
+    impl Drop for TestDirectory {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
     #[test]
     fn loads_manifest_and_modlist_from_a_modpack_directory() {
-        let directory = std::env::temp_dir().join(format!(
+        let directory = TestDirectory(std::env::temp_dir().join(format!(
             "compare_modlist_test_{}_{}",
             process::id(),
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .expect("current time should be after the Unix epoch")
                 .as_nanos()
-        ));
-        fs::create_dir(&directory).expect("test directory should be created");
+        )));
+        fs::create_dir(&directory.0).expect("test directory should be created");
         fs::write(
-            directory.join(MANIFEST_FILE_NAME),
+            directory.0.join(MANIFEST_FILE_NAME),
             r#"{"files":[{"projectID":100},{"projectID":200}]}"#,
         )
         .expect("manifest should be written");
         fs::write(
-            directory.join(MODLIST_FILE_NAME),
+            directory.0.join(MODLIST_FILE_NAME),
             r#"<a href="https://www.curseforge.com/projects/100">one</a>"#,
         )
         .expect("mod list should be written");
 
         let manifest = load_report(
-            &directory,
+            &directory.0,
             MANIFEST_FILE_NAME,
             "manifest",
             extract_manifest_ids,
         )
         .expect("manifest should load");
         let modlist = load_report(
-            &directory,
+            &directory.0,
             MODLIST_FILE_NAME,
             "mod list",
             extract_modlist_ids,
@@ -730,7 +738,5 @@ mod tests {
             sorted_difference(&manifest.unique_ids, &modlist.unique_ids),
             vec![200]
         );
-
-        fs::remove_dir_all(directory).expect("test directory should be removed");
     }
 }
