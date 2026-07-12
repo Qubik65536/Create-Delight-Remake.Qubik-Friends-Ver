@@ -330,7 +330,9 @@ impl<'a> JsonParser<'a> {
 
     fn parse_number_token(&mut self) -> Result<String, String> {
         let start = self.position;
-        if self.try_consume(b'-') && self.is_eof() {
+        if self.try_consume(b'-')
+            && !matches!(self.peek_byte(), Some(b'0'..=b'9'))
+        {
             return Err(format!("expected digits after '-' at byte {start}"));
         }
 
@@ -551,7 +553,11 @@ impl<'a> JsonParser<'a> {
     }
 
     fn expect_keyword(&mut self, keyword: &[u8]) -> Result<(), String> {
-        if self.input[self.position..].starts_with(keyword) {
+        if self
+            .input
+            .get(self.position..)
+            .is_some_and(|remaining| remaining.starts_with(keyword))
+        {
             self.position += keyword.len();
             Ok(())
         } else {
