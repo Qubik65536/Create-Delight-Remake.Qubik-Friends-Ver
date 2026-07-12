@@ -1,8 +1,6 @@
-diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
-index e5903194..28f57ffc 100644
 --- a/.github/workflows/release.yml
 +++ b/.github/workflows/release.yml
-@@ -28,6 +28,7 @@ jobs:
+@@ -29,6 +29,7 @@
          uses: actions/checkout@v4
          with:
            fetch-depth: 1
@@ -10,7 +8,7 @@ index e5903194..28f57ffc 100644
            sparse-checkout: 'pack.toml'
        - name: 读取整合包名
          uses: SebRollen/toml-action@v1.2.0
-@@ -71,6 +72,16 @@ jobs:
+@@ -76,6 +77,17 @@
            echo "Modpack Full Version: ${{ steps.generate_modpack_version.outputs.VERSION }}"
            echo "Minecraft Version: ${{ steps.read-minecraft.outputs.value }}"
            echo "Forge Version: ${{ steps.read-forge.outputs.value }}"
@@ -24,16 +22,14 @@ index e5903194..28f57ffc 100644
 +          else
 +            echo "Tag '$TAG' does not exist yet."
 +          fi
++
  
    # 客户端相关任务（并行执行）
    client-tasks:
-@@ -507,4 +518,29 @@ jobs:
-             deleted_files.txt
+@@ -548,3 +560,28 @@
              deploy-patch.sh
              deploy-patch.bat
--            patch/
-\ No newline at end of file
-+            patch/
+             patch/
 +  # Re-tag HEAD of the release branch with the current pack version.
 +  # Runs only on the `release` branch, after all build jobs complete.
 +  tag-release:
