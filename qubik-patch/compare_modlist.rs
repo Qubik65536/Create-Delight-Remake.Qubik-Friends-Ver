@@ -1,27 +1,23 @@
-//! Compare a CurseForge-style `manifest.json` with a generated `modlist.html`.
+//! Compare the manifests and mod lists in two modpack directories.
 //!
 //! Usage:
 //!   rustc qubik-patch/compare_modlist.rs -O -o /tmp/compare_modlist
-//!   /tmp/compare_modlist [manifest.json] [modlist.html]
-//!
-//! Defaults:
-//!   manifest path: manifest.json
-//!   mod list path: modlist.html
+//!   /tmp/compare_modlist <upstream-modpack-dir> <patched-modpack-dir>
 //!
 //! Comparison semantics:
-//!   - Reads `projectID` values only from entries inside the manifest's `files` array.
-//!   - Ignores the pack-level `projectID` and all manifest `fileID` values.
-//!   - Extracts numeric project IDs only from CurseForge `/projects/<id>` URLs in the HTML.
-//!   - Succeeds only when both unique-ID sets match exactly and neither input contains duplicates.
+//!   - Reads `manifest.json` and `modlist.html` from each modpack directory.
+//!   - Compares each file type independently using CurseForge project IDs.
+//!   - Succeeds only when both pairs of unique-ID sets match and neither input contains duplicates.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::env;
 use std::fs;
+use std::path::Path;
 use std::process;
 
-const DEFAULT_MANIFEST_PATH: &str = "manifest.json";
-const DEFAULT_MODLIST_PATH: &str = "modlist.html";
 const CURSEFORGE_PROJECT_URL_MARKER: &str = "curseforge.com/projects/";
+const MANIFEST_FILE_NAME: &str = "manifest.json";
+const MODLIST_FILE_NAME: &str = "modlist.html";
 
 fn main() {
     match run() {
@@ -39,50 +35,89 @@ fn run() -> Result<i32, String> {
         print_help(&args[0]);
         return Ok(0);
     }
-    if args.len() > 3 {
+    if args.len() != 3 {
         return Err(format!(
-            "expected at most 2 positional arguments\n\n{}",
+            "expected exactly 2 modpack directory arguments\n\n{}",
             usage_text(&args[0])
         ));
     }
 
-    let manifest_path = args
-        .get(1)
-        .map(String::as_str)
-        .unwrap_or(DEFAULT_MANIFEST_PATH);
-    let modlist_path = args
-        .get(2)
-        .map(String::as_str)
-        .unwrap_or(DEFAULT_MODLIST_PATH);
+    let upstream_dir = Path::new(&args[1]);
+    let patched_dir = Path::new(&args[2]);
+    let upstream_manifest = load_report(
+        upstream_dir,
+        MANIFEST_FILE_NAME,
+        "manifest",
+        extract_manifest_ids,
+    )?;
+    let patched_manifest = load_report(
+        patched_dir,
+        MANIFEST_FILE_NAME,
+        "manifest",
+        extract_manifest_ids,
+    )?;
+    let upstream_modlist = load_report(
+        upstream_dir,
+        MODLIST_FILE_NAME,
+        "mod list",
+        extract_modlist_ids,
+    )?;
+    let patched_modlist = load_report(
+        patched_dir,
+        MODLIST_FILE_NAME,
+        "mod list",
+        extract_modlist_ids,
+    )?;
 
-    let manifest_source = fs::read_to_string(manifest_path)
-        .map_err(|error| format!("failed to read manifest '{manifest_path}': {error}"))?;
-    let modlist_source = fs::read_to_string(modlist_path)
-        .map_err(|error| format!("failed to read mod list '{modlist_path}': {error}"))?;
+    let only_in_upstream_manifest =
+        sorted_difference(&upstream_manifest.unique_ids, &patched_manifest.unique_ids);
+    let only_in_patched_manifest =
+        sorted_difference(&patched_manifest.unique_ids, &upstream_manifest.unique_ids);
+    let only_in_upstream_modlist =
+        sorted_difference(&upstream_modlist.unique_ids, &patched_modlist.unique_ids);
+    let only_in_patched_modlist =
+        sorted_difference(&patched_modlist.unique_ids, &upstream_modlist.unique_ids);
+    let success = upstream_manifest.duplicates.is_empty()
+        && patched_manifest.duplicates.is_empty()
+        && upstream_modlist.duplicates.is_empty()
+        && patched_modlist.duplicates.is_empty()
+        && only_in_upstream_manifest.is_empty()
+        && only_in_patched_manifest.is_empty()
+        && only_in_upstream_modlist.is_empty()
+        && only_in_patched_modlist.is_empty();
 
-    let manifest = extract_manifest_ids(&manifest_source)
-        .map_err(|error| format!("invalid manifest '{manifest_path}': {error}"))?;
-    let modlist = extract_modlist_ids(&modlist_source)
-        .map_err(|error| format!("invalid mod list '{modlist_path}': {error}"))?;
-
-    let only_in_manifest = sorted_difference(&manifest.unique_ids, &modlist.unique_ids);
-    let only_in_modlist = sorted_difference(&modlist.unique_ids, &manifest.unique_ids);
-    let success = manifest.duplicates.is_empty()
-        && modlist.duplicates.is_empty()
-        && only_in_manifest.is_empty()
-        && only_in_modlist.is_empty();
-
-    println!("Manifest file project IDs:");
-    print_source_summary("file entries", &manifest);
+    println!("Upstream manifest project IDs:");
+    print_source_summary("file entries", &upstream_manifest);
     println!();
-    println!("Mod list project IDs:");
-    print_source_summary("CurseForge links", &modlist);
+    println!("Patched manifest project IDs:");
+    print_source_summary("file entries", &patched_manifest);
     println!();
-    println!("Only in manifest: {}", format_id_list(&only_in_manifest));
-    println!("Only in mod list: {}", format_id_list(&only_in_modlist));
+    println!(
+        "Only in upstream manifest: {}",
+        format_id_list(&only_in_upstream_manifest)
+    );
+    println!(
+        "Only in patched manifest: {}",
+        format_id_list(&only_in_patched_manifest)
+    );
+    println!();
+    println!("Upstream mod list project IDs:");
+    print_source_summary("CurseForge links", &upstream_modlist);
+    println!();
+    println!("Patched mod list project IDs:");
+    print_source_summary("CurseForge links", &patched_modlist);
+    println!();
+    println!(
+        "Only in upstream mod list: {}",
+        format_id_list(&only_in_upstream_modlist)
+    );
+    println!(
+        "Only in patched mod list: {}",
+        format_id_list(&only_in_patched_modlist)
+    );
     println!();
     if success {
-        println!("Result: sets match and neither input contains duplicates.");
+        println!("Result: both modpack directories match and contain no duplicates.");
         Ok(0)
     } else {
         println!("Result: differences or duplicates detected.");
@@ -97,13 +132,38 @@ fn print_help(program: &str) {
     println!("  - Reads project IDs only from manifest files[].projectID");
     println!("  - Ignores the pack-level manifest projectID and manifest fileID values");
     println!("  - Reads IDs only from CurseForge /projects/<id> links in modlist.html");
-    println!("  - Exits non-zero for duplicates, mismatches, unreadable files, or invalid input");
+    println!("  - Compares manifest.json and modlist.html independently across both directories");
+    println!("  - Exits non-zero for duplicates, differences, unreadable files, or invalid input");
 }
 
 fn usage_text(program: &str) -> String {
     format!(
-        "Usage:\n  {program} [manifest.json] [modlist.html]\n\nExample:\n  rustc qubik-patch/compare_modlist.rs -O -o /tmp/compare_modlist\n  /tmp/compare_modlist manifest.json modlist.html"
+        "Usage:\n  {program} <upstream-modpack-dir> <patched-modpack-dir>\n\nExample:\n  rustc qubik-patch/compare_modlist.rs -O -o /tmp/compare_modlist\n  /tmp/compare_modlist /path/to/upstream /path/to/patched"
     )
+}
+
+fn load_report(
+    modpack_dir: &Path,
+    file_name: &str,
+    file_description: &str,
+    extract_ids: fn(&str) -> Result<IdReport, String>,
+) -> Result<IdReport, String> {
+    if !modpack_dir.is_dir() {
+        return Err(format!(
+            "modpack directory '{}' does not exist or is not a directory",
+            modpack_dir.display()
+        ));
+    }
+
+    let path = modpack_dir.join(file_name);
+    let source = fs::read_to_string(&path).map_err(|error| {
+        format!(
+            "failed to read {file_description} '{}': {error}",
+            path.display()
+        )
+    })?;
+    extract_ids(&source)
+        .map_err(|error| format!("invalid {file_description} '{}': {error}", path.display()))
 }
 
 fn print_source_summary(label: &str, report: &IdReport) {
@@ -619,5 +679,58 @@ impl<'a> JsonParser<'a> {
 
     fn position(&self) -> usize {
         self.position
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    #[test]
+    fn loads_manifest_and_modlist_from_a_modpack_directory() {
+        let directory = std::env::temp_dir().join(format!(
+            "compare_modlist_test_{}_{}",
+            process::id(),
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .expect("current time should be after the Unix epoch")
+                .as_nanos()
+        ));
+        fs::create_dir(&directory).expect("test directory should be created");
+        fs::write(
+            directory.join(MANIFEST_FILE_NAME),
+            r#"{"files":[{"projectID":100},{"projectID":200}]}"#,
+        )
+        .expect("manifest should be written");
+        fs::write(
+            directory.join(MODLIST_FILE_NAME),
+            r#"<a href="https://www.curseforge.com/projects/100">one</a>"#,
+        )
+        .expect("mod list should be written");
+
+        let manifest = load_report(
+            &directory,
+            MANIFEST_FILE_NAME,
+            "manifest",
+            extract_manifest_ids,
+        )
+        .expect("manifest should load");
+        let modlist = load_report(
+            &directory,
+            MODLIST_FILE_NAME,
+            "mod list",
+            extract_modlist_ids,
+        )
+        .expect("mod list should load");
+
+        assert_eq!(manifest.unique_ids, BTreeSet::from([100, 200]));
+        assert_eq!(modlist.unique_ids, BTreeSet::from([100]));
+        assert_eq!(
+            sorted_difference(&manifest.unique_ids, &modlist.unique_ids),
+            vec![200]
+        );
+
+        fs::remove_dir_all(directory).expect("test directory should be removed");
     }
 }
