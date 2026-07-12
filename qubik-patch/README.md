@@ -28,7 +28,7 @@ manually), the workflow:
 ```
 qubik-patch/
   apply_patches.rs    # rust-script that applies patches.toml, the overlay, and assets
-  compare_modlist.rs  # standalone Rust checker for manifest.json vs modlist.html
+  compare_modlist.rs  # standalone Rust checker for two modpack directories
   patches.toml        # patch configuration (add / remove / substitute / assets)
   overlay/            # files to copy verbatim onto the upstream checkout
   assets/             # named subdirectories copied to designated modpack locations
@@ -141,18 +141,20 @@ rust-script qubik-patch/apply_patches.rs \
     qubik-patch/assets
 ```
 
-Compare a generated CurseForge-style `manifest.json` against a generated
-`modlist.html` using CurseForge project IDs only:
+Compare an upstream modpack directory against a patched modpack directory. Each
+directory must contain a generated CurseForge-style `manifest.json` and
+`modlist.html`:
 
 ```bash
 rustc qubik-patch/compare_modlist.rs -O -o /tmp/compare_modlist
-/tmp/compare_modlist manifest.json modlist.html
+/tmp/compare_modlist /path/to/upstream-modpack /path/to/patched-modpack
 ```
 
-The comparison reads only `files[].projectID` from the manifest and only
-numeric `/projects/<id>` links from the HTML mod list. It exits non-zero if
-the unique-ID sets differ, if either input contains duplicate project IDs, or
-if either file is unreadable or malformed.
+The comparison reads only `files[].projectID` from each manifest and numeric
+`/projects/<id>` links from each HTML mod list. It reports additions and
+removals for manifests and mod lists independently, and exits non-zero if
+either pair differs, any input contains duplicate project IDs, or a required
+file is unreadable or malformed.
 
 ## CI / CD
 
