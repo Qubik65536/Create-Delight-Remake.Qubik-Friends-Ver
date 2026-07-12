@@ -310,22 +310,21 @@ impl<'a> JsonParser<'a> {
     }
 
     fn parse_u64_number(&mut self) -> Result<u64, String> {
+        let start = self.position;
         let token = self.parse_number_token()?;
         if token.starts_with('-') {
             return Err(format!(
-                "expected a non-negative integer project ID at byte {}",
-                self.position
+                "expected a non-negative integer project ID at byte {start}"
             ));
         }
         if token.contains('.') || token.contains('e') || token.contains('E') {
-            return Err(format!(
-                "expected an integer project ID at byte {}",
-                self.position
-            ));
+            return Err(format!("expected an integer project ID at byte {start}"));
         }
         token
             .parse::<u64>()
-            .map_err(|error| format!("invalid integer project ID '{token}': {error}"))
+            .map_err(|error| {
+                format!("invalid integer project ID '{token}' at byte {start}: {error}")
+            })
     }
 
     fn parse_number_token(&mut self) -> Result<String, String> {
@@ -523,6 +522,7 @@ impl<'a> JsonParser<'a> {
     fn skip_string(&mut self) -> Result<(), String> {
         self.expect_byte(b'"')?;
         loop {
+            let byte_position = self.position;
             let byte = self
                 .peek_byte()
                 .ok_or_else(|| "unterminated string".to_string())?;
@@ -544,7 +544,7 @@ impl<'a> JsonParser<'a> {
                 0x00..=0x1f => {
                     return Err(format!(
                         "unescaped control character in string at byte {}",
-                        self.position - 1
+                        byte_position
                     ))
                 }
                 _ => {}
