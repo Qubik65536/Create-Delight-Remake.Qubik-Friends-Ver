@@ -687,9 +687,9 @@ mod tests {
     use super::*;
     use std::time::{SystemTime, UNIX_EPOCH};
 
-    struct TestDirectory(std::path::PathBuf);
+    struct TestDirectoryGuard(std::path::PathBuf);
 
-    impl Drop for TestDirectory {
+    impl Drop for TestDirectoryGuard {
         fn drop(&mut self) {
             let _ = fs::remove_dir_all(&self.0);
         }
@@ -697,9 +697,8 @@ mod tests {
 
     #[test]
     fn loads_manifest_and_modlist_from_a_modpack_directory() {
-        let directory = TestDirectory(std::env::temp_dir().join(format!(
-            "compare_modlist_test_{}_{}",
-            process::id(),
+        let directory = TestDirectoryGuard(std::env::temp_dir().join(format!(
+            "compare_modlist_test_{}",
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .expect("current time should be after the Unix epoch")
