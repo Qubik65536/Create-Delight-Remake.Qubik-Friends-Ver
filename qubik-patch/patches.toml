@@ -740,6 +740,10 @@ modrinth = "h6BAXuvn"
 # Mod additions — Farmer's Delight and addons
 # ---------------------------------------------------------------------------
 
+# DelightLib
+[[mods.add]]
+modrinth = "rmDY6fYt"
+
 # Farmers Structures
 # 农夫乐事小屋
 [[mods.add]]
@@ -830,7 +834,6 @@ modrinth = "LTTvOp5L"
 # [[mods.add]]
 # modrinth = "6PJbKvJH"
 
-
 # ---------------------------------------------------------------------------
 # Mod additions — Let's Do
 # ---------------------------------------------------------------------------
@@ -893,6 +896,41 @@ modrinth = "uJXTNuf0"
 [[mods.substitute]]
 remove_pattern  = "dragonlib-forge-*.jar"
 modrinth = "sbIsGaOV"
+
+# Farmer's Delight
+# 农夫乐事
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "FarmersDelight-*.jar"
+modrinth = "R2OftAxM"
+
+# Sophisticated Core
+# 精妙核心
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "sophisticatedcore-*.jar"
+modrinth = "nmoqTijg"
+
+# Sophisticated Backpacks
+# 精妙背包
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "sophisticatedbackpacks-*.jar"
+modrinth = "TyCTlI4b"
+
+# Sophisticated Backpacks Create Integration
+# 精妙背包机械动力集成
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "sophisticatedbackpackscreateintegration-*.jar"
+modrinth = "s85zLEDe"
+
+# Cultural Delights
+# 文化乐事（农夫乐事拓展）
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "culturaldelights-*.jar"
+modrinth = "YttyNOFA"
 
 # (TaCZ entries managed manually)
 

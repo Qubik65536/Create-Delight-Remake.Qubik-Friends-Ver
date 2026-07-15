@@ -30,8 +30,8 @@
 * `+[S]` [Grass Seeds](https://modrinth.com/project/Y6d4uRJn)：使用种子将土变草
 * `+[S]` [Extended Bone Meal](https://modrinth.com/project/bHkCoxMs)：更多骨粉功能
 * `+[S]` [Too Fast](https://modrinth.com/project/w6JSkKSH)：移除移动过快
-* `*[SC]` [Sophisticated Core](https://modrinth.com/project/nmoqTijg)：精妙背包/精妙存储依赖
-* `*[SC]` [Sophisticated Backpacks](https://modrinth.com/project/TyCTlI4b)：精妙背包
+* `*[SC]` [Sophisticated Core](https://modrinth.com/project/nmoqTijg)：精妙背包/精妙存储依赖 - 为了兼容性而进行更新
+* `*[SC]` [Sophisticated Backpacks](https://modrinth.com/project/TyCTlI4b)：精妙背包 - 为了兼容性而进行更新
 * `+[SC]` [Sophisticated Storage](https://modrinth.com/project/hMlaZH8f)：精妙存储
 * `+[SC]` [Sophisticated Storage in Motion](https://modrinth.com/project/6vtFbyaJ)：载具上的精妙存储
 * `*[SC]` [Sophisticated Backpacks Create Integration](https://modrinth.com/project/s85zLEDe)：精妙背包机械动力集成
@@ -156,6 +156,8 @@
 
 ## 农夫乐事及其附属
 
+* `*[SC]` [Farmer's Delight](https://modrinth.com/project/R2OftAxM)：农夫乐事 - 为了兼容性而进行更新
+* `+[SC]` [DelightLib](https://modrinth.com/project/rmDY6fYt)：农夫乐事附属基础库
 * `+[SC]` [Farmers Structures](https://www.curseforge.com/minecraft/mc-mods/farmers-structures)：农夫乐事小屋
 <!--* `+[SC]` [ExtraDelight](https://modrinth.com/project/yRrY3XII)：农夫乐事拓展：更多工具、制作台等-->
 <!--* `+[SC]` [Expanded Delight](https://modrinth.com/project/e9V6wFcR)：另一个农夫乐事拓展-->
@@ -174,6 +176,7 @@
 * `+[SC]` [Repurposed Structures - Chef's Delight Compat](https://modrinth.com/project/5TWoVsKB)：厨师村民村庄生成数据包
 * `+[SC]` [Repurposed Structures - Farmer's Delight Compat](https://modrinth.com/project/P5wB88AS)：更丰富的建筑农夫乐事扩展数据包
 * `+[SC]` [CTOV - Chef's delight Compat](https://modrinth.com/project/6PJbKvJH)：厨师村民CTOV村庄适配数据包
+* `+[SC]` [Cultural Delights](https://modrinth.com/project/YttyNOFA)：文化乐事（农夫乐事拓展）- 为了兼容性而进行更新
 
 ## Let's Do
 
