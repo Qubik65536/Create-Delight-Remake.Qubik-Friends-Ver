@@ -119,6 +119,11 @@ reason = "This official hotai patch to tacz can no longer be applied."
 # pattern = "some-problematic-mod-*.jar"
 # reason  = "Causes crash on startup with our KubeJS scripts"
 
+# Accelerated Rendering
+[[mods.remove]]
+pattern = "acceleratedrendering-*.jar"
+reason  = "Causes crash on startup on macOS"
+
 # ---------------------------------------------------------------------------
 # Mod additions
 # ---------------------------------------------------------------------------
