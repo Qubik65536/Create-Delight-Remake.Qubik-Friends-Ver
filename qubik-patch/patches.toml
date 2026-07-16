@@ -748,64 +748,64 @@ modrinth = "h6BAXuvn"
 # Mod additions — Farmer's Delight and addons
 # ---------------------------------------------------------------------------
 
-# # DelightLib
+# DelightLib
+[[mods.add]]
+modrinth = "rmDY6fYt"
+
+# Farmers Structures
+# 农夫乐事小屋
+[[mods.add]]
+curseforge = 1088877
+
+# ExtraDelight
+# 农夫乐事拓展：更多工具、制作台等
 # [[mods.add]]
-# modrinth = "rmDY6fYt"
+# modrinth = "yRrY3XII"
 
-# # Farmers Structures
-# # 农夫乐事小屋
+# Expanded Delight
+# 另一个农夫乐事拓展
 # [[mods.add]]
-# curseforge = 1088877
+# modrinth = "e9V6wFcR"
 
-# # ExtraDelight
-# # 农夫乐事拓展：更多工具、制作台等
-# # [[mods.add]]
-# # modrinth = "yRrY3XII"
+# Delightful
+# 又一个农夫乐事拓展
+[[mods.add]]
+modrinth = "JtSnhtNJ"
 
-# # Expanded Delight
-# # 另一个农夫乐事拓展
-# # [[mods.add]]
-# # modrinth = "e9V6wFcR"
+# More Delight (for Farmer's Delight)
+# 又一个农夫乐事拓展
+[[mods.add]]
+modrinth = "znHQQtuU"
 
-# # Delightful
-# # 又一个农夫乐事拓展
+# Rustic Delight
+# 煎饼、棉花、咖啡、甜椒、油炸食品等
+[[mods.add]]
+modrinth = "foa4fGIH"
+
+# Dumplings Delight Reload
+# 饺子乐事
+[[mods.add]]
+modrinth = "cF1BYe6H"
+
+# Barbeque's Delight
+# 烧烤乐事
+[[mods.add]]
+modrinth = "rtu7uERF"
+
+# Ube's Delight
+# 香芋乐事
+[[mods.add]]
+modrinth = "PYjpoAys"
+
+# Pineapple Delight
+# 菠萝乐事
+[[mods.add]]
+modrinth = "8wXnuOvg"
+
+# Christmas Delight
+# 圣诞乐事
 # [[mods.add]]
-# modrinth = "JtSnhtNJ"
-
-# # More Delight (for Farmer's Delight)
-# # 又一个农夫乐事拓展
-# [[mods.add]]
-# modrinth = "znHQQtuU"
-
-# # Rustic Delight
-# # 煎饼、棉花、咖啡、甜椒、油炸食品等
-# [[mods.add]]
-# modrinth = "foa4fGIH"
-
-# # Dumplings Delight Reload
-# # 饺子乐事
-# [[mods.add]]
-# modrinth = "cF1BYe6H"
-
-# # Barbeque's Delight
-# # 烧烤乐事
-# [[mods.add]]
-# modrinth = "rtu7uERF"
-
-# # Ube's Delight
-# # 香芋乐事
-# [[mods.add]]
-# modrinth = "PYjpoAys"
-
-# # Pineapple Delight
-# # 菠萝乐事
-# [[mods.add]]
-# modrinth = "8wXnuOvg"
-
-# # Christmas Delight
-# # 圣诞乐事
-# # [[mods.add]]
-# # curseforge = 1134366
+# curseforge = 1134366
 
 # # Croptopia Delight
 # # Croptopia 农夫乐事扩展
@@ -827,20 +827,20 @@ modrinth = "h6BAXuvn"
 # [[mods.add]]
 # modrinth = "LTTvOp5L"
 
-# # Repurposed Structures - Chef's Delight Compat
-# # 厨师村民村庄生成数据包
-# # [[mods.add]]
-# # modrinth = "5TWoVsKB"
+# Repurposed Structures - Chef's Delight Compat
+# 厨师村民村庄生成数据包
+# [[mods.add]]
+# modrinth = "5TWoVsKB"
 
-# # Repurposed Structures - Farmer's Delight Compat
-# # 更丰富的建筑农夫乐事扩展数据包
-# # [[mods.add]]
-# # modrinth = "P5wB88AS"
+# Repurposed Structures - Farmer's Delight Compat
+# 更丰富的建筑农夫乐事扩展数据包
+# [[mods.add]]
+# modrinth = "P5wB88AS"
 
-# # CTOV - Chef's delight Compat
-# # 厨师村民CTOV村庄适配数据包
-# # [[mods.add]]
-# # modrinth = "6PJbKvJH"
+# CTOV - Chef's delight Compat
+# 厨师村民CTOV村庄适配数据包
+# [[mods.add]]
+# modrinth = "6PJbKvJH"
 
 # ---------------------------------------------------------------------------
 # Mod additions — Let's Do
