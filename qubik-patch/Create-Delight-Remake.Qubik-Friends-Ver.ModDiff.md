@@ -30,8 +30,8 @@
 * `+[S]` [Grass Seeds](https://modrinth.com/project/Y6d4uRJn)：使用种子将土变草
 * `+[S]` [Extended Bone Meal](https://modrinth.com/project/bHkCoxMs)：更多骨粉功能
 * `+[S]` [Too Fast](https://modrinth.com/project/w6JSkKSH)：移除移动过快
-* `*[SC]` [Sophisticated Core](https://modrinth.com/project/nmoqTijg)：精妙背包/精妙存储依赖 - 为了兼容性而进行更新
-* `*[SC]` [Sophisticated Backpacks](https://modrinth.com/project/TyCTlI4b)：精妙背包 - 为了兼容性而进行更新
+* `*[SC]` [Sophisticated Core](https://modrinth.com/project/nmoqTijg)：精妙背包/精妙存储依赖
+* `*[SC]` [Sophisticated Backpacks](https://modrinth.com/project/TyCTlI4b)：精妙背包
 * `+[SC]` [Sophisticated Storage](https://modrinth.com/project/hMlaZH8f)：精妙存储
 * `+[SC]` [Sophisticated Storage in Motion](https://modrinth.com/project/6vtFbyaJ)：载具上的精妙存储
 * `*[SC]` [Sophisticated Backpacks Create Integration](https://modrinth.com/project/s85zLEDe)：精妙背包机械动力集成

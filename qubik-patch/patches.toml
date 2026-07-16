@@ -345,16 +345,19 @@ modrinth = "mQWkB9ON"
 # 精妙存储
 [[mods.add]]
 modrinth = "hMlaZH8f"
+version = "1.20.1-1.4.36.1621"
 
 # Sophisticated Storage in Motion
 # 载具上的精妙存储
 [[mods.add]]
 modrinth = "6vtFbyaJ"
+version = "1.20.1-0.10.32.259"
 
 # Sophisticated Storage Create Integration
 # 精妙存储机械动力集成
 [[mods.add]]
 modrinth = "MJ0hdevs"
+version = "1.20.1-0.1.17.115"
 
 # Global Packs
 # 强制默认数据包
@@ -916,26 +919,26 @@ modrinth = "sbIsGaOV"
 # remove_pattern  = "culturaldelights-*.jar"
 # modrinth = "YttyNOFA"
 
-# Sophisticated Core
-# 精妙核心
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "sophisticatedcore-*.jar"
-modrinth = "nmoqTijg"
+# # Sophisticated Core
+# # 精妙核心
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "sophisticatedcore-*.jar"
+# modrinth = "nmoqTijg"
 
-# Sophisticated Backpacks
-# 精妙背包
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "sophisticatedbackpacks-*.jar"
-modrinth = "TyCTlI4b"
+# # Sophisticated Backpacks
+# # 精妙背包
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "sophisticatedbackpacks-*.jar"
+# modrinth = "TyCTlI4b"
 
-# Sophisticated Backpacks Create Integration
-# 精妙背包机械动力集成
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "sophisticatedbackpackscreateintegration-*.jar"
-modrinth = "s85zLEDe"
+# # Sophisticated Backpacks Create Integration
+# # 精妙背包机械动力集成
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "sophisticatedbackpackscreateintegration-*.jar"
+# modrinth = "s85zLEDe"
 
 # (TaCZ entries managed manually)
 
