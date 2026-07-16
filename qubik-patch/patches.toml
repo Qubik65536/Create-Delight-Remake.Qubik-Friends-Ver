@@ -771,6 +771,7 @@ curseforge = 1088877
 # 又一个农夫乐事拓展
 [[mods.add]]
 modrinth = "JtSnhtNJ"
+version = "3.7.8-1.20.1"
 
 # More Delight (for Farmer's Delight)
 # 又一个农夫乐事拓展
@@ -796,6 +797,7 @@ modrinth = "rtu7uERF"
 # 香芋乐事
 [[mods.add]]
 modrinth = "PYjpoAys"
+version = "forge-1.20.1-0.4.12"
 
 # Pineapple Delight
 # 菠萝乐事
@@ -905,19 +907,19 @@ modrinth = "uJXTNuf0"
 remove_pattern  = "dragonlib-forge-*.jar"
 modrinth = "sbIsGaOV"
 
-# Farmer's Delight
-# 农夫乐事
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "FarmersDelight-*.jar"
-modrinth = "R2OftAxM"
+# # Farmer's Delight
+# # 农夫乐事
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "FarmersDelight-*.jar"
+# modrinth = "R2OftAxM"
 
-# Cultural Delights
-# 文化乐事（农夫乐事拓展）
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "culturaldelights-*.jar"
-modrinth = "YttyNOFA"
+# # Cultural Delights
+# # 文化乐事（农夫乐事拓展）
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "culturaldelights-*.jar"
+# modrinth = "YttyNOFA"
 
 # # Sophisticated Core
 # # 精妙核心
