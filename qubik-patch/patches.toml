@@ -905,19 +905,19 @@ modrinth = "uJXTNuf0"
 remove_pattern  = "dragonlib-forge-*.jar"
 modrinth = "sbIsGaOV"
 
-# # Farmer's Delight
-# # 农夫乐事
-# # 为了兼容性而进行更新
-# [[mods.substitute]]
-# remove_pattern  = "FarmersDelight-*.jar"
-# modrinth = "R2OftAxM"
+# Farmer's Delight
+# 农夫乐事
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "FarmersDelight-*.jar"
+modrinth = "R2OftAxM"
 
-# # Cultural Delights
-# # 文化乐事（农夫乐事拓展）
-# # 为了兼容性而进行更新
-# [[mods.substitute]]
-# remove_pattern  = "culturaldelights-*.jar"
-# modrinth = "YttyNOFA"
+# Cultural Delights
+# 文化乐事（农夫乐事拓展）
+# 为了兼容性而进行更新
+[[mods.substitute]]
+remove_pattern  = "culturaldelights-*.jar"
+modrinth = "YttyNOFA"
 
 # # Sophisticated Core
 # # 精妙核心
