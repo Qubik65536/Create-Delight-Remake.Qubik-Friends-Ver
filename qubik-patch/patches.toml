@@ -631,208 +631,208 @@ modrinth = "KmyhssPl"
 # Mod additions — Create and addons
 # ---------------------------------------------------------------------------
 
-# # Create Encased
-# [[mods.add]]
-# modrinth = "hSSqdyU1"
+# Create Encased
+[[mods.add]]
+modrinth = "hSSqdyU1"
 
-# # Create: Power Loader
-# [[mods.add]]
-# modrinth = "wPQ6GgFE"
+# Create: Power Loader
+[[mods.add]]
+modrinth = "wPQ6GgFE"
 
-# # Create: Framed
-# [[mods.add]]
-# modrinth = "15fFZ3f4"
+# Create: Framed
+[[mods.add]]
+modrinth = "15fFZ3f4"
 
-# # Create: The Factory Must Grow
-# [[mods.add]]
-# modrinth = "USgVjXsk"
+# Create: The Factory Must Grow
+[[mods.add]]
+modrinth = "USgVjXsk"
 
-# # Create: Food
-# [[mods.add]]
-# modrinth = "4HnO3el1"
+# Create: Food
+[[mods.add]]
+modrinth = "4HnO3el1"
 
-# # Create: Let The Adventure Begin
-# [[mods.add]]
-# modrinth = "fUa6OtBG"
+# Create: Let The Adventure Begin
+[[mods.add]]
+modrinth = "fUa6OtBG"
 
-# # Create: Trimmed
-# [[mods.add]]
-# modrinth = "zvaHXgQz"
+# Create: Trimmed
+[[mods.add]]
+modrinth = "zvaHXgQz"
 
-# # Create: Ultimate Factory
-# [[mods.add]]
-# modrinth = "N9QToVpw"
+# Create: Ultimate Factory
+[[mods.add]]
+modrinth = "N9QToVpw"
 
-# # Create: Vibrant Vaults
-# [[mods.add]]
-# modrinth = "hddN8ksR"
+# Create: Vibrant Vaults
+[[mods.add]]
+modrinth = "hddN8ksR"
 
-# # Create: Ironworks
-# [[mods.add]]
-# modrinth = "FZb6dmQf"
+# Create: Ironworks
+[[mods.add]]
+modrinth = "FZb6dmQf"
 
-# # Create: Renewable Netherite
-# [[mods.add]]
-# modrinth = "nGq1sdd2"
+# Create: Renewable Netherite
+[[mods.add]]
+modrinth = "nGq1sdd2"
 
-# # Create Compressed
-# [[mods.add]]
-# modrinth = "Sy4Box1J"
+# Create Compressed
+[[mods.add]]
+modrinth = "Sy4Box1J"
 
-# # Create: Renewable Brass
-# [[mods.add]]
-# modrinth = "AqQzrKJo"
+# Create: Renewable Brass
+[[mods.add]]
+modrinth = "AqQzrKJo"
 
-# # Create: Better Villagers
-# [[mods.add]]
-# modrinth = "kS90mr4y"
+# Create: Better Villagers
+[[mods.add]]
+modrinth = "kS90mr4y"
 
-# # Create: Simple Ore Doubling
-# [[mods.add]]
-# modrinth = "7jXyH8Xk"
+# Create: Simple Ore Doubling
+[[mods.add]]
+modrinth = "7jXyH8Xk"
 
-# # Create: Renewable Diamonds
-# [[mods.add]]
-# modrinth = "IxTis4hc"
+# Create: Renewable Diamonds
+[[mods.add]]
+modrinth = "IxTis4hc"
 
-# # Create: Renewable Notch Apples
-# [[mods.add]]
-# modrinth = "qpDVQtGR"
+# Create: Renewable Notch Apples
+[[mods.add]]
+modrinth = "qpDVQtGR"
 
-# # Create: More Features
-# [[mods.add]]
-# modrinth = "bx3EyygU"
+# Create: More Features
+[[mods.add]]
+modrinth = "bx3EyygU"
 
-# # Create: Easy Stone Generators
-# [[mods.add]]
-# modrinth = "aeW9oim1"
+# Create: Easy Stone Generators
+[[mods.add]]
+modrinth = "aeW9oim1"
 
-# # Create: Ender Link
-# [[mods.add]]
-# modrinth = "DjbTLY77"
+# Create: Ender Link
+[[mods.add]]
+modrinth = "DjbTLY77"
 
-# # Create Stuff & Netherite Additions
-# [[mods.add]]
-# modrinth = "777GhN41"
+# Create Stuff & Netherite Additions
+[[mods.add]]
+modrinth = "777GhN41"
 
-# # Create: Few More Recipes
-# [[mods.add]]
-# modrinth = "LL90W5sb"
+# Create: Few More Recipes
+[[mods.add]]
+modrinth = "LL90W5sb"
 
-# # Create: Ranged
-# [[mods.add]]
-# modrinth = "ES4twYgt"
+# Create: Ranged
+[[mods.add]]
+modrinth = "ES4twYgt"
 
-# # Create: More Sandpapers
-# [[mods.add]]
-# modrinth = "PM1NaPZg"
+# Create: More Sandpapers
+[[mods.add]]
+modrinth = "PM1NaPZg"
 
-# # Create: Delivery Director
-# [[mods.add]]
-# modrinth = "qRL8MwMB"
+# Create: Delivery Director
+[[mods.add]]
+modrinth = "qRL8MwMB"
 
-# # Create: Storage
-# [[mods.add]]
-# modrinth = "h6BAXuvn"
+# Create: Storage
+[[mods.add]]
+modrinth = "h6BAXuvn"
 
 
 # ---------------------------------------------------------------------------
 # Mod additions — Farmer's Delight and addons
 # ---------------------------------------------------------------------------
 
-# DelightLib
-[[mods.add]]
-modrinth = "rmDY6fYt"
-
-# Farmers Structures
-# 农夫乐事小屋
-[[mods.add]]
-curseforge = 1088877
-
-# ExtraDelight
-# 农夫乐事拓展：更多工具、制作台等
+# # DelightLib
 # [[mods.add]]
-# modrinth = "yRrY3XII"
+# modrinth = "rmDY6fYt"
 
-# Expanded Delight
-# 另一个农夫乐事拓展
+# # Farmers Structures
+# # 农夫乐事小屋
 # [[mods.add]]
-# modrinth = "e9V6wFcR"
+# curseforge = 1088877
 
-# Delightful
-# 又一个农夫乐事拓展
-[[mods.add]]
-modrinth = "JtSnhtNJ"
+# # ExtraDelight
+# # 农夫乐事拓展：更多工具、制作台等
+# # [[mods.add]]
+# # modrinth = "yRrY3XII"
 
-# More Delight (for Farmer's Delight)
-# 又一个农夫乐事拓展
-[[mods.add]]
-modrinth = "znHQQtuU"
+# # Expanded Delight
+# # 另一个农夫乐事拓展
+# # [[mods.add]]
+# # modrinth = "e9V6wFcR"
 
-# Rustic Delight
-# 煎饼、棉花、咖啡、甜椒、油炸食品等
-[[mods.add]]
-modrinth = "foa4fGIH"
-
-# Dumplings Delight Reload
-# 饺子乐事
-[[mods.add]]
-modrinth = "cF1BYe6H"
-
-# Barbeque's Delight
-# 烧烤乐事
-[[mods.add]]
-modrinth = "rtu7uERF"
-
-# Ube's Delight
-# 香芋乐事
-[[mods.add]]
-modrinth = "PYjpoAys"
-
-# Pineapple Delight
-# 菠萝乐事
-[[mods.add]]
-modrinth = "8wXnuOvg"
-
-# Christmas Delight
-# 圣诞乐事
+# # Delightful
+# # 又一个农夫乐事拓展
 # [[mods.add]]
-# curseforge = 1134366
+# modrinth = "JtSnhtNJ"
 
-# Croptopia Delight
-# Croptopia 农夫乐事扩展
-[[mods.add]]
-modrinth = "z2Ihxkgp"
-
-# Aquaculture Delight
-# 水产2农夫乐事扩展
-[[mods.add]]
-modrinth = "U9GJqWrI"
-
-# Ender's Delight
-# 末影乐事
-[[mods.add]]
-modrinth = "2uEhdGKt"
-
-# Storage Delight
-# 存储乐事
-[[mods.add]]
-modrinth = "LTTvOp5L"
-
-# Repurposed Structures - Chef's Delight Compat
-# 厨师村民村庄生成数据包
+# # More Delight (for Farmer's Delight)
+# # 又一个农夫乐事拓展
 # [[mods.add]]
-# modrinth = "5TWoVsKB"
+# modrinth = "znHQQtuU"
 
-# Repurposed Structures - Farmer's Delight Compat
-# 更丰富的建筑农夫乐事扩展数据包
+# # Rustic Delight
+# # 煎饼、棉花、咖啡、甜椒、油炸食品等
 # [[mods.add]]
-# modrinth = "P5wB88AS"
+# modrinth = "foa4fGIH"
 
-# CTOV - Chef's delight Compat
-# 厨师村民CTOV村庄适配数据包
+# # Dumplings Delight Reload
+# # 饺子乐事
 # [[mods.add]]
-# modrinth = "6PJbKvJH"
+# modrinth = "cF1BYe6H"
+
+# # Barbeque's Delight
+# # 烧烤乐事
+# [[mods.add]]
+# modrinth = "rtu7uERF"
+
+# # Ube's Delight
+# # 香芋乐事
+# [[mods.add]]
+# modrinth = "PYjpoAys"
+
+# # Pineapple Delight
+# # 菠萝乐事
+# [[mods.add]]
+# modrinth = "8wXnuOvg"
+
+# # Christmas Delight
+# # 圣诞乐事
+# # [[mods.add]]
+# # curseforge = 1134366
+
+# # Croptopia Delight
+# # Croptopia 农夫乐事扩展
+# [[mods.add]]
+# modrinth = "z2Ihxkgp"
+
+# # Aquaculture Delight
+# # 水产2农夫乐事扩展
+# [[mods.add]]
+# modrinth = "U9GJqWrI"
+
+# # Ender's Delight
+# # 末影乐事
+# [[mods.add]]
+# modrinth = "2uEhdGKt"
+
+# # Storage Delight
+# # 存储乐事
+# [[mods.add]]
+# modrinth = "LTTvOp5L"
+
+# # Repurposed Structures - Chef's Delight Compat
+# # 厨师村民村庄生成数据包
+# # [[mods.add]]
+# # modrinth = "5TWoVsKB"
+
+# # Repurposed Structures - Farmer's Delight Compat
+# # 更丰富的建筑农夫乐事扩展数据包
+# # [[mods.add]]
+# # modrinth = "P5wB88AS"
+
+# # CTOV - Chef's delight Compat
+# # 厨师村民CTOV村庄适配数据包
+# # [[mods.add]]
+# # modrinth = "6PJbKvJH"
 
 # ---------------------------------------------------------------------------
 # Mod additions — Let's Do
@@ -897,12 +897,19 @@ modrinth = "uJXTNuf0"
 remove_pattern  = "dragonlib-forge-*.jar"
 modrinth = "sbIsGaOV"
 
-# Farmer's Delight
-# 农夫乐事
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "FarmersDelight-*.jar"
-modrinth = "R2OftAxM"
+# # Farmer's Delight
+# # 农夫乐事
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "FarmersDelight-*.jar"
+# modrinth = "R2OftAxM"
+
+# # Cultural Delights
+# # 文化乐事（农夫乐事拓展）
+# # 为了兼容性而进行更新
+# [[mods.substitute]]
+# remove_pattern  = "culturaldelights-*.jar"
+# modrinth = "YttyNOFA"
 
 # Sophisticated Core
 # 精妙核心
@@ -924,13 +931,6 @@ modrinth = "TyCTlI4b"
 [[mods.substitute]]
 remove_pattern  = "sophisticatedbackpackscreateintegration-*.jar"
 modrinth = "s85zLEDe"
-
-# Cultural Delights
-# 文化乐事（农夫乐事拓展）
-# 为了兼容性而进行更新
-[[mods.substitute]]
-remove_pattern  = "culturaldelights-*.jar"
-modrinth = "YttyNOFA"
 
 # (TaCZ entries managed manually)
 
