@@ -782,6 +782,7 @@ modrinth = "znHQQtuU"
 # 煎饼、棉花、咖啡、甜椒、油炸食品等
 [[mods.add]]
 modrinth = "foa4fGIH"
+version = "1.5.0"
 
 # Dumplings Delight Reload
 # 饺子乐事
@@ -809,25 +810,25 @@ modrinth = "8wXnuOvg"
 # [[mods.add]]
 # curseforge = 1134366
 
-# # Croptopia Delight
-# # Croptopia 农夫乐事扩展
-# [[mods.add]]
-# modrinth = "z2Ihxkgp"
+# Croptopia Delight
+# Croptopia 农夫乐事扩展
+[[mods.add]]
+modrinth = "z2Ihxkgp"
 
-# # Aquaculture Delight
-# # 水产2农夫乐事扩展
-# [[mods.add]]
-# modrinth = "U9GJqWrI"
+# Aquaculture Delight
+# 水产2农夫乐事扩展
+[[mods.add]]
+modrinth = "U9GJqWrI"
 
-# # Ender's Delight
-# # 末影乐事
-# [[mods.add]]
-# modrinth = "2uEhdGKt"
+# Ender's Delight
+# 末影乐事
+[[mods.add]]
+modrinth = "2uEhdGKt"
 
-# # Storage Delight
-# # 存储乐事
-# [[mods.add]]
-# modrinth = "LTTvOp5L"
+# Storage Delight
+# 存储乐事
+[[mods.add]]
+modrinth = "LTTvOp5L"
 
 # Repurposed Structures - Chef's Delight Compat
 # 厨师村民村庄生成数据包
