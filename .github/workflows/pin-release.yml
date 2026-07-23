@@ -1,0 +1,242 @@
+name: Pin Release
+
+# Manually pins a build produced by release.yml as a GitHub Release tagged
+# `pin/<version>`. Workflow artifacts expire and are only reachable from the run
+# page, so this promotes them to permanent, publicly downloadable release assets
+# that state exactly which run, branch and commit they were built from.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to pin, e.g. v0.4.8.5-qubik. Leave empty to read it off the run's own artifacts."
+        type: string
+        required: false
+      run_id:
+        description: "release.yml run to pin. Leave empty to use the latest successful run."
+        type: string
+        required: false
+      prerelease:
+        description: "Mark the release as a pre-release."
+        type: boolean
+        default: false
+      overwrite:
+        description: "Replace the pin/<version> release and tag if they already exist."
+        type: boolean
+        default: false
+
+env:
+  RELEASE_WORKFLOW: release.yml
+
+jobs:
+  pin:
+    name: Pin release.yml Artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the tag and release
+      actions: read # list runs and download their artifacts
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      # -- Resolve which run to pin -------------------------------------------
+      - name: Resolve Target Run
+        id: run
+        env:
+          INPUT_RUN_ID: ${{ inputs.run_id }}
+        run: |
+          set -euo pipefail
+          RUN_ID="$INPUT_RUN_ID"
+          if [ -z "$RUN_ID" ]; then
+            RUN_ID=$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow "$RELEASE_WORKFLOW" \
+              --status success \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId // empty')
+            [ -n "$RUN_ID" ] || { echo "No successful $RELEASE_WORKFLOW run found."; exit 1; }
+            echo "Using latest successful run: $RUN_ID"
+          fi
+
+          gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --json databaseId,headBranch,headSha,conclusion,createdAt,displayTitle,url \
+            > run.json
+          cat run.json
+
+          {
+            echo "id=$(jq -r '.databaseId' run.json)"
+            echo "branch=$(jq -r '.headBranch' run.json)"
+            echo "sha=$(jq -r '.headSha' run.json)"
+            echo "created=$(jq -r '.createdAt' run.json)"
+            echo "title=$(jq -r '.displayTitle' run.json)"
+            echo "url=$(jq -r '.url' run.json)"
+          } >> "$GITHUB_OUTPUT"
+
+          CONCLUSION=$(jq -r '.conclusion' run.json)
+          if [ "$CONCLUSION" != "success" ]; then
+            echo "Run $RUN_ID concluded '$CONCLUSION', not 'success' — refusing to pin it."
+            exit 1
+          fi
+
+      # -- Work out what version this run actually produced --------------------
+      - name: Resolve Version and Tag
+        id: tag
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          RUN_ID: ${{ steps.run.outputs.id }}
+          RUN_SHA: ${{ steps.run.outputs.sha }}
+        run: |
+          set -euo pipefail
+          VERSION="$INPUT_VERSION"
+
+          if [ -z "$VERSION" ]; then
+            # pack.toml at the run's commit gives the modpack name, which is the
+            # prefix release.yml puts on every artifact.
+            gh api "repos/$GITHUB_REPOSITORY/contents/pack.toml?ref=$RUN_SHA" \
+              -H "Accept: application/vnd.github.raw" > pack.toml
+            PACK_NAME=$(sed -n 's/^name *= *"\(.*\)"/\1/p' pack.toml | head -1)
+            PACK_VERSION=$(sed -n 's/^version *= *"\(.*\)"/\1/p' pack.toml | head -1)
+            [ -n "$PACK_NAME" ] || { echo "No 'name' in pack.toml at $RUN_SHA."; exit 1; }
+            echo "pack.toml: name='$PACK_NAME' version='$PACK_VERSION'"
+
+            gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/artifacts" \
+              --jq '.artifacts[].name' > artifact_names.txt
+            cat artifact_names.txt
+
+            # Artifacts are named "[Client]<name>-<version>" / "Server-<name>-<version>",
+            # so the tail of either is the version the build really stamped in —
+            # including any -test-build-<n> suffix release.yml appends on test branches.
+            for prefix in "[Client]$PACK_NAME-" "Server-$PACK_NAME-"; do
+              while IFS= read -r artifact; do
+                case "$artifact" in
+                  "$prefix"*) VERSION="${artifact#"$prefix"}"; break ;;
+                esac
+              done < artifact_names.txt
+              if [ -n "$VERSION" ]; then break; fi
+            done
+
+            if [ -n "$VERSION" ]; then
+              echo "Derived version from artifacts: $VERSION"
+            elif [ -n "$PACK_VERSION" ]; then
+              # e.g. a server-only test run whose artifact names we do not match.
+              VERSION="$PACK_VERSION"
+              echo "No matching artifact name; falling back to pack.toml version: $VERSION"
+            else
+              echo "Could not determine a version — pass one explicitly."
+              exit 1
+            fi
+          fi
+
+          # Tolerate the tag form being pasted into the version box.
+          VERSION="${VERSION#pin/}"
+          # Keep it usable as a git ref and predictable as a release title.
+          case "$VERSION" in
+            ""|*" "*|*..*|*"~"*|*"^"*|*:*|*"?"*|*"*"*|*"["*|*"\\"*)
+              echo "Invalid version: '$VERSION'"; exit 1 ;;
+          esac
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=pin/$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Pinning as tag: pin/$VERSION"
+
+      - name: Check for an Existing Release
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            if [ "${{ inputs.overwrite }}" != "true" ]; then
+              echo "Release $TAG already exists. Re-run with 'overwrite' enabled to replace it."
+              exit 1
+            fi
+            echo "Deleting existing release $TAG (overwrite requested)."
+            gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes
+          fi
+
+      # -- Collect the artifacts ----------------------------------------------
+      - name: Download Run Artifacts
+        env:
+          RUN_ID: ${{ steps.run.outputs.id }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          # Fails when the run has no artifacts left (they expire after the
+          # repository's retention period) — that is a hard error here.
+          gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --dir artifacts
+          ls -la artifacts
+
+      - name: Repackage Artifacts as Release Assets
+        id: assets
+        run: |
+          set -euo pipefail
+          mkdir -p assets
+          : > asset_list.md
+
+          shopt -s nullglob
+          for dir in artifacts/*/; do
+            name=$(basename "$dir")
+            # GitHub rewrites characters outside [A-Za-z0-9._-] in asset names,
+            # so normalise up front to keep the uploaded names predictable.
+            safe=$(printf '%s' "$name" | sed 's/[^A-Za-z0-9._-]/./g; s/\.\{2,\}/./g; s/^\.//; s/\.$//')
+            (cd "$dir" && zip -q -r "$GITHUB_WORKSPACE/assets/$safe.zip" .)
+            size=$(du -h "assets/$safe.zip" | cut -f1)
+            echo "| \`$safe.zip\` | $name | $size |" >> asset_list.md
+            echo "Packed $name -> $safe.zip ($size)"
+          done
+
+          count=$(find assets -name '*.zip' | wc -l | tr -d ' ')
+          [ "$count" -gt 0 ] || { echo "No artifacts to pin."; exit 1; }
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
+      # -- Publish -------------------------------------------------------------
+      - name: Create Release
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          VERSION: ${{ steps.tag.outputs.version }}
+          RUN_ID: ${{ steps.run.outputs.id }}
+          RUN_URL: ${{ steps.run.outputs.url }}
+          RUN_SHA: ${{ steps.run.outputs.sha }}
+          RUN_BRANCH: ${{ steps.run.outputs.branch }}
+          RUN_TITLE: ${{ steps.run.outputs.title }}
+          RUN_CREATED: ${{ steps.run.outputs.created }}
+        run: |
+          set -euo pipefail
+          {
+            echo "Pinned build of \`$VERSION\`."
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Source run | [$RUN_ID]($RUN_URL) |"
+            echo "| Run title | $RUN_TITLE |"
+            echo "| Branch | \`$RUN_BRANCH\` |"
+            echo "| Commit | \`$RUN_SHA\` |"
+            echo "| Built at | $RUN_CREATED |"
+            echo
+            echo "### Assets"
+            echo
+            echo "| File | Artifact | Size |"
+            echo "|---|---|---|"
+            cat asset_list.md
+          } > release_notes.md
+          cat release_notes.md
+
+          gh release create "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$RUN_SHA" \
+            --title "$TAG" \
+            --notes-file release_notes.md \
+            ${{ inputs.prerelease && '--prerelease' || '' }} \
+            assets/*.zip
+
+      - name: Summary
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          {
+            echo "## Pinned \`$TAG\`"
+            echo
+            echo "- Source run: ${{ steps.run.outputs.url }}"
+            echo "- Commit: \`${{ steps.run.outputs.sha }}\` (\`${{ steps.run.outputs.branch }}\`)"
+            echo "- Assets: ${{ steps.assets.outputs.count }}"
+            echo
+            echo "https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
+          } >> "$GITHUB_STEP_SUMMARY"
