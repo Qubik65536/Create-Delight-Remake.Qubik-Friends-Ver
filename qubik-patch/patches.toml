@@ -217,12 +217,6 @@ clientonly = true
 modrinth   = "aEK1KhsC"
 clientonly = true
 
-# SuperMartijn642's Config Lib
-# 耐久度显示依赖
-[[mods.add]]
-modrinth   = "LN9BxssP"
-clientonly = true
-
 # Durability Tooltip
 # 耐久度显示
 [[mods.add]]
@@ -241,6 +235,11 @@ clientonly = true
 modrinth   = "2JAUNCL4"
 clientonly = true
 
+# WorldEdit CUI
+# WorldEdit 可视化
+[[mods.add]]
+modrinth   = "lOELapP1"
+clientonly = true
 
 # ---------------------------------------------------------------------------
 # Mod additions — Server-only
@@ -310,6 +309,10 @@ modrinth   = "Bh6ZOMvp"
 # ---------------------------------------------------------------------------
 # Mod additions — Client + Server
 # ---------------------------------------------------------------------------
+
+# WorldEdit
+[[mods.add]]
+modrinth = "1u6JkXh5"
 
 # AllTheLeaks (Memory Leak Fix)
 # 内存泄露优化
