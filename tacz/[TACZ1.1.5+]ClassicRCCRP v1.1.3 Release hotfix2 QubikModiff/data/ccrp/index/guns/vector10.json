@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.vector10.name",
+  "display": "ccrp:vector10_display",
+  "data": "ccrp:vector10_data",
+  "tooltip": "ccrp.gun.vector10.desc",
+  "type": "smg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

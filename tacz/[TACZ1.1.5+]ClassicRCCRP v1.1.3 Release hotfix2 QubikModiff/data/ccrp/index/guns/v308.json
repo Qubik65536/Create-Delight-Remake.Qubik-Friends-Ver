@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.v308.name",
+  "display": "ccrp:v308_display",
+  "data": "ccrp:v308_data",
+  "tooltip": "ccrp.gun.v308.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

@@ -1,0 +1,13 @@
+{
+  "slot": "ccrp:attachment/slot/muzzle_rotex5c",
+  "model": "ccrp:attachment/muzzle_rotex5c_geo",
+  "texture": "ccrp:attachment/uv/muzzle_rotex5c",
+  "lod": {
+      "model": "ccrp:attachment/lod/rotex5c",
+      "texture": "ccrp:attachment/lod/rotex5c"
+  },
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

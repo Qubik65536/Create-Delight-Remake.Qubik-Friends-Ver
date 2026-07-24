@@ -1,0 +1,21 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 16
+    },
+    {
+      "item": {
+        "tag": "minecraft:logs"
+      },
+      "count": 5
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:chisato_m1911"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

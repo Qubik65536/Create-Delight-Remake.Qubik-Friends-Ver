@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.type_97_gen2.name",
+  "display": "ccrp:type_97_gen2_display",
+  "data": "ccrp:type_97_gen2_data",
+  "tooltip": "ccrp.gun.type_97_gen2.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

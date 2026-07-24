@@ -1,0 +1,21 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "tag": "forge:leather"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "type": "attachment",
+    "id": "ccrp:grip_cqr"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

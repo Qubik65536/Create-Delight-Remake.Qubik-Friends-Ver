@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.f90_mbr.name",
+  "display": "ccrp:f90_mbr_display",
+  "data": "ccrp:f90_mbr_data",
+  "tooltip": "ccrp.gun.f90_mbr.desc",
+  "type": "rifle",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

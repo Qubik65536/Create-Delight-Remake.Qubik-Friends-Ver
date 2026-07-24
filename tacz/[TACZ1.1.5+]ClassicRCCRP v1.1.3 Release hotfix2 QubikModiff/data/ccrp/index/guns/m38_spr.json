@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.m38_spr.name",
+  "display": "ccrp:m38_spr_display",
+  "data": "ccrp:m38_spr_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.m38_spr.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}
