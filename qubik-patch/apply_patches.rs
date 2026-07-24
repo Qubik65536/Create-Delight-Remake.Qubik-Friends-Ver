@@ -465,12 +465,24 @@ fn collect_files(dir: &Path) -> Result<Vec<PathBuf>> {
     Ok(result)
 }
 
+/// Filenames that are never copied out of an overlay/assets source directory:
+/// `.gitkeep` only exists to keep empty dirs in git, and `.DS_Store` is macOS
+/// cruft that would otherwise end up inside the released modpack.
+const OVERLAY_SKIP: &[&str] = &[".gitkeep", ".DS_Store"];
+
+fn is_overlay_skipped(path: &Path) -> bool {
+    path.file_name()
+        .and_then(|n| n.to_str())
+        .map(|n| OVERLAY_SKIP.contains(&n))
+        .unwrap_or(false)
+}
+
 /// Copy all files from `src` into `dst`, preserving relative structure.
-/// Skips `.gitkeep` files.
+/// Skips the `OVERLAY_SKIP` filenames.
 fn copy_overlay(src: &Path, dst: &Path) -> Result<usize> {
     let mut count = 0;
     for file in collect_files(src)? {
-        if file.file_name().map(|n| n == ".gitkeep").unwrap_or(false) {
+        if is_overlay_skipped(&file) {
             continue;
         }
         let rel = file
@@ -648,7 +660,7 @@ fn main() -> Result<()> {
             let all_files = collect_files(overlay)?;
             let meaningful: Vec<_> = all_files
                 .iter()
-                .filter(|p| p.file_name().map(|n| n != ".gitkeep").unwrap_or(true))
+                .filter(|p| !is_overlay_skipped(p))
                 .collect();
 
             if meaningful.is_empty() {
