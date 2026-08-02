@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.m305a.name",
+  "display": "ccrp:m305a_display",
+  "data": "ccrp:m305a_data",
+  "tooltip": "ccrp.gun.m305a.desc",
+  "type": "rifle",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

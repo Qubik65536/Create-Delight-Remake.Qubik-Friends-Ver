@@ -1,0 +1,8 @@
+{
+  "type": "tacz:gun_smith_table_crafting",
+  "materials": [],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:p90_shround_s"
+  }
+}

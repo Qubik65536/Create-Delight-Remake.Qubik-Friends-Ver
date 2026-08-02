@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.m1887_long.name",
+  "display": "ccrp:m1887_long_display",
+  "data": "ccrp:m1887_long_data",
+  "tooltip": "ccrp.gun.m1887_long.desc",
+  "type": "shotgun",
+  "item_type": "modern_kinetic",
+  "sort": 10
+}

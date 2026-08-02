@@ -1,0 +1,10 @@
+{
+  "slot": "ccrp:attachment/slot/m14_cheek_support",
+  "model": "ccrp:attachment/m14_cheek_support_geo",
+  "texture": "ccrp:attachment/uv/m14_cheek_support",
+  "adapter": "stock_wood",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

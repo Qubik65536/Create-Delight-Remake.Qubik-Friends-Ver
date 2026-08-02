@@ -1,0 +1,53 @@
+{
+    "model": "classicr:gun/dp28_geo",
+    "texture": "classicr:gun/uv/dp28",
+    "lod": {
+        "model": "classicr:gun/lod/dp28_lod",
+        "texture": "classicr:gun/lod/dp28_lod"
+    },
+    "hud": "classicr:gun/hud/dp28",
+    "slot": "classicr:gun/slot/dp28",
+    "animation": "classicr:dp28",
+    "use_default_animation": "rifle",
+    "third_person_animation": "default",
+    "state_machine": "classicr:dp28",
+    "transform": {
+        "scale": {
+            "thirdperson": [
+                0.6,
+                0.6,
+                0.6
+            ],
+            "ground": [
+                0.6,
+                0.6,
+                0.6
+            ],
+            "fixed": [
+                1.2,
+                1.2,
+                1.2
+            ]
+        }
+    },
+    "shell": {
+        "initial_velocity": [5, 2, 1],
+        "random_velocity": [1, 1, 0.25],
+        "acceleration": [0.0, -10, 0.0],
+        "angular_velocity": [360, -1200, 90],
+        "living_time": 1.0
+      },
+  "muzzle_flash": {
+    "texture": "tacz:flash/common_muzzle_flash",
+    "scale": 0.75
+  },
+    "sounds": {
+        "shoot": "classicr:dp28/dp28_shoot",
+        "shoot_3p": "classicr:dp28/dp28_shoot_3p",
+        "silence": "classicr:dp28/dp28_silence",
+        "silence_3p": "classicr:dp28/dp28_silence_3p",
+        "head_hit": "classicr:head_hit",
+        "flesh_hit": "classicr:flesh_hit",
+        "kill": "classicr:kill"
+    }
+}
