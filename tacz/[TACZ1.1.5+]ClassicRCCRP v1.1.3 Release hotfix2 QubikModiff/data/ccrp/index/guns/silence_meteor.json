@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.silence_meteor.name",
+  "display": "ccrp:silence_meteor_display",
+  "data": "ccrp:silence_meteor_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.silence_meteor.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

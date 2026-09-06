@@ -1,0 +1,8 @@
+{
+  "name": "ccrp.gun.ddm4_v7_pro.name",
+  "display": "ccrp:ddm4_v7_pro_display",
+  "data": "ccrp:ddm4_v7_pro_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.ddm4_v7_pro.desc",
+  "sort": 919
+}

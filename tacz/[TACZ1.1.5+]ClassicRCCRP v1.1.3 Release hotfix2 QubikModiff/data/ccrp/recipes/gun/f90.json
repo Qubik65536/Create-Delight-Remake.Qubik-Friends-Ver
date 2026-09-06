@@ -1,0 +1,27 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 56
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "tag": "forge:gems/amethyst"
+      },
+      "count": 20
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:f90"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

@@ -1,0 +1,14 @@
+{
+    "weight": 0.0,
+  "rpm": {
+    "multiplier":1.25
+  },
+  "recoil": {
+    "pitch": {
+      "multiplier": 1.35
+    },
+    "yaw": {
+      "multiplier": 1.25
+    }
+}
+}

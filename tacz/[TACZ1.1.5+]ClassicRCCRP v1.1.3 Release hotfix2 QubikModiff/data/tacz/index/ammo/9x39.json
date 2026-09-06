@@ -1,0 +1,6 @@
+{
+  "name": "tacz.ammo.9x39.name",
+  "display": "tacz:9x39_display",
+  // 堆叠数量
+  "stack_size": 60
+}

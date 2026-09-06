@@ -1,0 +1,16 @@
+#Select the backend to use. Set to "DEFAULT" to let Flywheel decide.
+#Forced to "flywheel:instancing" pack-wide: the auto-selected "indirect" backend
+#native-crashes AMD OpenGL drivers while compiling its compute shaders on world join.
+#Instancing (GL 3.3) is universally stable with negligible performance difference here.
+backend = "flywheel:instancing"
+#Enable or disable instance update limiting with distance.
+limitUpdates = true
+#The number of worker threads to use. Set to -1 to let Flywheel decide. Set to 0 to disable parallelism. Requires a game restart to take effect.
+#Range: > -1
+workerThreads = -1
+
+#Config options for Flywheel's built-in backends.
+[backendConfig]
+	#How smooth Flywheel's shader-based lighting should be. May have a large performance impact.
+	#Allowed Values: SMOOTH, TRILINEAR, BILINEAR, LINEAR, FLAT
+	lightSmoothness = "SMOOTH"
