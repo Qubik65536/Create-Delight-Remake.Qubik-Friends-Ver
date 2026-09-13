@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.fightlite_scr_hg.name",
+  "display": "ccrp:fightlite_scr_hg_display",
+  "data": "ccrp:fightlite_scr_hg_data",
+  "type": "pistol",
+  "tooltip": "ccrp.gun.fightlite_scr_hg.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

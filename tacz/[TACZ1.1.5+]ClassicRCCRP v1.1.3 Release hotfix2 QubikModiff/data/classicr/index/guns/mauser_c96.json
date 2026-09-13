@@ -1,0 +1,8 @@
+{
+  "name": "classicr.gun.mauser_c96.name",
+  "display": "classicr:mauser_c96_display",
+  "data": "classicr:mauser_c96_data",
+  "tooltip": "classicr.gun.mauser_c96.desc",
+  "type": "pistol",
+  "sort": 10
+}

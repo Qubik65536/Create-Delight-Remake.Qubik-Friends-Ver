@@ -1,0 +1,8 @@
+{
+  "name": "classicr.gun.dp28.name",
+  "display": "classicr:dp28_display",
+  "data": "classicr:dp28_data",
+  "tooltip": "classicr.gun.dp28.desc",
+  "type": "mg",
+  "sort": 10
+}

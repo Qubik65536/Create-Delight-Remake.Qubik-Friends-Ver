@@ -1,0 +1,8 @@
+{
+  "name": "ccrp.attachment.ammo_mod_hap.name",
+  "display": "ccrp:ammo_mod_hap_display",
+  "data": "ccrp:ammo_mod_hap_data",
+  "tooltip": "ccrp.attachment.ammo_mod_hap.desc",
+  "type": "extended_mag",
+  "sort": 1000
+}

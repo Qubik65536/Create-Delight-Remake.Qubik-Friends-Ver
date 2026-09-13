@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.type_95_longbow.name",
+  "display": "ccrp:type_95_longbow_display",
+  "data": "ccrp:type_95_longbow_data",
+  "tooltip": "ccrp.gun.type_95_longbow.desc",
+  "type": "mg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

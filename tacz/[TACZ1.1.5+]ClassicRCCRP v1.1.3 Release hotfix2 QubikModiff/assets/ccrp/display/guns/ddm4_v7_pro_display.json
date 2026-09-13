@@ -1,0 +1,115 @@
+{
+  "model": "ccrp:gun/ddm4_v7_pro_geo",
+  "texture": "ccrp:gun/uv/ddm4_v7_pro",
+  "lod": {
+    "model": "ccrp:gun/lod/ddm4",
+    "texture": "ccrp:gun/lod/ddm4"
+  },
+  "hud": "ccrp:gun/hud/ddm4_v7_pro",
+  "slot": "ccrp:gun/slot/ddm4_v7_pro",
+  "animation": "ccrp:ddm4",
+  "state_machine": "ccrp:ddm4_state_machine",
+  "use_default_animation": "rifle",
+  "third_person_animation": "default",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "ground": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "fixed": [
+        1.2,
+        1.2,
+        1.2
+      ]
+    }
+  },
+  "muzzle_flash": {
+    "texture": "tacz:flash/common_muzzle_flash",
+    "scale": 0.75
+  },
+  "iron_zoom": 1.33,
+  "zoom_model_fov": 60,
+  "shell": {
+    "initial_velocity": [
+      5,
+      2,
+      1
+    ],
+    "random_velocity": [
+      1,
+      1,
+      0.25
+    ],
+    "acceleration": [
+      0,
+      -10,
+      0
+    ],
+    "angular_velocity": [
+      360,
+      -1200,
+      90
+    ],
+    "living_time": 1
+  },
+  "sounds": {
+    "shoot": "ccrp:m4/m4_shoot",
+    "shoot_3p": "ccrp:m4/m4_shoot_3p",
+    "draw": "ccrp:m4/m4_raise",
+    "put_away": "ccrp:m4/m4_drop",
+    "silence": "ccrp:m4/m4_silence",
+    "silence_3p": "ccrp:m4/m4_silence_3p",
+    "dry_fire": "ccrp:dryfire/ar_dryfire",
+    "fire_select": "tacz:fire_select",
+    "head_hit": "ccrp:head_hit",
+    "flesh_hit": "ccrp:flesh_hit",
+    "kill": "ccrp:kill",
+    "melee_push": "tacz:melee_stock/melee_stock_01",
+    "melee_stock": "tacz:melee_stock/melee_stock_02"
+  },
+  "offhand_show": {
+    "pos": [
+      1,
+      19,
+      4
+    ],
+    "rotate": [
+      0,
+      0,
+      50
+    ],
+    "scale": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "hotbar_show": {
+    "0": {
+      "pos": [
+        -1,
+        19,
+        3
+      ],
+      "rotate": [
+        -180,
+        0,
+        130
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "ammo_count_style": "normal",
+  "damage_style": "per_projectile"
+}

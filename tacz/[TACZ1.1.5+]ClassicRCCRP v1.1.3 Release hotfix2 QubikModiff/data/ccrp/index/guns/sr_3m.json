@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.sr_3m.name",
+  "display": "ccrp:sr_3m_display",
+  "data": "ccrp:sr_3m_data",
+  "tooltip": "ccrp.gun.sr_3m.desc",
+  "type": "smg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

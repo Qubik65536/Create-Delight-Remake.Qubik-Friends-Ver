@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.qbu_191.name",
+  "display": "ccrp:qbu_191_display",
+  "data": "ccrp:qbu_191_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.qbu_191.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

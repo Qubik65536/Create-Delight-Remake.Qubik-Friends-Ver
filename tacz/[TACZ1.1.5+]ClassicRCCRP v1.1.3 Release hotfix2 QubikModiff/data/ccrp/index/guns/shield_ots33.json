@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.shield_ots33.name",
+  "display": "ccrp:shield_ots33_display",
+  "data": "ccrp:shield_ots33_data",
+  "tooltip": "ccrp.gun.shield_ots33.desc",
+  "type": "pistol",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

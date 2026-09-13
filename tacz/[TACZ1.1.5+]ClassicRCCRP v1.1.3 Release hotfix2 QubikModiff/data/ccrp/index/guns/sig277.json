@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.sig277.name",
+  "display": "ccrp:sig277_display",
+  "data": "ccrp:sig277_data",
+  "tooltip": "ccrp.gun.sig277.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

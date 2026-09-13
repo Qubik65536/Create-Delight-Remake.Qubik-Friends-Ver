@@ -1,0 +1,33 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 42
+    },
+    {
+      "item": {
+        "tag": "forge:gems/emerald"
+      },
+      "count": 27
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      },
+      "count": 64
+    },
+    {
+      "item": {
+        "tag": "forge:gems/quartz"
+      },
+      "count": 3
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:silence_meteor"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

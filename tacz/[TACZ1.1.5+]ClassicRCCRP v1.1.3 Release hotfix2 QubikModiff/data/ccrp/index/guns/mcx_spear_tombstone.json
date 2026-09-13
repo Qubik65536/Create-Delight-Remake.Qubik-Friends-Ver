@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mcx_spear_tombstone.name",
+  "display": "ccrp:mcx_spear_tombstone_display",
+  "data": "ccrp:mcx_spear_tombstone_data",
+  "tooltip": "ccrp.gun.mcx_spear_tombstone.desc",
+  "type": "rifle",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

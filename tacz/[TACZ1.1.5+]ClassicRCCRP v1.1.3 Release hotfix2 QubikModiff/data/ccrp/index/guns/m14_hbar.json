@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.m14_hbar.name",
+  "display": "ccrp:m14_hbar_display",
+  "data": "ccrp:m14_hbar_data",
+  "tooltip": "ccrp.gun.m14_hbar.desc",
+  "type": "sniper",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mcx_virtus.name",
+  "display": "ccrp:mcx_virtus_display",
+  "data": "ccrp:mcx_virtus_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.mcx_virtus.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

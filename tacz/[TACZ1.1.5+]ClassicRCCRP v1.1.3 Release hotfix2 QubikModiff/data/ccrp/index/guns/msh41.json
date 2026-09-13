@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.msh41.name",
+  "display": "ccrp:msh41_display",
+  "data": "ccrp:msh41_data",
+  "type": "smg",
+  "tooltip": "ccrp.gun.msh41.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

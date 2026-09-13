@@ -1,0 +1,104 @@
+{
+  "model": "ccrp:gun/springfield1873_tube_mag_geo",
+  "texture": "ccrp:gun/uv/springfield1873_tube_mag",
+  "lod": {
+    "model": "ccrp:gun/lod/springfield1873_tube_mag",
+    "texture": "ccrp:gun/lod/springfield1873_tube_mag"
+  },
+  "hud": "ccrp:gun/hud/springfield1873_tube_mag",
+  "slot": "ccrp:gun/slot/springfield1873_tube_mag",
+  "animation": "ccrp:springfield1873_tube_mag",
+  "state_machine": "ccrp:spingfield1873_tube_mag_state_machine",
+  "state_machine_param": {
+    "bolt_shell_ejecting_time": 0.17,
+    "intro_shell_ejecting_time": 0.4
+  },
+  "use_default_animation": "rifle",
+  "third_person_animation": "default",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "ground": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "fixed": [
+        1.2,
+        1.2,
+        1.2
+      ]
+    }
+  },
+  "muzzle_flash": {
+    "texture": "tacz:flash/common_muzzle_flash",
+    "scale": 1
+  },
+  "ammo": {
+    "particle": {
+      "name": "mycelium",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "speed": 0,
+      "life_time": 25,
+      "count": 75
+    }
+  },
+  "iron_zoom": 2,
+  "zoom_model_fov": 25,
+  "sounds": {
+    "draw": "tacz:springfield1873/springfield1873_draw",
+    "put_away": "tacz:springfield1873/springfield1873_put_away",
+    "shoot": "tacz:springfield1873/springfield1873_shoot",
+    "shoot_3p": "tacz:springfield1873/springfield1873_shoot_3p",
+    "dry_fire": "ccrp:dryfire/ar_dryfire",
+    "head_hit": "ccrp:head_hit",
+    "flesh_hit": "ccrp:flesh_hit",
+    "kill": "ccrp:kill"
+  },
+  "offhand_show": {
+    "pos": [
+      0,
+      20,
+      4
+    ],
+    "rotate": [
+      0,
+      0,
+      60
+    ],
+    "scale": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "hotbar_show": {
+    "0": {
+      "pos": [
+        0,
+        20,
+        3
+      ],
+      "rotate": [
+        -180,
+        0,
+        120
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "ammo_count_style": "normal",
+  "damage_style": "per_projectile"
+}

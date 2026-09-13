@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.hk21.name",
+  "display": "ccrp:hk21_display",
+  "data": "ccrp:hk21_data",
+  "tooltip": "ccrp.gun.hk21.desc",
+  "type": "mg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

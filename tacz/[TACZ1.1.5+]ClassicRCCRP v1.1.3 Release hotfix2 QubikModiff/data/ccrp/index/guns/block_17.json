@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.block_17.name",
+  "display": "ccrp:block_17_display",
+  "data": "ccrp:block_17_data",
+  "tooltip": "ccrp.gun.block_17.desc",
+  "type": "pistol",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.camg_krait.name",
+  "display": "ccrp:camg_krait_display",
+  "data": "ccrp:camg_krait_data",
+  "tooltip": "ccrp.gun.camg_krait.desc",
+  "type": "rifle",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

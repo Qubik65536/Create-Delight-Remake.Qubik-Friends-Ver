@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mp7a3.name",
+  "display": "ccrp:mp7a3_display",
+  "data": "ccrp:mp7a3_data",
+  "tooltip": "ccrp.gun.mp7a3.desc",
+  "type": "smg",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

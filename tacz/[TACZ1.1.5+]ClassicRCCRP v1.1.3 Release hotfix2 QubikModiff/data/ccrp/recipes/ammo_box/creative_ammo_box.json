@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "tacz:ammo_box",
+    "nbt": {
+      "Creative": 1
+    }
+  },
+  "pattern": [
+    "PIP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/netherite"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  }
+}

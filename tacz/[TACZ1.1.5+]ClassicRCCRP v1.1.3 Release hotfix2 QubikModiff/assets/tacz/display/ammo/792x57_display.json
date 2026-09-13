@@ -1,0 +1,31 @@
+{
+  "model": "tacz:ammo/762x39",
+  // 渲染模型使用的材质
+  "texture": "tacz:ammo/uv/762x39",
+  // GUI 格子中显示
+  "slot": "tacz:ammo/slot/792x57",
+  "shell": {
+    "model": "tacz:shell/308_shell",
+    "texture": "tacz:shell/308_shell"
+  },
+  "tracer_color": "#FF8888",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "ground": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "fixed": [
+        1.2,
+        1.2,
+        1.2
+      ]
+    }
+  }
+}

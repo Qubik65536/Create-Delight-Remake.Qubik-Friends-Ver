@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.glock40gen5mos.name",
+  "display": "ccrp:glock40gen5mos_display",
+  "data": "ccrp:glock40gen5mos_data",
+  "tooltip": "ccrp.gun.glock40gen5mos.desc",
+  "type": "pistol",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

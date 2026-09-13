@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.grip_cqr.name",
+    "tooltip": "ccrp.attachment.grip_cqr.desc",
+    "display": "ccrp:grip_cqr_display",
+    "data": "ccrp:grip_cqr_data",
+    "type": "grip"
+  }
