@@ -1,0 +1,9 @@
+{
+  "hidden": false,
+  "name": "ccrp.attachment.scope_xm157.name",
+  "tooltip": "ccrp.attachment.scope_xm157.desc",
+  "display": "ccrp:scope_xm157_display",
+  "data": "ccrp:scope_xm157_data",
+  "type": "scope",
+  "sort": 10
+}

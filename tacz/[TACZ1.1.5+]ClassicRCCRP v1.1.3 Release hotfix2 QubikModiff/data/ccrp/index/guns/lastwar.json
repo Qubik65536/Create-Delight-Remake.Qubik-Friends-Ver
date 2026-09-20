@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.lastwar.name",
+  "display": "ccrp:lastwar_display",
+  "data": "ccrp:lastwar_data",
+  "tooltip": "ccrp.gun.lastwar.desc",
+  "type": "shotgun",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

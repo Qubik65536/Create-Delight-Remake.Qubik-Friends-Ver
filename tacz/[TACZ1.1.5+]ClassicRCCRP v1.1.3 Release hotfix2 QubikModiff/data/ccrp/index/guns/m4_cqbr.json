@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.m4_cqbr.name",
+  "display": "ccrp:m4_cqbr_display",
+  "data": "ccrp:m4_cqbr_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.m4_cqbr.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

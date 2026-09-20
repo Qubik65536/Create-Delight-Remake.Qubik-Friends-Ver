@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.sai_gry_lite_black.name",
+  "display": "ccrp:sai_gry_lite_black_display",
+  "data": "ccrp:sai_gry_lite_black_data",
+  "type": "rifle",
+  "tooltip": "ccrp.gun.sai_gry_lite_black.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

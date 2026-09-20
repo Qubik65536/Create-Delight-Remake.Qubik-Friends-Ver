@@ -1,0 +1,27 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 64
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count":30
+    },
+        {
+      "item": {
+        "tag": "forge:gems/quartz"
+      },
+      "count": 7
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:mpx"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

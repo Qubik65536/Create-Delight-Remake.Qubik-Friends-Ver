@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mp5k_pdw.name",
+  "display": "ccrp:mp5k_pdw_display",
+  "data": "ccrp:mp5k_pdw_data",
+  "tooltip": "ccrp.gun.mp5k_pdw.desc",
+  "type": "smg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

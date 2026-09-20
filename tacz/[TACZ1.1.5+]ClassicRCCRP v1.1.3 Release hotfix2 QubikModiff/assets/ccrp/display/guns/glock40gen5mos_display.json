@@ -1,0 +1,112 @@
+{
+  "model": "ccrp:gun/glock40gen5mos_geo",
+  "texture": "ccrp:gun/uv/glock40gen5mos",
+  "lod": {
+    "model": "ccrp:gun/lod/glock40gen5mos",
+    "texture": "ccrp:gun/lod/glock40gen5mos"
+  },
+  "hud": "ccrp:gun/hud/glock40gen5mos",
+  "slot": "ccrp:gun/slot/glock40gen5mos",
+  "animation": "ccrp:glock10mm_series",
+  "use_default_animation": "pistol",
+  "player_animator_3rd": "tacz:pistol_default.player_animation",
+  "transform": {
+    "scale": {
+      "thirdperson": [0.6, 0.6, 0.6],
+      "ground": [0.6, 0.6, 0.6],
+      "fixed": [1.2, 1.2, 1.2]
+    }
+  },
+  "shell": {
+    "initial_velocity": [8.0, 5.0, -0.5],
+    "random_velocity": [2.5, 1.5, 0.25],
+    "acceleration": [0.0, -20, 0.0],
+    "angular_velocity": [360, -720, 90],
+    "living_time": 1.0
+  },
+  "muzzle_flash": {
+    "texture": "tacz:flash/common_muzzle_flash",
+    "scale": 0.4
+  },
+  "sounds": {
+    "reload_empty": "tacz:glock_17/glock17_reload_empty",
+    "reload_tactical": "tacz:glock_17/glock17_reload_tactical",
+    "inspect": "tacz:glock_17/glock17_inspect",
+    "inspect_empty": "tacz:glock_17/glock17_inspect_empty",
+    "draw": "tacz:glock_17/glock17_draw",
+    "shoot": "ccrp:glock10mm_series/10mm_shoot",
+    "shoot_3p": "ccrp:glock10mm_series/10mm_shoot",
+    "silence": "ccrp:glock10mm_series/10mm_silence",
+    "silence_3p": "tacz:glock_17/glock17_silence_3p",
+    "head_hit": "ccrp:head_hit",
+    "flesh_hit": "ccrp:flesh_hit",
+    "kill": "ccrp:kill"
+  },
+  // 副手枪械显示
+  "offhand_show": {
+    // 位置，和基岩版的数值显示一致
+    // 默认是 [-2, 20, 3.5]
+    "pos": [1, 20, 3.5],
+    // 旋转，单位为角度，默认就是 [0, 0, -30]
+    "rotate": [0, 0, 60],
+    // 缩放，默认就是 [0.6, 0.6, 0.6]
+    "scale": [0.5, 0.5, 0.5]
+  },
+  // 快捷栏枪械显示
+  // 没有此字段，不显示快捷栏枪械
+  "hotbar_show": {
+    // 快捷栏索引，默认是 0-8，共九个，但是实际上除去主手，只能显示八个
+    // 没有的，则不会显示
+    "0": {
+      "pos": [-1, 20, 3],
+      "rotate": [-180, 0, 120],
+      "scale": [0.5, 0.5, 0.5]
+    }
+  },
+  // 枪械模型上的文本显示
+  "text_show": {
+    // 作用的组名，该组的旋转点决定文本的位置和朝向
+    "ammo_count_text_show_pos": {
+      // 文本缩放，默认大小对于 BlockBench 里的 1
+      "scale": 0.6,
+      // 对齐方式：right，center，left
+      "align": "center",
+      // 阴影
+      "shadow": false,
+      // 文本颜色
+      "color": "#00FFFF",
+      // 亮度：1-15
+      "light": 15,
+      // 本地化，且支持PlaceholderAPI 风格的占位符
+      // 目前仅支持两个：%player_name% %ammo_count%
+      "text": "%ammo_count%"
+    },
+    "ammo_count_text_show_pos_empty": {
+      // 文本缩放，默认大小对于 BlockBench 里的 1
+      "scale": 0.65,
+      // 对齐方式：right，center，left
+      "align": "center",
+      // 阴影
+      "shadow": false,
+      // 文本颜色
+      "color": "#8F0000",
+      // 亮度：1-15
+      "light": 15,
+      // 本地化，且支持PlaceholderAPI 风格的占位符
+      // 目前仅支持两个：%player_name% %ammo_count%
+      "text": "%ammo_count%"
+    }
+  },
+  "offhand_show": {
+    "pos": [4, 13, -1],
+    "rotate": [-90, -35, 90],
+    "scale": [0.5, 0.5, 0.5]
+  },
+  "hotbar_show": {
+    "0": {
+      "pos": [-5, 13, -1],
+      "rotate": [-90, -35, 90],
+      "scale": [0.5, 0.5, 0.5]
+    }
+  }
+}

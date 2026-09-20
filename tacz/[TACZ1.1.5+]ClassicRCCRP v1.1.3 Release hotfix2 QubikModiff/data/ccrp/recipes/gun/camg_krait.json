@@ -1,0 +1,33 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 42
+    },
+    {
+      "item": {
+        "tag": "forge:gems/emerald"
+      },
+      "count": 27
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      },
+      "count": 64
+    },
+    {
+      "item": {
+        "item": "minecraft:ghast_tear"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:camg_krait"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

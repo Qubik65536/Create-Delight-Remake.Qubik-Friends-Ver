@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.tti_mpx.name",
+  "display": "ccrp:tti_mpx_display",
+  "data": "ccrp:tti_mpx_data",
+  "type": "smg",
+  "tooltip": "ccrp.gun.tti_mpx.desc",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

@@ -1,0 +1,27 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:gems/diamond"
+      },
+      "count": 1
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      },
+      "count": 3
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 33
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:timeless_50"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

@@ -1,0 +1,8 @@
+{
+  "slot": "ccrp:attachment/slot/m14_bipod",
+  "adapter": "m14_bipod",
+  "sounds": {
+    "install": "tacz:attachments/attachment_general_b",
+    "uninstall": "tacz:attachments/attachment_general_uninstall"
+  }
+}

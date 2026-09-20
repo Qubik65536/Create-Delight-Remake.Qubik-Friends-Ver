@@ -1,0 +1,7 @@
+{
+    "name": "ccrp.attachment.stock_hera_cqr_gen2.name",
+    "tooltip": "ccrp.attachment.stock_hera_cqr_gen2.desc",
+    "display": "ccrp:stock_hera_cqr_gen2_display",
+    "data": "ccrp:stock_hera_cqr_gen2_data",
+    "type": "stock"
+  }

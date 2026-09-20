@@ -1,0 +1,38 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 16
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count": 8
+    },
+            {
+      "item": {
+        "type": "forge:partial_nbt",
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:f90"
+        }
+      },
+      "count": 1
+    },
+    {
+      "item": {
+        "tag": "forge:gems/amethyst"
+      },
+      "count": 8
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:f90_mbr",
+    "count":1
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

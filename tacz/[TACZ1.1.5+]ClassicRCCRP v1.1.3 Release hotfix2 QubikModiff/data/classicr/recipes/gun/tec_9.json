@@ -1,0 +1,27 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      },
+      "count": 1
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 9
+    },
+    {
+      "item": {
+        "tag": "forge:gems/quartz"
+      },
+      "count": 2
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "classicr:tec_9"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

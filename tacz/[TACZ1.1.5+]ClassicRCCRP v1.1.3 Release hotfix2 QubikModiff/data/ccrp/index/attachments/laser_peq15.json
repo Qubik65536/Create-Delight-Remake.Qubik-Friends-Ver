@@ -1,0 +1,6 @@
+{
+  "name": "ccrp.attachment.laser_peq15.name",
+  "display": "ccrp:laser_peq15_display",
+  "data": "ccrp:laser_peq15_data",
+  "type": "laser"
+}

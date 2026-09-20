@@ -1,0 +1,27 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 38
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count": 6
+    },
+    {
+      "item": {
+        "tag": "forge:gems/quartz"
+      },
+      "count": 3
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "classicr:qbz191_renewed"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.mpx.name",
+  "display": "ccrp:mpx_display",
+  "data": "ccrp:mpx_data",
+  "tooltip": "ccrp.gun.mpx.desc",
+  "type": "smg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

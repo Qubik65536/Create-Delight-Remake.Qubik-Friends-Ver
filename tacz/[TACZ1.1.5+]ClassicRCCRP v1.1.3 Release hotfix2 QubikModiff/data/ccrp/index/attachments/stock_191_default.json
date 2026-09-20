@@ -1,0 +1,7 @@
+{
+    "hidden": true,
+    "name": "ccrp.attachment.stock_191_default.name",
+    "display": "ccrp:stock_191_default_display",
+    "data": "ccrp:stock_191_default_data",
+    "type": "grip"
+  }

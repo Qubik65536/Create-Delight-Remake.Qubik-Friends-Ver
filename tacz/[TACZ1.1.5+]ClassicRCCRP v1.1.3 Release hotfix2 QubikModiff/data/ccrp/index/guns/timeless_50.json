@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.timeless_50_long.name",
+  "display": "ccrp:timeless_50_display",
+  "data": "ccrp:timeless_50_long_data",
+  "tooltip": "ccrp.gun.timeless_50_long.desc",
+  "type": "pistol",
+  "sort": 919,
+  "item_type": "modern_kinetic"
+}

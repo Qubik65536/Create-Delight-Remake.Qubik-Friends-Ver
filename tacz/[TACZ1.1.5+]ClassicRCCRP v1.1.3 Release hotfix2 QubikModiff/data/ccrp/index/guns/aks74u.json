@@ -1,0 +1,9 @@
+{
+  "name": "ccrp.gun.aks74u.name",
+  "display": "ccrp:aks74u_display",
+  "data": "ccrp:aks74u_data",
+  "tooltip": "ccrp.gun.aks74u.desc",
+  "type": "smg",
+  "item_type": "modern_kinetic",
+  "sort": 919
+}

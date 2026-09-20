@@ -1,0 +1,35 @@
+{
+  "type": "tacz:gun_smith_table_crafting",
+  "materials": [
+    {
+      "item": {
+        "type": "forge:partial_nbt",
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:ddm4"
+        }
+      },
+      "count": 1
+    },
+    {
+      "item": {
+        "type": "forge:partial_nbt",
+        "item": "tacz:ammo",
+        "nbt": {
+          "AmmoId": "tacz:300blk"
+        }
+      },
+      "count": 20
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 15
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:ddm4_pdw"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "materials": [
+   {
+      "item": {
+        "item": "minecraft:shield"
+      },
+      "count": 1
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/iron"
+      },
+      "count": 16
+    },
+    {
+      "item": {
+        "tag": "forge:gems/lapis"
+      },
+      "count": 6
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "ccrp:shield_ots33"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}

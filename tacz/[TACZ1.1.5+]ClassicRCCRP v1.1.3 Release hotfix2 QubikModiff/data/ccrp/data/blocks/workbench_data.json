@@ -1,0 +1,118 @@
+{
+"filter": "ccrp:default",
+  "tabs": [
+    {
+      // tab的id，在配方的result中指定
+      "id": "tacz:pistol",
+      // tab的名称，将会显示在gui中
+      "name": "tacz.type.pistol.name",
+      // tab的图标，可以指定任意一个物品作为图标
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:shield_ots33"
+        }
+      }
+    },
+    {
+      "id": "tacz:sniper",
+      "name": "tacz.type.sniper.name",
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:mk18_mjolnir"
+        }
+      }
+    },
+    {
+      "id": "tacz:rifle",
+      "name": "tacz.type.rifle.name",
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:mk556"
+        }
+      }
+    },
+    {
+      "id": "tacz:shotgun",
+      "name": "tacz.type.shotgun.name",
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:lastwar"
+        }
+      }
+    },
+    {
+      "id": "tacz:smg",
+      "name": "tacz.type.smg.name",
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:sr_3m"
+        }
+      }
+    },
+    {
+      "id": "tacz:mg",
+      "name": "tacz.type.mg.name",
+      "icon": {
+        "item": "tacz:modern_kinetic_gun",
+        "nbt": {
+          "GunId": "ccrp:hk21"
+        }
+      }
+    },
+    {
+      "id": "tacz:muzzle",
+      "name": "tacz.type.muzzle.name",
+      "icon": {
+        "item": "tacz:attachment",
+        "nbt": {
+          "AttachmentId": "ccrp:muzzle_rotex5c"
+        }
+      }
+    },
+    {
+      "id": "tacz:stock",
+      "name": "tacz.type.stock.name",
+      "icon": {
+        "item": "tacz:attachment",
+        "nbt": {
+          "AttachmentId": "ccrp:stock_haenel_sand"
+        }
+      }
+    },
+    {
+      "id": "tacz:grip",
+      "name": "tacz.type.grip.name",
+      "icon": {
+        "item": "tacz:attachment",
+        "nbt": {
+          "AttachmentId": "ccrp:grip_cqr"
+        }
+      }
+    },
+    {
+      "id": "tacz:extended_mag",
+      "name": "tacz.type.extended_mag.name",
+      "icon": {
+        "item": "tacz:attachment",
+        "nbt": {
+          "AttachmentId": "ccrp:ammo_mod_hap"
+        }
+      }
+    },
+    {
+      "id": "tacz:laser",
+      "name": "tacz.type.laser.name",
+      "icon": {
+        "item": "tacz:attachment",
+        "nbt": {
+          "AttachmentId": "tacz:laser_compact"
+        }
+      }
+    }
+  ]
+}
